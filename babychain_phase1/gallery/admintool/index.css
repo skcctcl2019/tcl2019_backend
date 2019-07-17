@@ -1,0 +1,227 @@
+html, body {
+    background-color: #a5a5a5;
+    background-image: url('http://blog.jui.io/wp-content/uploads/2015/03/light-noise.png');
+    background-repeat: repeat;
+    background-position: top left;
+    background-attachment: scroll;
+    font-family: Open Sans;
+}
+
+.header {
+    margin: 0 auto;
+    height: 58px;
+    background: #2d363e;
+    color: white;
+}
+
+.header .logo {
+    position: relative;
+    float: left;
+    width: 98px;
+    height: 45px;
+    z-index: 1;
+    font-size: 25px;
+    text-align: center;
+    padding-top: 13px;
+}
+
+.header .toolbar {
+    position: relative;
+    padding:20px;
+    padding-left:120px;
+}
+
+.container {
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+}
+
+.container:after {
+    display: table;
+    clear: both;
+    content: "";
+}
+
+.vmenu > a > i {
+    display: block !important;
+    float: none !important;
+    font-size: 24px;
+}
+
+.vmenu > a {
+    display: block;
+    text-align: center !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    color: #2d363e;
+    border-right: 0px !important;
+    border-radius: 0px !important;
+}
+
+.content-list {
+    position: relative;
+}
+
+.container > .menu {
+    position: relative;
+    float: left;
+    width: 98px;
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+}
+
+.container > .content {
+    padding: 0 0 0 98px;
+}
+
+.dashboard-first {
+    overflow: auto;
+}
+
+.dashboard-first .col {
+    text-align: center;
+}
+
+.col-3 .card {
+    height: 98px;
+}
+
+.card {
+    height: 80px;
+    position: relative;
+    text-align: left;
+}
+
+.col-3:last-child .card {
+    border-right: 0px;
+}
+
+.card .img {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.card .title {
+    position: absolute;
+    left: 30px;
+    right: 10px;
+    top: 10px;
+    height: 24px;
+    font-size: 12px;
+}
+
+.card .value {
+    position: absolute;
+    left: 30px;
+    right: 10px;
+    top: 40px;
+    bottom: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #6836c4;
+}
+
+.panel {
+    padding: 0px !important;
+    margin: 0px !important;
+    display: block !important;
+}
+
+.panel > .body > .title {
+    margin-left: 36px;
+    margin-top: 48px;
+
+}
+
+.panel > .body .view {
+    padding: 20px;
+
+}
+
+.content-list > .panel > .body {
+    border: 0px !important;
+}
+
+
+.container.hidden-menu {
+
+}
+.container.hidden-menu .menu{
+    display:none;
+}
+
+.container.hidden-menu .content {
+    padding: 0px;
+}
+
+.view.info {
+    margin-top: 10px;
+    border-top: 1px dashed #dedede;
+}
+.view.info .title {
+    font-weight: bold;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.view.info .title > strong {
+    font-size:25px;
+    font-weight:bold;
+    color:#255bff;
+}
+.view.info .box {
+    border:1px solid #b5defd;
+    padding:20px;
+    padding-left:40px;
+}
+
+.dashed .table.simple {
+    border-radius: 0px !important;
+}
+
+/* Base */
+body {
+    font-size: 14px;
+    margin: 0px;
+    overflow-x: hidden;
+}
+
+.visit_total {
+    font-size: 15px;
+}
+
+.visit_total .title {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.visit_total .number {
+    font-size: 20px;
+}
+
+.visit_total .chart {
+    margin-top: 5px;
+    height: 50px;
+    width: 100px;
+}
+
+.bargauge {
+    font-size: 15px;
+}
+
+.bargauge .title {
+    padding: 16px;
+}
+
+.bargauge .chart {
+    height: 150px;
+    width: 80%;
+}
+
+.body {
+    padding: 10px;
+}
