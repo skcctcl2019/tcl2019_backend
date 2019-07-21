@@ -24,19 +24,15 @@
 	var _ = jui.include("util.base");
 
 	$(function() {
-		$(".reg_button").on("click", function(e) {
-		
-		
-		//jui.ready([ "ui.button" ], function(reg_button) {
-		
-		
-   
-		alert("버튼 클릭시 타긴 타니?");
-});
-		
-		
-		
-		
+		$("#reg_button").on("click", function(e) {
+		alert("버튼 클릭시 타기는 탄다?");
+		});
+	});
+
+	function move(index){
+		alert(index);
+
+	}
 		
 		/*
 			var $box = $(this),
@@ -88,8 +84,6 @@
 		
 		*/
 
-
-	});
 </script>
 
 
@@ -108,18 +102,31 @@
         <option value="dark">Dark</option>
       </select>
     </span>
-    <span style="float:right">
-      Sample <i class="icon-check"></i>
+    <span style="float:right" onclick="test()">
+      Close <i class="icon-check"></i>
     </span>
   </div>
 </div>
-
+<script>
+function test()
+{
+	parent.$('#popupcontent').hide();
+}
+</script>
+<script>
+window.onload = function() {
+  window.parent.postMessage({ hello: 'parent' }, '*');
+};
+window.addEventListener('message', function(e) {
+  console.log(e.data); // zerocho
+});
+</script>
 <div class="container">
   <div class="menu">
     <div class="vmenu ">
-      <a class="active"><i class="icon-monitoring"></i> Dashboard</a>
-      <a><i class="icon-realtime"></i> Realtime</a>
-      <a><i class="icon-profile"></i> Analysis</a>
+      <a href="./pop_1.html"  class="active"><i class="icon-monitoring"></i> Dashboard</a>
+      <a href="./pop_2.html" ><i class="icon-realtime"></i> Realtime</a>
+      <a href="./pop_3.html" ><i class="icon-profile"></i> Analysis</a>
       <a><i class="icon-chart"></i> Statistics</a>
       <a><i class="icon-document"></i> Document</a>
       <a><i class="icon-gear"></i> Management</a>
@@ -168,8 +175,9 @@
 					<h2 class="title">아동 등 사진</h2>
 				</td>
 				<td>
-					<input type="text" class="input" />
-					<a class="btn">이미지</a>
+					<input type="file" style="font-size:15px"/><br><br>
+					<input type="file" style="font-size:15px"/><br><br>
+					<input type="file" style="font-size:15px"/>
 				</td>
 			</tr>
 			<tr>
@@ -189,7 +197,7 @@
 				</td>
 			</tr>
 		  <br><br>
-		  <button class="btn large focus" id="reg_button" onclick=""> 등록</button>
+		  <button class="btn large focus" id="reg_button"> 등록</button>
 		  
         </div>
 		

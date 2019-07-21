@@ -16,7 +16,15 @@
 <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
 <link href="../../gallery/admintool/index.css" rel="stylesheet" type="text/css" />
 <link id="index_theme" href="../../gallery/admintool/index-jennifer.css" rel="stylesheet" type="text/css" />
+<script>
+function modInf(){
+	alert("수 정");
+}
 
+function delInf(){
+	alert(" D.E.L.E.T.E.");
+}
+</script>
 </head>
 <body class="jui">
 
@@ -41,9 +49,9 @@
 <div class="container">
   <div class="menu">
     <div class="vmenu ">
-      <a class="active"><i class="icon-monitoring"></i> Dashboard</a>
-      <a><i class="icon-realtime"></i> Realtime</a>
-      <a><i class="icon-profile"></i> Analysis</a>
+      <a href="./pop_1.html"><i class="icon-monitoring"></i> Dashboard</a>
+      <a href="./pop_2.html"><i class="icon-realtime"></i> Realtime</a>
+      <a href="./pop_3.html" class="active"><i class="icon-profile"></i> Analysis</a>
       <a><i class="icon-chart"></i> Statistics</a>
       <a><i class="icon-document"></i> Document</a>
       <a><i class="icon-gear"></i> Management</a>
@@ -99,8 +107,9 @@
 					<h2 class="title">아동 등 사진</h2>
 				</td>
 				<td>
-					<input type="text" class="input" />
-					<a class="btn">이미지</a>
+					<input type="file" style="font-size:15px"/><br><br>
+					<input type="file" style="font-size:15px"/><br><br>
+					<input type="file" style="font-size:15px"/>
 				</td>
 			</tr>
 			<tr>
@@ -120,26 +129,11 @@
 				</td>
 			</tr>
 		  <br><br>
-		  <a class="btn large focus">수정</a>
-		  <a class="btn large focus">삭제</a>
+		  <a class="btn large focus" onclick="modInf()">수정</a>
+		  <a class="btn large focus" onclick="delInf()">삭제</a>
         </div>
-		
       </div>
-	 
-	 
-	 
-	 
-	 
-	 
-
-	 
-	 
-	 
-    
-    </div>
-
-
-
+	 </div>
 </div>
 <script>
 var chart = jui.include("chart.builder");
