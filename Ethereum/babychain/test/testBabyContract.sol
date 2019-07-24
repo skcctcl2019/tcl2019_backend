@@ -13,8 +13,14 @@ contract TestBabyContract {
         uint date = 20190101;
 
         babyContract.addBaby(name, date);
+
+        Assert.equal(babyContract.getBabiesCount(), 1, "count!");
+
+        string memory _name;
+        uint _date;
+        (,_name, _date) = babyContract.getBaby(0);
         
-        Assert.equal(babyContract.getBaby(0).name, name, "name!");
-        Assert.equal(babyContract.getBaby(0).date, date, "date!");
+        Assert.equal(_name, name, "name!");
+        Assert.equal(_date, date, "date!");
     }
 }

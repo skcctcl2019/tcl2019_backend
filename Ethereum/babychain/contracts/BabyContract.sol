@@ -27,4 +27,8 @@ contract BabyContract {
 
         return (b.addr, b.name, b.date);
     }
+
+    function getBabiesCount() public view returns (uint count) {
+        return babies.length;
+    }
 }
