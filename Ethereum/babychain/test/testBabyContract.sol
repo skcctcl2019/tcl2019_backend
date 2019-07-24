@@ -8,14 +8,19 @@ contract TestBabyContract {
     BabyContract babyContract = BabyContract(DeployedAddresses.BabyContract());
     address expectedLoginPerson = address(this);
 
+    string name = "test";
+    uint date = 20190101;
+    uint count = 1;
+
     function testAddBaby() public {
-        string memory name = "test";
-        uint date = 20190101;
-
         babyContract.addBaby(name, date);
+    }
 
-        Assert.equal(babyContract.getBabiesCount(), 1, "count!");
+    function testGetBabiesCount() public {
+        Assert.equal(babyContract.getBabiesCount(), count, "count!");
+    }
 
+    function testGetBaby() public {
         string memory _name;
         uint _date;
         (,_name, _date) = babyContract.getBaby(0);
