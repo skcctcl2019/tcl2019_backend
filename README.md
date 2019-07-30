@@ -20,7 +20,10 @@
     POA NETWORK 구성 및 기존 Contract와 연계 처리 방안 확인(By geth On localhost)<br>
     https://github.com/progksh/blockchain/wiki/Puppeth-%ED%99%9C%EC%9A%A9-Ethereum-PoA-Private-Network-%EA%B5%AC%EC%B6%95<br>
     POA NETWORK 구성(On AWS)<br>
-    https://medium.com/pocs/aws%EC%99%80-puppeth%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-ethereum-private-blockchain-poa-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0-7ca13afb0836
+    https://medium.com/pocs/aws%EC%99%80-puppeth%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-ethereum-private-blockchain-poa-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0-7ca13afb0836<br>
+    SetUp-your-own-private-proof-of-authority-ethereum-network-with-geth<br>
+    https://hackernoon.com/setup-your-own-private-proof-of-authority-ethereum-network-with-geth-9a0a3750cda8<br>
+    https://medium.com/blockchainbistro/set-up-a-private-ethereum-blockchain-and-deploy-your-first-solidity-smart-contract-on-the-caa8334c343d<br>
     
     
 ***
