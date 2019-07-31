@@ -1,0 +1,287 @@
+--no-cache --pull
+
+apt-utils
+
+
+kubectl run myapp --image=myimage:latest --port=8545 
+kubectl run myapp --image=au.icr.io/bkmh_ether/myimage:latest --port=8545
+kubectl run myapp --image=au.icr.io/bkmh_ether/myimage:0.1 --port=8545
+kubectl run myapp --image=au.icr.io/bkmh_ether/myimage:0.2 --port=8545
+ 
+-> 자동으로 pod 도 생성
+-> deployment.apps/myapp created
+
+kubectl edit deployment myapp
+
+replicas : 1 -> 3
+
+
+kubectl edit service myapp
+
+ClusterIP -> NodePort
+
+account unlock with HTTP access is forbidden
+
+-> geth --allow-insecure-unlock
+
+생성된 이미지 교체 방법 확인 -> rollout status
+-> 실제로 생성된 이미지는 deployment를 기준으로 변경하면, 그 replica를 기준으로 pod가 생성되고 연결된 service도 동시에 rollout 된다.
+
+
+=============================================================================================================
+Ethereum Private Network 구성
+http://blockchaindev.kr/models/content/73
+
+
+Ethereum 계정, Tx, Gas, Block, Gas Limit
+https://medium.com/yejipark/%EC%9D%B4%EB%8D%94%EB%A6%AC%EC%9B%80-%EA%B3%84%EC%A0%95-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EA%B0%80%EC%8A%A4-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%B8%94%EB%A1%9D-%EA%B0%80%EC%8A%A4-%ED%95%9C%EB%8F%84-89c5428078e6
+
+How to remove gas system from ethereum
+https://ethereum.stackexchange.com/questions/1953/how-to-remove-gas-system-from-ethereum
+
+How to make sure transactions take 0 fee in a private ethereum blockchain
+https://stackoverflow.com/questions/49318479/how-to-make-sure-transactions-take-0-fee-in-a-private-ethereum-blockchain
+
+AWS와 Puppeth를 활용한 Ethereum Private Blockchain (POA) 구축하기
+https://medium.com/pocs/aws%EC%99%80-puppeth%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-ethereum-private-blockchain-poa-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0-7ca13afb0836
+
+Using puppeth the ethereum private network manager sitepoint
+https://coinnewstelegraph.com/using-puppeth-the-ethereum-private-network-manager-sitepoint/
+
+You can find out about the difference between PoW and PoA here. PoW wastes a lot of computing power and is impractical to run on a local machine, so we’ll pick PoA here. We reduce the block time to 10 seconds so that our transactions confirm faster, and we add the addresses we generated previously as allowed sealers and as pre-funded. Being sealers means that they’re allowed to create new blocks. Since there are no mining rewards in PoA, we also pre-fund them with almost infinite ether so we can test our transactions with those accounts.
+
+https://www.sitepoint.com/puppeth-introduction/
+
+
+vagrant 설명
+http://taewan.kim/post/vagrant_intro/
+
+vagrant 에서 hyper-v 사용
+https://www.vagrantup.com/docs/hyperv/usage.html
+→ 양쪽 분리해서, 양쪽의 IP를 변경하여, VM를 구동할 것
+→ 구동된 VM 기준으로 내역 확인할 것
+
+
+---
+
+vagrant 에서 node 2개 구동하는 것은 실제 Computing power 로 인해 수행 불가
+
+---
+
+ibm cloud w.jsqhrhks@gmail.com 설정
+
+ibmcloud login -a cloud.ibm.com -r au-syd -g default
+ibmcloud ks cluster-config --cluster mycluster
+
+
+PowerShell
+$env:KUBECONFIG = "C:\Users\wjsqh\.bluemix\plugins\container-service\clusters\mycluster\kube-config-mel01-mycluster.yml"
+
+Command Prompt
+SET KUBECONFIG=C:\Users\wjsqh\.bluemix\plugins\container-service\clusters\mycluster\kube-config-mel01-mycluster.yml
+
+
+bx cr login
+
+docker tag myimage registry.ng.bluemix.net/etherprivate/myimage
+
+docker push registry.ng.bluemix.net/etherprivate/myimage
+
+---
+
+Ethereum On IBM CLOUD
+https://github.com/SaifRehman/IBMCLOUD-Ethereum-Blockchain
+https://medium.com/coinmonks/part-1-ethereum-blockchain-on-ibm-cloud-deploying-private-ethereum-blockchain-on-ibm-cloud-9d241afd3887
+
+
+
+---
+
+kubectl run 과 create 의 차이
+https://stackoverflow.com/questions/48015637/kubernetes-kubectl-run-vs-create-and-apply
+
+bootnode -nodekey boot.key -verbosity 9
+
+$ geth --datadir sealer1/ account new
+$ geth --datadir sealer2/ account new
+$ geth --datadir sealer3/ account new
+
+
+sealer1 / sealer1
+0xbe258966Dc0115c4d7860bf539492B81a7cEe65d
+
+sealer2 / sealer2
+0xDE3037d16c2705bA86Ff11a3f224Eb1b1c061113
+
+sealer3 / sealer3
+0x361Be4eF7d1848007d21D1c7FF6Fc12c3369B120
+
+geth --datadir sealer1/ init .\genesis\soblonetwork.json
+geth --datadir sealer1/ --ethstats sealer1:soblo@127.0.0.1:3000 --syncmode 'full' --port 30302 --rpc --rpcaddr 'localhost' --rpcport 8500 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://9d548df78437221582f6b6b66ffc7ec3a4782b71875ee29fa0033eb331161c382c98846389860c0ba0862c00c832a25e5f64196b93cd57ce3599b7a9d229695b@127.0.0.1:0?discport=30301' --networkid 1515 --gasprice '1' -unlock '0xbe258966Dc0115c4d7860bf539492B81a7cEe65d' --password sealer1.txt --mine --allow-insecure-unlock
+geth --datadir sealer2/ init .\genesis\soblonetwork.json
+geth --datadir sealer2/ --ethstats sealer2:soblo@127.0.0.1:3000 --syncmode 'full' --port 30303 --rpc --rpcaddr 'localhost' --rpcport 8501 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://9d548df78437221582f6b6b66ffc7ec3a4782b71875ee29fa0033eb331161c382c98846389860c0ba0862c00c832a25e5f64196b93cd57ce3599b7a9d229695b@127.0.0.1:0?discport=30301' --networkid 1515 --gasprice '1' -unlock '0xDE3037d16c2705bA86Ff11a3f224Eb1b1c061113' --password sealer2.txt --mine --allow-insecure-unlock --ipcdisable
+geth --datadir sealer3/ init .\genesis\soblonetwork.json
+geth --datadir sealer3/ --ethstats sealer3:soblo@127.0.0.1:3000 --syncmode 'full' --port 30304 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://9d548df78437221582f6b6b66ffc7ec3a4782b71875ee29fa0033eb331161c382c98846389860c0ba0862c00c832a25e5f64196b93cd57ce3599b7a9d229695b@127.0.0.1:0?discport=30301' --networkid 1515 --gasprice '1' -unlock '0x361Be4eF7d1848007d21D1c7FF6Fc12c3369B120' --password sealer3.txt --mine --allow-insecure-unlock --ipcdisable
+
+
+
+
+--ipcdisable
+
+C:\Windows\System32\cmd.exe /k "C:\Program Files\nodejs\nodevars.bat"
+
+최초 시점의 coinbase 지정하고, 각 계정에 실제 transaction 처리를 위한 기초 값 입력 확인
+
+
+================================================================================================================
+address type : 160비트의 값으로 그 어떤 산술 연산을 허용하지 않음. 컨트랙트 주소나 외부 사용자들의 키 쌍을 저장하는데 적합
+public : 변수의 현재 값을 컨트랙트 바깥에서 접근할 수 있도록 하는 함수를 자동으로 만들어줌(getter)
+         이 키워드 없이는 다른 컨트랙트가 이 변수에 접근할 방법이 없음
+mapping : mapping (address => uint) public balances
+          public 상태의 balances 변수를 선언
+          주소와 양의 정수(uint)를 연결(매핑) 짓는다.
+          매핑은 가상으로 초기화되는 해시테이블로 볼 수 있다. 그래서 모든 가능한 키 값은 처음부터 존재하며, 이 키 값들은 바이트 표현이 모두 0인 값에 매핑된다.
+		  function balances(address _account) external view returns (uint) {
+			return balances[_account];
+		  }
+
+생성자 Constructor : 컨트랙트 생성 시 실행되는 특별한 함수이고, 이후에는 사용되지 않는다.
+msg : (tx와 block포함) 유용한 전역 변수로, 블록체인에 접근할 수 있는 다양한 속성들을 담고 있다.
+      msg.sender 는 외부에서 지금 함수를 호출한 주소를 나타낸다.
+				   
+계정
+Ethereum 내에는 같은 공간을 공유하는 2가지 계정 종류가 있다.
+외부 계정(external account)는 사람이 가지고 있는 공개키, 비밀키 쌍으로 동작
+컨트랙트 계정(contract account)는 계정과 함께 저장된 코드에 의해 동작된다.
+
+외부 계정의 주소는 공개키에 의해 정해지는 반면 컨트랙트의 주소는 생성되는 시점에 정해진다.
+(생성한 사용자의 주소와 주소로부터 보내진 트랜잭션의 수, Nonce에 기반)
+
+모든 계정은 256비트의 문자열들이 서로 키-값으로 영구히 매핑된 스토리지를 가지고 있다.
+모든 계정은 트랜잭션으로 바뀔 수 있는 Ether(정확히는 "Wei", 1 ether는 10**18wei)잔액을 가지고 있다.
+
+트랜잭션
+한 계정에서 다른 계정(같을수도 있고, 비어있을 수도 있다.)으로 보내지는 일종의 메시지. 바이너리 데이터("페이로드")와 Ether 양을 포함할 수 있다.
+대상 계정이 코드를 포함하고 있으면 코드는 실행되고 페이로드는 입력 데이터로 제공
+대상 계정이 설정되지 않은 경우(트랜잭션에 받는 사람이 없거나 받는 사람이 null로 설정된 경우)일 떈, 트랜잭션은 새로운 컨트랙트를 생성하며, 사용자와 Nonce로 불리는 트랜잭션의 수에 의해 주소가 결정된다.
+각 컨트랙트 생성 트랜잭션 페이로드는 EVM 바이트코드로 실행되기 위해 사용된다.이 실행 데이터는 컨트랙트의 코드로 영구히 저장된다. 즉, 컨트랙트를 만들기 위해 실제 코드를 보내는 대신, 실행될 떄의 코드를 리턴하는 코드를 보내야 한다는 것을 뜻함.
+컨트랙트가 생성되는 동안, 컨트랙트의 코드는 비어있다. 이 때문에, 생성자가 실행을 끝낼 때까지 컨트랙트를 다시 호출해서는 안된다.
+
+가스
+트랜잭션 발생 시, 일정량의 가스가 동시에 사용되며, 이는 트랜잭션 실행에 필요한 작업의 양을 제한하는 목적을 가지고 있다. 그리고 특별한 규칙에 의해 작업 중 가스는 조금씩 고갈된다.
+
+가스가격은 트랙잭션을 만든 사용자가 정하고 최대 가스가격 * 가스 양을 지불한다. 실행이 끝난 이후에도 가스가 남았다면 이는 같은 방식으로 사용자에게 다시 환불된다.
+만약 가스가 모두 사용되었다면(< 0), 가스 부족 예외 오류가 발생하며 현재 단계에서 발생하는 모든 변화를 되돌린다.
+
+스토리지, 메모리와 스택
+Ethereum 가상 머신은 데이터 스토리지, 메모리, 스택이라 불리는 3가지 영역이 있다.
+각 계정에는 스토리지라고 불리는 데이터 영역이 있다. 해당 영역은 함수호출과 트랜잭션 사이에서 영구적으로 존재
+스토리지는 256비트 문자가 키-값 형태로 연결된 저장소이다. 컨트랙트 내의 스토리지를 탐색하는 건 불가능하며 읽고 수정하는데 비용이 많이 든다. 컨트랙트가 소유하지 않은 스토리지는 읽거나 쓸 수 없다.
+
+메모리영역은 각 메시지 콜에 대해 새로 초기화된 인스턴스를 가지고 있다. 메모리는 선형이며, 바이트 레벨로 다뤄진다. 쓰기가 8비트나 256 비트가 될 수 있는 반명 읽기는 256 비트로 한정된다.
+이전에 변경되지 않은 메모리 워드 영역(즉, 워드 내 오프셋)에 액세스할 때(읽기, 쓰기 모두) 메모리는 256비트 워드 영역으로 확장된다. 확장되는 시점에 가스 비용이 지불되어야 하며, 메모리는 커질수록 비용도 커진다.(2차식으로 증가)
+
+EVM은 레지스터 머신이 아니라 스택 머신으로, 모든 연산은 스택이라 불리는 영역에서 처리된다. 최대 1024개의 요소를 가질 수 있고, 256비트의 단어들을 포함한다. 스택은 상단 꼭대기에서 접근이 일어난다.
+
+메시지 콜
+메시지 콜을 사용하면 컨트랙트는 다른 컨트랙트를 호출하거나 컨트랙트가 아닌 계정으로 Ether를 송금할 수 있다. 메시지 콜은 송신자, 수신자, 데이터 페이로드, Ether, 가스와 리턴 값 등을 가지고 있어 트랜잭션과 유사하다.
+실제로 모든 트랜잭션은 상위 메시지 콜로 구성되며 추가 메시지 콜도 만들 수 있다.
+
+컨트랙트는 내부 메시지 호출과 함꼐 보내고 남길 가스량을 정할 수 있다. 만약 내부 호출 중 가스 부족 오류(아니면 다른 오류)가 발생하면 스택에 에러 값이 추가되며, 알리게 된다. 이 경우 호출을 위해 사용된 가스만 소모된다.
+Solidity에서 호출하는 계약은 이런 상황에서 기본적으로 수동 예외를 발생시키므로 호출 스택의 우선순위를 올린다.
+
+호출된 컨트랙트는 깨끗이 비워진 메모리 인스턴스와 호출 데이터라는 격리된 공간의 호출 페이로드 접근 권한을 가진다. 실행이 완료되면 호출자에 의해 이미 할당된 메모리 영역안에 저장될 데이터를 리턴받을 수 있다. 이런 호출은 모두 완전한 동기식이다.(Sync)
+
+델리게이트 콜 / 콜코드와 라이브러리
+메시지 콜은 다양한 변형이 있는데, 델리게이트 콜의 경우는 대상 주소의 코드가 호출하는 컨트랙트의 컨텍스트 내에서 실행된다는 것과 msg.sender와 msg.value가 값이 바뀌지 않는 다는 것 외에는 메시지 콜과 동일하다.
+이것은 컨트랙트가 실행 중 다양한 주소의 코드를 동적으로 불러온다는 것을 뜻한다. 스토리지, 현재 주소와 잔액은 여전히 호출하는 컨트랙트를 참조하지만 코드는 호출된 주소에서 가져온다.
+
+
+Structure of Contract
+Contracts in Solidity are similar to classes in object-oriented languages. Each contract can contain declarations of State Variables, Functions, Function Modifiers, Events, Struct Types and Enum Types.
+Furthermore, contracts can inherit from other contracts.
+
+State Variables
+State Variables are variables whose values are permanetly stored in contract storage.
+
+Functions
+Functions are the executable units of code within a contract.
+
+Function Modifiers
+Function modifiers can be used to amend the semantics of functions in a declarative way
+쉽게 생각하면 Function을 수행하기 위한 일정부분의 조건절을 함수처럼 만들어서 관리
+Modifiers can be used to easily change the behaviour of functions. For examples, they can automatically check a condition prior to executing the function.
+Modifiers are inheritable properties of contracts and may be overridden by derived contracts
+
+contract Purchase {
+    address public seller;
+
+    modifier onlySeller() { // Modifier
+        require(
+            msg.sender == seller,
+            "Only seller can call this."
+        );
+        _;
+    }
+
+    function abort() public view onlySeller { // Modifier usage
+        // ...
+    }
+}
+
+Events
+Events are convenience interfaces with the EVM logging facilities.
+
+Struct Types
+Struct are custom defined types that can group several variables
+contract Ballot {
+    struct Voter { // Struct
+        uint weight;
+        bool voted;
+        address delegate;
+        uint vote;
+    }
+}
+
+Enum Types
+Enums can be used to create custom types with a finite set of 'constant values'
+contract Purchase {
+    enum State { Created, Locked, Inactive } // Enum
+}
+
+======================================================================================
+Type
+solidity는 컴파일 시점에 각 변수(상태변수 State Variables 와 지역변수 Local Variables)의 타입이 명시되어야 하는(또는 최소한 추론가능해야 하는) 정적 타입 언어
+
+값 타입
+변수가 전달될 때, 값(value)이 전달된다. 즉, 이 타입이 함수의 인자로 사용되거나, 할당값으로 사용될 땐, 값이 복사된다.
+
+Booleans
+bool : 가능한 값은 상수 true || false
+
+정수 Integers
+int / uint : 다양한 크기의 부호있는 정수 타입, 부호 없는 정수 타입이 존재
+             int8 / uint8 ~ int256 / uint256까지 존재하며, int -> int256 / uint -> uint256
+
+부동 소수점 숫자
+fixed / ufixed : 다양한 크기의 부호있는 고정 소수점, 부호없는 고정 소수점 타입 존재
+                 ufixedMxN / fixedMxN에서 M은 타입에 의해 취해진 비트의 수를 나타내며, N은 소수점이하 자리수를 표현
+				 M은 8 ~ 256비트 사이의 값이며, 반드시 8로 나누어 떨어져야 함. N은 0 ~ 80 사이의 값이어야 한다.
+				 ufixed = ufixed128x19 / fixed = fixed128x19
+부동 소수점 수와 고정 소수점 수의 주요한 차이점은, 부동 소수점 수는 정수와 소수점 부분을 표현하기 위해 사용되는 비트의 수가 유동적인데 반해,
+고정 소수점의 경우 엄격히 정의되어 있다. 일반적으로, 부동 소수점 방식에서는 거의 모든 공간이 소수 부분을 나타내기 위해 사용되지만 고정 소수점 방식에는
+적은 수의 비트만이 소수 부분을 정의하는데 사용된다.
+
+Address
+20바이트(이더리움 address의 크기)를 담을 수 있다. address type에는 member가 있고, 모든 컨트랙트의 기반이 된다.
+members
+balance와 transfer
+balance 속성을 이용하여 address의 잔고를 조회하고 transfer 함수를 이용하여 다른 address에 Ether를(wei 단위로) 보낼 수 있다.
+x 가 컨트랙트 address인 경우, 코드(더 구체적으로는 fallback함수가 존재하는 경우)는 transfer 호출과 함께
+실행된다.(EVM의 특성이며 막을 수 없음). 코드가 실행될 때, 가스가 부족하거나 어떤식으로든 실패한다면, Ether 전송은 원상복구되며 현재의 컨트랙트는 예외를 발생하며 중지된다.
+
+send
+low-level 수준에서 transfer 와 대응된다. 실행이 실패하면 컨트랙트는 중지되지 않고 대신 send가 false를 반환
+send 를 사용할 땐 몇가지 주의사항이 있습니다: call stack의 깊이가 1024라면 전송은 실패하며(이것은 항상 호출자에 의해 강제 될 수 있습니다) 그리고 수신자의 gas가 전부 소모되어도 실패합니다. 
+그러므로 안전한 Ether 전송을 위해서, 항상 send 의 반환값을 확인하고, transfer 를 사용하세요: 혹은 더 좋은 방법은 수신자가 돈을 인출하는 패턴을 사용하는 것입니다.
+
