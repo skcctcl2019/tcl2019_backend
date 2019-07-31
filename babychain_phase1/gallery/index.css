@@ -85,7 +85,7 @@ img{
 	position: absolute;
 	box-shadow: 0 5px 10px 0 rgba(0,0,0,0.22);
 	width:240px;
-	height:320px;
+	height:160px;
 	border-radius: 5px;
 	display: inline-block;
 	margin: 20px 18px;
@@ -136,7 +136,7 @@ img{
 }
 .item .summary-hover .title{
 	font-weight: 700;
-	font-size: 1.5em;
+	font-size: 1.3em;
 	padding: 25px 20px 0 20px;
 	color: #ffffff;
 	text-align: center;
@@ -163,7 +163,7 @@ img{
 }
 .item .summary-hover2 .title{
 	font-weight: 700;
-	font-size: 1.5em;
+	font-size: 1.3em;
 	padding: 25px 20px 0 20px;
 	color: #333333;
 	text-align: center;
