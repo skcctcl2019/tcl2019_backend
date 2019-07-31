@@ -16,6 +16,15 @@
 <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
 <link href="../../gallery/admintool/index.css" rel="stylesheet" type="text/css" />
 <link id="index_theme" href="../../gallery/admintool/index-jennifer.css" rel="stylesheet" type="text/css" />
+
+<script>
+$(function() {
+		$("#btn_inq").on("click", function(e) {
+		  alert("검색 고");
+		});
+	});
+</script>
+
 </head>
 <body class="jui">
 
@@ -89,19 +98,29 @@
 	 
 	 <section>
 	<p>
-		찾고있는중인 실종아동 등을 검색, 조회 하실 수 있습니다.<br>
+		찾고있는중인 실종아동 등을 검색, 조회 하실 수 있습니다.<br><br>
+  
     <ul>
-        <li>대상 : 
-          <label><input type="radio" name="grp" value="전체" checked="checked"/> 전체</label>
-          <label><input type="radio" name="grp" value="실종아동 등" /> 실종아동 등</label>
-          <label><input type="radio" name="grp" value="보호아동 등" /> 보호아동 등</label>
-        </li>
-        <li>데이터베이스 : 
-           <label><input type="radio" name="dbgrp" value="전체" checked="checked"/> 전체</label>
-           <label><input type="radio" name="dbgrp" value="경찰청 데이터베이스" /> 경찰청</label>
-           <label><input type="radio" name="dbgrp" value="Missing 데이터베이스" /> Missing</label>
-        </li>
-      </ul>
+      <li>
+        <input type="file" style="font-size:15px"/>
+      </li>
+      <li>대상 : 
+        <label><input type="radio" name="grp" value="전체" checked="checked"/> 전체</label>
+        <label><input type="radio" name="grp" value="실종아동 등" /> 실종아동 등</label>
+        <label><input type="radio" name="grp" value="보호아동 등" /> 보호아동 등</label>
+      </li>
+      <li>데이터베이스 : 
+          <label><input type="radio" name="dbgrp" value="전체" checked="checked"/> 전체</label>
+          <label><input type="radio" name="dbgrp" value="경찰청 데이터베이스" /> 경찰청</label>
+          <label><input type="radio" name="dbgrp" value="Missing 데이터베이스" /> Missing</label>
+      </li>
+      <li>성별 : 
+          <label><input type="radio" name="bg" value="여자" checked="checked"/> 여자</label>
+          <label><input type="radio" name="bg" value="남자" /> 남자</label>
+      </li>
+    </ul>
+      <button class="btn focus" id="btn_inq">조회</button>
+  </p>
 
 		<table class="table classic hover">
 			<thead>
@@ -121,7 +140,7 @@
 				</tr>
 			</tbody>
 		</table>
-	</p>
+	
 </section>
 	 
 	 
