@@ -8,24 +8,41 @@ contract TestBabyContract {
     BabyContract babyContract = BabyContract(DeployedAddresses.BabyContract());
     address expectedLoginPerson = address(this);
 
-    string name = "test";
-    uint date = 20190101;
-    uint count = 1;
+    string IMAGE_PATH = "./image.jpg";
+    string ETC_SPFEATR = "특이사항";
+    string PHONE_NUMBER = "010-1111-2222";
+    uint AGE = 10;
+    uint COUNT = 1;
 
     function testAddBaby() public {
-        babyContract.addBaby(name, date);
+        babyContract.addBaby(IMAGE_PATH, ETC_SPFEATR, PHONE_NUMBER, AGE);
     }
 
     function testGetBabiesCount() public {
-        Assert.equal(babyContract.getBabiesCount(), count, "count!");
+        Assert.equal(babyContract.getBabiesCount(), COUNT, "count!");
     }
 
     function testGetBaby() public {
-        string memory _name;
-        uint _date;
-        (,_name, _date) = babyContract.getBaby(0);
-        
-        Assert.equal(_name, name, "name!");
-        Assert.equal(_date, date, "date!");
+        string memory imagePath;
+        string memory etcSpfeatr;
+        string memory phoneNumber;
+        uint age;
+        (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBaby(0);
+        Assert.equal(imagePath, IMAGE_PATH, "imagePath!");
+        Assert.equal(etcSpfeatr, ETC_SPFEATR, "etcSpfeatr!");
+        Assert.equal(phoneNumber, PHONE_NUMBER, "phoneNumber!");
+        Assert.equal(age, AGE, "age!");
+    }
+
+    function testGetBabyByImagePath() public {
+        string memory imagePath;
+        string memory etcSpfeatr;
+        string memory phoneNumber;
+        uint age;
+        (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBabyByImagePath(IMAGE_PATH);
+        Assert.equal(imagePath, IMAGE_PATH, "imagePath!");
+        Assert.equal(etcSpfeatr, ETC_SPFEATR, "etcSpfeatr!");
+        Assert.equal(phoneNumber, PHONE_NUMBER, "phoneNumber!");
+        Assert.equal(age, AGE, "age!");
     }
 }
