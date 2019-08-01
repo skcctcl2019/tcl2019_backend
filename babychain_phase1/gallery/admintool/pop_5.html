@@ -19,8 +19,9 @@
 
 <script>
 $(function() {
-		$("#btn_inq").on("click", function(e) {
-		  alert("검색 고");
+		$("#btn_prchs").on("click", function(e) {
+		  alert("구매가 완료되었습니다!");
+
 		});
 	});
 </script>
@@ -89,65 +90,27 @@ $(function() {
       -->
 	  
 	  
-	  <div class="panel">
-        <div class="body">
-          <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">조회</h2>
-        </div>
-      </div>
-     
-	 
-	 <section>
-	<p>
-		찾고있는중인 실종아동 등을 검색, 조회 하실 수 있습니다.<br><br>
-  
-    <ul>
-      <li>
-        <input type="file" style="font-size:15px"/>
-      </li>
-      <li>대상 : 
-        <label><input type="radio" name="grp" value="전체" checked="checked"/> 전체</label>
-        <label><input type="radio" name="grp" value="실종아동 등" /> 실종아동 등</label>
-        <label><input type="radio" name="grp" value="보호아동 등" /> 보호아동 등</label>
-      </li>
-      <li>데이터베이스 : 
-          <label><input type="radio" name="dbgrp" value="전체" checked="checked"/> 전체</label>
-          <label><input type="radio" name="dbgrp" value="경찰청 데이터베이스" /> 경찰청</label>
-          <label><input type="radio" name="dbgrp" value="Missing 데이터베이스" /> Missing</label>
-      </li>
-      <li>성별 : 
-          <label><input type="radio" name="bg" value="여자" checked="checked"/> 여자</label>
-          <label><input type="radio" name="bg" value="남자" /> 남자</label>
-      </li>
-    </ul>
-      <button class="btn focus" id="btn_inq">조회</button>
-  </p>
-
-		<table class="table classic hover">
-			<thead>
-				<tr>
-					<th>등록일</th><th>사진</th><th>연락처</th><th>특이사항</th><th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>2019.07.16</td><td>어쩌고이미지..</td><td>010-7777-9999</td><td>왼쪽 눈 아래 점이 있어용</td><td><button class="btn small focus" onclick="alert('details')">상세</button></td>
-				</tr>
-				<tr>
-					<td>A</td><td>B</td><td>C</td><td>D</td><td>E</td>
-				</tr>
-				<tr>
-					<td>A</td><td>B</td><td>C</td><td>D</td><td>E</td>
-				</tr>
-			</tbody>
-		</table>
-	
-</section>
-	 
-	 
-	 
-	 
-    
+  <div class="panel">
+    <div class="body">
+      <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">마켓ㅋ</h2>
     </div>
+  </div>
+
+	<section>
+    <div>
+      <p>보유하신 포인트로 상품을 구매하실 수 있습니다.<br><br> 포인트 : <label style="color:#814fd5">5000 </label>P<br><br></p>
+
+      <label>어린이 보험</label><br>
+      <img src="1955373.png" alt="어린이 보험"><br>
+      <label>10000 P</label><br><br>
+      
+    </div>
+    <button class="btn focus" id="btn_prchs">구매</button>
+  
+  
+  </section>
+    
+</div>
 
 
 
