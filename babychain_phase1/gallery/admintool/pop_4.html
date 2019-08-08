@@ -99,38 +99,58 @@ $(function() {
 	 <section>
 	<p>
 		찾고있는중인 실종아동 등을 검색, 조회 하실 수 있습니다.<br><br>
-  
-    <ul>
-      <li>
-        <input type="file" style="font-size:15px"/>
-      </li>
-      <li>대상 : 
-        <label><input type="radio" name="grp" value="전체" checked="checked"/> 전체</label>
-        <label><input type="radio" name="grp" value="실종아동 등" /> 실종아동 등</label>
-        <label><input type="radio" name="grp" value="보호아동 등" /> 보호아동 등</label>
-      </li>
-      <li>데이터베이스 : 
-          <label><input type="radio" name="dbgrp" value="전체" checked="checked"/> 전체</label>
-          <label><input type="radio" name="dbgrp" value="경찰청 데이터베이스" /> 경찰청</label>
-          <label><input type="radio" name="dbgrp" value="Missing 데이터베이스" /> Missing</label>
-      </li>
-      <li>성별 : 
-          <label><input type="radio" name="bg" value="여자" checked="checked"/> 여자</label>
-          <label><input type="radio" name="bg" value="남자" /> 남자</label>
-      </li>
-    </ul>
-      <button class="btn focus" id="btn_inq">조회</button>
   </p>
+    
+<TABLE class="table_search2 margin_t8 float_l" style="WIDTH: 613px" summary="대상,성별,이름,발생일,당시나이,신체특징,발생장소 검색" sizcache="5" sizset="98"><CAPTION>검색 조건</CAPTION>
+  <COLGROUP>
+  <COL width="14%">
+  <COL width="36%">
+  <COL width="14%">
+  <COL width="36%"></COLGROUP>
+  <TBODY sizcache="5" sizset="98">
+  <TR>
+  <TH>이미지 선택</TH>
+  <TD class=ls1 colSpan=3><input type="file" style="font-size:15px"/> </TD></TR>
+  <TR>
+  <TR>
+  <TH>대상</TH>
+  <TD class=ls1 colSpan=3><INPUT id=targetAll class=targetAll type=checkbox value=000 name=writngTrgetDscdAll><LABEL for=targetAll>전체</LABEL> <INPUT onclick=fn_targetLcm(); id=targetChild class=target type=checkbox value=010 name=writngTrgetDscdArray><LABEL for=targetChild>정상아동(18세미만)</LABEL> <INPUT onclick=fn_targetLcm(); id=targetIntelli class=target type=checkbox value=060 name=writngTrgetDscdArray><LABEL for=targetIntelli>지적장애인</LABEL> <INPUT onclick=fn_targetLcm(); id=targetDotard class=target type=checkbox value=070 name=writngTrgetDscdArray><LABEL for=targetDotard>치매질환자</LABEL> <INPUT onclick=fn_targetLcm(); id=targetRun class=target type=checkbox value=020 name=writngTrgetDscdArray><LABEL for=targetRun>가출인</LABEL> <INPUT onclick=fn_targetLcm(); id=targetEtc class=target type=checkbox value=080 name=writngTrgetDscdArray><LABEL for=targetEtc>기타</LABEL> </TD></TR>
+  <TR>
+  <TH>성별</TH>
+  <TD><INPUT id=genderAll type=radio value=3 name=sexdstnDscd><LABEL for=genderAll>전체</LABEL> <INPUT id=genderMale type=radio value=1 name=sexdstnDscd><LABEL for=genderMale>남자</LABEL> <INPUT id=genderFemale type=radio value=2 name=sexdstnDscd><LABEL for=genderFemale>여자</LABEL> </TD>
+  <TH><LABEL for=nm>이름</LABEL></TH>
+  <TD><INPUT id=nm title="이름 입력" class="inputBox middle" style="WIDTH: 84px" name=nm> </TD></TR>
+  <TR sizcache="5" sizset="98">
+  <TH><LABEL for=detailDate1>발생일 </LABEL></TH>
+  <TD sizcache="5" sizset="98"><INPUT  id=detailDate1 title="발생 시작일" class="inputBox middle" style="WIDTH: 68px" maxLength=10 name=detailDate1> <A title=달력보기(새창) href="javascript:fn_egov_NormalCalendar(document.lcmMssVO, document.lcmMssVO.detailDate1);"><IMG class=middle alt=달력보기 src="http://www.safe182.go.kr/static/home/images/common/icon/ic_calendar.gif"></A> ~ <INPUT onkeypress=fn_enterSearch(event); title="발생 종료일" class="inputBox middle" style="WIDTH: 68px" maxLength=10 name=detailDate2> <A title=달력보기(새창) href="javascript:fn_egov_NormalCalendar(document.lcmMssVO, document.lcmMssVO.detailDate2);"><IMG class=middle alt=달력보기 src="http://www.safe182.go.kr/static/home/images/common/icon/ic_calendar.gif"></A> </TD>
+  <TH><LABEL for=age1>당시나이</LABEL></TH>
+  <TD><INPUT id=age1 title="당시나이 시작" class="inputBox middle" style="WIDTH: 17px" maxLength=3 name=age1> 세~ <INPUT title="당시나이 끝" class="inputBox middle" style="WIDTH: 17px" maxLength=3 name=age2> 세 </TD></TR>
+  <TR>
+  <TH><LABEL for=etcSpfeatr>특이사항</LABEL></TH>
+  <TD><INPUT id=etcSpfeatr title="신체특징 입력" class="inputBox middle" style="WIDTH: 188px" name=etcSpfeatr> </TD>
+  <TH><LABEL for=occrAdres>발생장소 </LABEL></TH>
+  <TD><INPUT id=occrAdres title="발생장소 입력" class="inputBox middle" style="WIDTH: 188px" name=occrAdres> </TD></TR>
+  <TR>
+  <TD class="colorBlue4 padNone" colSpan=2>
+  <P class=padding_l23>ex) "점이 있다", "허리가 굽었다" 등의 자연어로 검색 가능합니다.</P></TD>
+  <TD class="colorBlue4 padNone" colSpan=2>
+  <P class=padding_l23>ex) 서울시 용산구 갈월동 놀이터앞 등 상세주소로 검색해주세요.</P></TD>
+</TR>
+</TBODY>
+</TABLE>
+
+  <button class="btn focus" id="btn_inq">조회</button><br><br>
+  
 
 		<table class="table classic hover">
 			<thead>
 				<tr>
-					<th>등록일</th><th>사진</th><th>연락처</th><th>특이사항</th><th></th>
+					<th>발생일</th><th>사진</th><th>연락처</th><th>특이사항</th><th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>2019.07.16</td><td>어쩌고이미지..</td><td>010-7777-9999</td><td>왼쪽 눈 아래 점이 있어용</td><td><button class="btn small focus" onclick="alert('details')">상세</button></td>
+					<td>2019.07.16</td><td><img src="dog.jpg" alt="절미 얼굴 사진"></td><td>010-7777-9999</td><td>왼쪽 눈 아래 점이 있어용</td><td><button class="btn small focus" onclick="alert('details')">상세</button></td>
 				</tr>
 				<tr>
 					<td>A</td><td>B</td><td>C</td><td>D</td><td>E</td>
