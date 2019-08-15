@@ -2,12 +2,9 @@
   "name": "babychain",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "truffle.js",
   "directories": {
     "test": "test"
-  },
-  "dependencies": {
-    "web3-js": "latest"
   },
   "scripts": {
     "dev": "lite-server",

@@ -3,10 +3,49 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>BabyChain front-end</title>
-        <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
     <body>
-        Hello, World!
+        <form id="frm">
+            <button class="btn btn-default btn-cnt" type="button" data-id="0">btn-cnt</button>
+            <hr />
+            
+            imagePath : <input type="text" name="imagePath" id="imagePath" value="//" /><br />
+            etcSpfeatr : <input type="text" name="etcSpfeatr" id="etcSpfeatr" value="특이사항" /><br />
+            phoneNumber : <input type="text" name="phoneNumber" id="phoneNumber" value="010-1111-2222" /><br />
+            age : <input type="text" name="age" id="age" value="10" /><br />
+            <button class="btn btn-default btn-add" type="button" data-id="0">btn-add</button>
+            <hr />
+
+            id : <input type="text" name="id" id="id" value="0" /><br />
+            <button class="btn btn-default btn-babyById" type="button" data-id="0">btn-babyById</button>
+            <hr />
+
+            imagePath : <input type="text" name="imagePath2" id="imagePath2" value="//" /><br />
+            <button class="btn btn-default btn-babyByPath" type="button" data-id="0">btn-babyByPath</button>
+            <hr />
+
+            <button class="btn btn-default btn-allBabies" type="button" data-id="0">btn-allBabies</button>
+        </form>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/web3.min.js"></script>
+        <script src="js/truffle-contract.js"></script>
+        <script src="js/app.js"></script>
     </body>
 </html>
