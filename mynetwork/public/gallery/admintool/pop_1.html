@@ -181,12 +181,17 @@ window.addEventListener('message', function(e) {
           	<tr>
 				<td>
 					<h2 class="title">아동 등 사진</h2>
-				</td>
-          <form name="apndFileForm" method="post" action="/registerInfo" enctype="multipart/form-data">
+				</td>         
 				    <td>
-              <input name="userFile" type="file" id="ATT" size="30" style="font-size:15px" /><br><br>
-              <input name="userFile2" type="file" id="ATT2" size="30" style="font-size:15px" /><br><br>
-              <input name="userFile3" type="file" id="ATT3" size="30" style="font-size:15px" /><br><br>
+              <form name="apndFileForm" target="bIfrm" method="post" action="/registerInfo" enctype="multipart/form-data">
+                <input name="userFile" type="file" id="ATT" size="30" style="font-size:15px" /><br><br>
+              </form>
+              <form name="apndFileForm" target="bIfrm"  method="post" action="/registerInfo" enctype="multipart/form-data">
+                <input name="userFile" type="file" id="ATT2" size="30" style="font-size:15px" /><br><br>
+              </form>
+              <form name="apndFileForm" target="bIfrm"  method="post" action="/registerInfo" enctype="multipart/form-data">
+                <input name="userFile" type="file" id="ATT3" size="30" style="font-size:15px" /><br><br>
+              </form>
             </td>
             <td>
               <img src="@sample.gif" width="230px" id="img" name="img" />
