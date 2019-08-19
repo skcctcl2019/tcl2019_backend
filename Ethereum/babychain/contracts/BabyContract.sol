@@ -28,7 +28,7 @@ contract BabyContract {
         return babies.length;
     }
 
-    function getBaby(uint _id) public view returns (
+    function getBabyById(uint _id) public view returns (
         string memory imagePath, string memory etcSpfeatr, string memory phoneNumber, uint age) {
         imagePath = babies[_id].imagePath;
         etcSpfeatr = babies[_id].etcSpfeatr;

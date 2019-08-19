@@ -22,12 +22,12 @@ contract TestBabyContract {
         Assert.equal(babyContract.getBabiesCount(), COUNT, "count!");
     }
 
-    function testGetBaby() public {
+    function testGetBabyById() public {
         string memory imagePath;
         string memory etcSpfeatr;
         string memory phoneNumber;
         uint age;
-        (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBaby(0);
+        (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBabyById(0);
         Assert.equal(imagePath, IMAGE_PATH, "imagePath!");
         Assert.equal(etcSpfeatr, ETC_SPFEATR, "etcSpfeatr!");
         Assert.equal(phoneNumber, PHONE_NUMBER, "phoneNumber!");

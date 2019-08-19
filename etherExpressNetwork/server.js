@@ -33,53 +33,61 @@ app.use(bodyParser.json());
 app.use('/', express.static('public'));
 
 app.get('/', (req, res) => {
-
   res.sendFile('/index.html');
 });
 
-/*
-app.get('/getAccounts', (req, res) => {
-  console.log("**** GET /getAccounts ****");
-  truffle_connect.start(function (answer) {
-    res.send(answer);
+app.post('/addBaby', (req, res) => {
+  console.log("**** POST /addBaby ****");
+  console.log(req.body);
+  let imagePath = req.body.imagePath;
+  let etcSpfeatr = req.body.etcSpfeatr;
+  let phoneNumber = req.body.phoneNumber;
+  let age = req.body.age;
+
+  truffle_connect.addBaby(imagePath, etcSpfeatr, phoneNumber, age, function(result) {
+    res.send(result);
+  });
+});
+
+app.get('/getBabiesCount', (req, res) => {
+  console.log("**** GET /getBabiesCount ****");
+
+  truffle_connect.getBabiesCount(function (length) {
+    res.send(length);
   })
 });
 
-app.post('/getBalance', (req, res) => {
-  console.log("**** GET /getBalance ****");
-  console.log(req.body);
-  let currentAcount = req.body.account;
+app.get('/getAllBabies', (req, res) => {
+  console.log("**** GET /getAllBabies ****");
 
-  truffle_connect.refreshBalance(currentAcount, (answer) => {
-    let account_balance = answer;
-    truffle_connect.start(function(answer){
-      // get list of all accounts and send it along with the response
-      let all_accounts = answer;
-      response = [account_balance, all_accounts]
-      res.send(response);
-    });
-  });
+  truffle_connect.getAllBabies(function (data) {
+    res.send(data);
+  })
 });
 
-app.post('/sendCoin', (req, res) => {
-  console.log("**** GET /sendCoin ****");
+app.post('/getBabyById', (req, res) => {
+  console.log("**** POST /getBabyById ****");
   console.log(req.body);
+  let id = req.body.id;
 
-  let amount = req.body.amount;
-  let sender = req.body.sender;
-  let receiver = req.body.receiver;
-
-  truffle_connect.sendCoin(amount, sender, receiver, (balance) => {
-    res.send(balance);
-  });
+  truffle_connect.getBabyById(id, function (data) {
+    res.send(data);
+  })
 });
-*/
+
+app.post('/getBabyByImagePath', (req, res) => {
+  console.log("**** POST /getBabyByImagePath ****");
+  console.log(req.body);
+  let imagePath = req.body.imagePath;
+
+  truffle_connect.getBabyByImagePath(imagePath, function (data) {
+    res.send(data);
+  })
+});
 
 app.listen(port, () => {
-
   // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
   console.log("Express Listening at http://localhost:" + port);
-
 });

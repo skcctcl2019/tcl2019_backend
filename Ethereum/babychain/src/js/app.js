@@ -45,7 +45,7 @@ App = {
         });
         $(document).on('click', '.btn-babyById', function(event) {
             var id = document.getElementById("id").value;
-            App.getBaby(id);
+            App.getBabyById(id);
         });
         $(document).on('click', '.btn-babyByPath', function(event) {
             var imagePath = document.getElementById("imagePath2").value;
@@ -112,13 +112,13 @@ App = {
         });
     },
 
-    getBaby : function(id) {
+    getBabyById : function(id) {
         var babyInstance;
 
         App.contracts.BabyContract.deployed().then(function(instance) {
             babyInstance = instance;
 
-            return babyInstance.getBaby(id);
+            return babyInstance.getBabyById(id);
         }).then(function(data) {
             App.displayBaby(data[0], data[1], data[2], data[3]);
         }).catch(function(err) {
@@ -150,7 +150,7 @@ App = {
 
 $(function() {
     $(window).load(function() {
-      App.init();
+        App.init();
     });
-  });
+});
   

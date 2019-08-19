@@ -1,73 +1,103 @@
 // Contract export 를 위한 javaScript
 // server.js 를 통해 initialize
-
 const contract = require('truffle-contract');
 
 const babyChain_artifact = require('../build/contracts/BabyContract.json');
 var babyChain = contract(babyChain_artifact);
 
 module.exports = {
-  start: function(callback) {
+  addBaby : function(imagePath, etcSpfeatr, phoneNumber, age, callback) {
     var self = this;
-
-    // Bootstrap the MetaCoin abstraction for Use.
     babyChain.setProvider(self.web3.currentProvider);
 
-    // Get the initial account balance so it can be displayed.
-    self.web3.eth.getAccounts(function(err, accs) {
-      if (err != null) {
-        alert("There was an error fetching your accounts.");
-        return;
+    var babyInstance;
+    self.web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
       }
 
-      if (accs.length == 0) {
-        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-        return;
-      }
-      self.accounts = accs;
-      self.account = self.accounts[2];
+      var account = accounts[0];
+      console.log(account);
 
-      callback(self.accounts);
-    });
-  }
-/*
-  refreshBalance: function(account, callback) {
-    var self = this;
-
-    // Bootstrap the MetaCoin abstraction for Use.
-    MetaCoin.setProvider(self.web3.currentProvider);
-
-    var meta;
-    
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getBalance.call(account, {from: account});
-    }).then(function(value) {
-        callback(value.valueOf());
-    }).catch(function(e) {
-        console.log(e);
-        callback("Error 404");
+      babyChain.deployed().then(function(instance) {
+        babyInstance = instance;
+        
+        return babyInstance.addBaby(imagePath, etcSpfeatr, phoneNumber, age, {from: account});
+      }).then(function(result) {
+        console.log(result);
+        callback(result);
+      }).catch(function(e) {
+          console.log(e);
+      });
     });
   },
 
-  sendCoin: function(amount, sender, receiver, callback) {
+  getBabiesCount : function(callback) {
     var self = this;
+    babyChain.setProvider(self.web3.currentProvider);
+        
+    var babyInstance;
+    babyChain.deployed().then(function(instance) {
+      babyInstance = instance;
 
-    // Bootstrap the MetaCoin abstraction for Use.
-    MetaCoin.setProvider(self.web3.currentProvider);
+      return babyInstance.getBabiesCount.call();
+    }).then(function(length) {
+      console.log(length);
+      callback(length);
+    }).catch(function(e) {
+        console.log(e);
+    });
+  },
 
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.sendCoin(receiver, amount, {from: sender});
-    }).then(function() {
-      self.refreshBalance(sender, function (answer) {
-        callback(answer);
+  getAllBabies : function(callback) {
+    var self = this;
+    babyChain.setProvider(self.web3.currentProvider);
+
+    var babyInstance;
+    babyChain.deployed().then(function(instance) {
+      babyInstance = instance;
+
+      return babyInstance.getBabiesCount.call().then(function(length) {
+        for(var i=0; i<length; i++)  {
+          module.exports.getBabyById(i, callback);
+        }
       });
     }).catch(function(e) {
       console.log(e);
-      callback("ERROR 404");
+    });
+  },
+
+  getBabyById : function(id, callback) {
+    var self = this;
+    babyChain.setProvider(self.web3.currentProvider);
+
+    var babyInstance;
+    babyChain.deployed().then(function(instance) {
+        babyInstance = instance;
+
+        return babyInstance.getBabyById(id);
+    }).then(function(data) {
+      console.log(data);
+      callback(data);
+    }).catch(function(e) {
+      console.log(e);
+    });
+  },
+
+  getBabyByImagePath : function(imagePath, callback) {
+    var self = this;
+    babyChain.setProvider(self.web3.currentProvider);
+    
+    var babyInstance;
+    babyChain.deployed().then(function(instance) {
+        babyInstance = instance;
+
+        return babyInstance.getBabyByImagePath(imagePath);
+    }).then(function(data) {
+      console.log(data);
+      callback(data);
+    }).catch(function(e) {
+      console.log(e);
     });
   }
-  */
 }
