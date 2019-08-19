@@ -6,7 +6,8 @@ module.exports = function(deployer) {
 };
 */
 
-var BabyContract = artifacts.require("../contracts/BabyContract.sol");
+//var BabyContract = artifacts.require("./BabyContract.sol");
+var BabyContract = artifacts.require("BabyContract");
 
 module.exports = function(deployer) {
   deployer.deploy(BabyContract);

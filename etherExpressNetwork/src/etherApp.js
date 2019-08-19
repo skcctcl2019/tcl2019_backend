@@ -1,3 +1,6 @@
+// Contract export 를 위한 javaScript
+// server.js 를 통해 initialize
+
 const contract = require('truffle-contract');
 
 const babyChain_artifact = require('../build/contracts/BabyContract.json');
