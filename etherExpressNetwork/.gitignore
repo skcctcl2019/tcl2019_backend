@@ -1,0 +1,4 @@
+# ignore Directory
+build/
+node_modules/
+uploads/
