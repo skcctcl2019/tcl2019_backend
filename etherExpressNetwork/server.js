@@ -37,9 +37,11 @@ app.get('/', (req, res) => {
   res.sendFile('/index.html');
 });
 
-app.post('/addBaby', (req, res) => {
+app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   // 이미지는 경로값만 블록에 쌓아서 upload.single('imagePath')은 필요없어 보입니다.
   // 블록 쌓기 전 따로 이미지 저장하는 함수를 만들어서 호출하는 방향이 나을거 같습니다.
+  // BKMH - post 방식을 통해 호출할 때 multer middleware를 통해 자동으로 파일이 저장되는 구조로
+  // 변경했습니다 - 기존 upload.single('imagePath') 가 파일 저장을 자동으로 처리합니다.
 
   console.log("**** POST /addBaby ****");
   console.log(req.body);
