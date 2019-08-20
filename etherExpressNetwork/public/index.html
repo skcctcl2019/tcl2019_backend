@@ -18,12 +18,19 @@ $(document).ready(function () {
     });
 
     $('#addBaby').click(function () {
+
+
+        // 실제로 전달되는 값에서 file 을 multer로 처리하기 위한 방식 확인 필요
+        // jquey - multer or form 처리방식 확인
+        console.log(req.body.imagePath);
+
         var imagePath = $('#imagePath').val();
         var etcSpfeatr = $('#etcSpfeatr').val();
         var phoneNumber = $('#phoneNumber').val();
         var age = $('#age').val();
-        $.post('/addBaby', {"imagePath" : imagePath, "etcSpfeatr" : etcSpfeatr, "phoneNumber" : phoneNumber, "age" : age}, function (response) {
-            console.log(response);
+        $.post('/addBaby', {"imagePath" : imagePath, "etcSpfeatr" : etcSpfeatr, "phoneNumber" : phoneNumber, "age" : age}, function (err, res) {
+
+            console.log(res);
         });
     });
 
@@ -53,12 +60,16 @@ $(document).ready(function () {
     <body>
         <form id="frm">
             <button type="button" id="getBabiesCount">getBabiesCount</button>
-            <hr />
-            
-            imagePath : <input type="text" name="imagePath" id="imagePath" value="//" /><br />
-            etcSpfeatr : <input type="text" name="etcSpfeatr" id="etcSpfeatr" value="특이사항" /><br />
-            phoneNumber : <input type="text" name="phoneNumber" id="phoneNumber" value="010-1111-2222" /><br />
-            age : <input type="text" name="age" id="age" value="10" /><br />
+            <hr/>
+            <!--imagePath : <input type="text" name="imagePath" id="imagePath" value="//" /><br />-->
+            <p>
+                imagePath : <input type="file" name="imagePath" id="imagePath" enctype="multipart/form-data" value "//" />
+            <p>
+                etcSpfeatr : <input type="text" name="etcSpfeatr" id="etcSpfeatr" value="특이사항" />
+            <p>
+                phoneNumber : <input type="text" name="phoneNumber" id="phoneNumber" value="010-1111-2222" />
+            <p>
+                age : <input type="text" name="age" id="age" value="10" /><br />
             <button type="button" id="addBaby">addBaby</button>
             <hr />
 
