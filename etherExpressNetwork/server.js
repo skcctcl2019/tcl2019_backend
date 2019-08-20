@@ -37,7 +37,9 @@ app.get('/', (req, res) => {
   res.sendFile('/index.html');
 });
 
-app.post('/addBaby', upload.single('imagePath'), (req, res) => {
+app.post('/addBaby', (req, res) => {
+  // 이미지는 경로값만 블록에 쌓아서 upload.single('imagePath')은 필요없어 보입니다.
+  // 블록 쌓기 전 따로 이미지 저장하는 함수를 만들어서 호출하는 방향이 나을거 같습니다.
 
   console.log("**** POST /addBaby ****");
   console.log(req.body);
@@ -63,8 +65,17 @@ app.get('/getBabiesCount', (req, res) => {
 app.get('/getAllBabies', (req, res) => {
   console.log("**** GET /getAllBabies ****");
 
-  truffle_connect.getAllBabies(function (data) {
-    res.send(data);
+  var arr = [];
+  truffle_connect.getBabiesCount(function (length) {
+    for(var i=0; i<length; i++) {
+      truffle_connect.getBabyById(i, function (data) {
+        arr.push(data);
+
+        if(arr.length==length) {
+          res.send(arr);
+        }
+      })
+    }
   })
 });
 
