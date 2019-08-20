@@ -41,15 +41,17 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
 
   console.log("**** POST /addBaby ****");
   console.log(req.body);
-  console.log(req.body.filename);
+  console.log(req.file);
+
   let imagePath = req.body.imagePath;
   let etcSpfeatr = req.body.etcSpfeatr;
   let phoneNumber = req.body.phoneNumber;
   let age = req.body.age;
 
-  truffle_connect.addBaby(imagePath, etcSpfeatr, phoneNumber, age, function(result) {
-    res.send(result);
-  });
+  // BKMH - 임시 주석처리
+  //truffle_connect.addBaby(imagePath, etcSpfeatr, phoneNumber, age, function(result) {
+  //  res.send(result);
+  //});
 });
 
 app.get('/getBabiesCount', (req, res) => {
