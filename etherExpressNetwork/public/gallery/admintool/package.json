@@ -1,0 +1,15 @@
+{
+	"name": "admintool",
+	"version": "1.0.0",
+	"title": "Administrator Tool",
+	"description": "Monitoring the status of your service, and a screen that shows the visitor's information.",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"admintool"
+	],
+	"author": "easylogic and yoha",
+	"license": "MIT",
+	"height" : "1700px"
+}

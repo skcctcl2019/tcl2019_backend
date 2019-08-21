@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<META charset="UTF-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+<script type="text/javascript" src="../lib/jquery-1.8.0.min.js" ></script>
+<script type="text/javascript" src="../lib/jui/js/core.min.js" ></script>
+<link rel="stylesheet" href="../gallery/index.css" />
+
+<script>
+	var _ = jui.include("util.base");
+
+	$(function() {
+		$(".summary-box").on("click", function(e) {
+			var $box = $(this),
+				$boxPop = $("#popupcontent"),
+                index = $box.data("index");
+                
+            url = "../gallery/admintool/pop_" + (index + 1) + ".html"
+            //location.href = url;
+			if($(e.target).hasClass("btn")) {
+				$boxPop.css({
+					width: $box.width(),
+					height: $box.height(),
+					left: $box.offset().left,
+					top: $box.offset().top
+				}).addClass("transition");
+
+				var $iframe = $boxPop.find("iframe"),
+                url = "../gallery/admintool/pop_" + (index + 1) + ".html",
+                //url = "../gallery/admintool/edit_sample.html",
+    
+                isLoading = true;
+				$iframe.attr("src", url);
+				$iframe.on("load", function(e) {
+					if(!isLoading) return;
+
+					$boxPop.fadeIn(1000);
+					$iframe.css("border-radius", "5px");
+
+					setTimeout(function() {
+						$boxPop.css({
+							width: "100%",
+							height: "100%",
+							left: "0px",
+							top: "0px"
+						});
+
+						setTimeout(function() {
+							$boxPop.removeClass("transition");
+							$iframe.css("border-radius", "0px");
+							isLoading = false;
+
+							if(_.browser.mozilla) {
+								$iframe.attr("src", url);
+							}
+						}, 1000);
+					}, 1000);
+				});
+            }
+		});
+        
+        /*
+		$(".summary-box:not(.back)").on("mouseover", function(e) {
+			if($(e.target).hasClass("btn")) return;
+
+			var index = $(this).data("index"),
+				$target = $(".back[data-index=" + index + "]");
+
+			$(this).hide();
+			$target.show().addClass("flipInY animated");
+
+			setTimeout(function() {
+				$target.removeClass("flipInY animated");
+			}, 1000);
+
+			$(".summary-box").each(function(i) {
+				var targetIndex = $(this).data("index");
+
+				if(index != targetIndex) {
+					if($(this).hasClass("back")) {
+						$(this).hide();
+					} else {
+						$(this).show();
+					}
+				}
+			});
+        });
+        */
+	});
+</script>
+</head>
+<body>
+    <div class="homecontent" id="homecontent">
+        <div id="logo">
+            <img src="../gallery/images/logo.png" onclick="window.open('http://.com')">
+        </div>
+        <div id="header">
+            <span class="link" onclick="window.open('http://jui.io')">My Page</span><br>
+            <p>Create your own chart with JUI.</p></div>
+        <center>
+            <div class="text">
+                <h1>MISSING</h1>
+                <h2>사랑하는 사람을 찾거나 만약의 실종에 대비해보세용</h2>
+            </div>
+            <div class="item">
+                <div class="summary">
+                    <div class="summary-box back" data-index="0" style="left: 0px; height: 50px">
+                        <div class="summary-normal">
+                            <div class="summary-info">
+                                <div class="title">정보 사전등록</div>
+                                <div class="content">정보를 사전에 등록합니다.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-box " data-index="0"  style="left: 0px;">
+                        <div class="summary-hover" style="background-color:#814fd5">
+                            
+                            <div class="title">정보 사전등록</div>
+                            <div class="content">정보를 사전에 등록합니다.</div>
+                            <a href="#" class="btn btn-default">MOVE PAGE</a>
+                        </div>
+                    </div>
+                    <div class="summary-box" data-index="1" style="left: 258px;">
+                        <div class="summary-hover2" style="background-color:#ffcb2b">
+                            <div class="title">긴급실종신고</div>
+                            <div class="content">실종된 미아에 대해 신고합니다.</div>
+                               <a href="#" class="btn btn-default">MOVE PAGE</a>
+                        </div>
+                    </div>
+                   <div class="summary-box" data-index="2" style="left: 516px;">
+                       <div class="summary-hover" style="background-color:#1abc9c">
+                           
+                           <div class="title">경찰청 데이터 조회</div>
+                           <div class="content">경찰청 데이터를 조회합니다.</div>
+                           <a href="#" class="btn btn-default">MOVE PAGE</a>
+                       </div>
+                   </div>
+                   <div class="summary-box back" data-index="3" style="top:210px; left: 0px;">
+                    <div class="summary-normal">
+                        <div class="imagesfield"><img alt="APM Market Share Analysis" src="../gallery/images/summary_1.jpg"></div>
+                        <div class="summary-info">
+                            <div class="title">보호아동 등 조회</div>
+                            <div class="content">보호하고있는 아동 등에 대해 조회합니다.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-box" data-index="3"  style="top:210px; left: 0px;">
+                    <div class="summary-hover" style="background-color:#814fd5">
+                        <div class="title">보호아동 등 조회</div>
+                        <div class="content">보호하고있는 아동 등에 대해 조회</div>
+                        <a href="#" class="btn btn-default">MOVE PAGE</a>
+                    </div>
+                </div>
+                <div class="summary-box back" data-index="4" style="top:210px; left: 258px;">
+                    <div class="summary-normal">
+                        <div class="imagesfield"><img alt="APM Market Share Analysis" src="../gallery/images/summary_2.jpg"></div>
+                        <div class="summary-info">
+                            <div class="title">실종아동 등 조회</div>
+                            <div class="content">실종아동 등 조회합니다.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-box" data-index="4" style="top:210px; left: 258px;">
+                    <div class="summary-hover2" style="background-color:#ffcb2b">
+                        
+                        <div class="title">실종아동 등 조회</div>
+                        <div class="content">실종아동 등 조회합니다.</div>
+                        <a href="#" class="btn btn-default">MOVE PAGE</a>
+                    </div>
+                </div>
+               <div class="summary-box back" data-index="5" style="top:210px; left: 516px;">
+                   <div class="summary-normal">
+                       <div class="imagesfield"><img alt="APM Market Share Analysis" src="../gallery/images/summary_3.jpg"></div>
+                       <div class="summary-info">
+                           <div class="title">등록</div>
+                           <div class="content">실종아동 등 또는 보호아동 등을 등록</div>
+                       </div>
+                   </div>
+               </div>
+               <div class="summary-box" data-index="5" style="top:210px; left: 516px;">
+                   <div class="summary-hover" style="background-color:#1abc9c">                       
+                       <div class="title">등록</div>
+                       <div class="content">실종아동 또는 보호아동 등을 등록</div>
+                       <a href="#" class="btn btn-default">MOVE PAGE</a>
+                   </div>
+               </div>
+            </div>
+        </center>
+    </div>
+    <div id="footer" style="bottom: 0px;">
+        Like this? Your friends will, too. Share on.
+        <i class="social-icon facebook"></i>
+        <i class="social-icon twitter"></i>
+        <i class="social-icon googleplus"></i>
+        <i class="social-icon linkedin"></i>
+   </div>
+
+    <div id="popupcontent">
+        <iframe width="100%" height="100%" frameborder="0" framespacing="0" marginheight="0" marginwidth="0" scrolling="yes" vspace="0"></iframe>
+    </div>
+</body>
+
+
+</html>
+
+

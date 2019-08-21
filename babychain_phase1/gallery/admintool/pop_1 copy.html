@@ -24,18 +24,10 @@
 	var _ = jui.include("util.base");
 
 	$(function() {
-
-    $("#reg_button").on("click", function(err){
-      //submit();
-      // 실제 찾아보기 버튼을 통해 입력된 파일의 경로가, 바로 submit 으로 처리되는 것같으므로
-      // 관련된 내용에 대해서 확인하고 수정할 것
-    });
-    //$("#reg_button").on("click", function(e) {
-		//submit();
-		//});
+		$("#reg_button").on("click", function(e) {
+		alert("버튼 클릭시 타기는 탄다?");
+		});
 	});
-
-  
 
 	function move(index){
 		alert(index);
@@ -178,45 +170,56 @@ window.addEventListener('message', function(e) {
      
 	 <div class="panel dashed">
         <div class="body">
-          <tr> <!-- tr : 행 -->
-            <td> <!-- td : 열 -->
-              <h2 class="title">아동 등 사진</h2>
-            </td>         
-          <form name="addBabyForm" target="_self" method="post" action="/addBaby" enctype="multipart/form-data">
-            <td>
-                <input name="userFile1" type="file" id="userFile1" size="30" style="font-size:15px" /><br><br>
-                <!--<input name="userFile2" type="file" id="userFile2" size="30" style="font-size:15px" /><br><br>-->
-                <!--<input name="userFile3" type="file" id="userFile3" size="30" style="font-size:15px" /><br><br>-->
-            </td>
-            <td>
-              <img src="@sample.gif" width="230px" id="img" name="img" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h2 class="title">연락처</h2>
-            </td>
-            <td>
-              <input type="number" class="input" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h2 class="title">특이사항</h2>
-            </td>
-            <td>
-              <textarea class="input" style="height: 150px; width: 550px;">남들과 구분되는 신체적 특징이나 버릇 등 특이사항은 반드시 입력해주세요.</textarea>
-            </td>
-          </tr>
-          
-          <p>
-           <button class="btn large focus" id="reg_button" type="submit">등록</button>
-          </form>
+   
+      <TABLE class="table_search2 margin_t8 float_l" style="WIDTH: 613px" summary="사전등록 정보" sizcache="5" sizset="98">
+        <COLGROUP>
+          <COL width="14%">
+          <COL width="36%">
+          <COL width="14%">
+          <COL width="36%">
+        </COLGROUP>
+        <TBODY sizcache="5" sizset="98">
+        <TR>
+          <TH><h3>이미지 선택</h3></TH>
+          <TD class=ls1 colSpan=3>
+            <form name="apndFileForm" method="post" action="fileUpload_no_java.jsp?bobjNatvId=1234" ; target="bIfrm" enctype="multipart/form-data">
+                <input name="ATT" type="file" id="ATT" size="30" style="font-size:12px" /><br><br>
+            </form>
+            <form name="apndFileForm" method="post" action="fileUpload_no_java.jsp?bobjNatvId=1234" ; target="bIfrm" enctype="multipart/form-data">
+                <input name="ATT" type="file" id="ATT2" size="30" style="font-size:12px" /><br><br>
+            </form>
+            <form name="apndFileForm" method="post" action="fileUpload_no_java.jsp?bobjNatvId=1234" ; target="bIfrm" enctype="multipart/form-data">
+                <input name="ATT" type="file" id="ATT3" size="30" style="font-size:12px" /><br><br>
+            </form>
+            <img src="@sample.gif" width="230px" id="img" name="img" />
+          </td>
+        
+        </TR>
+
+
+
+        <TR>
+          <TH><h3>나이</h3></TH>
+          <TD><INPUT id="age" title="나이 입력" class="inputBox middle" style="WIDTH: 50px" name="age"> 세</TD>
+        </TR>
+        <TR>
+          <TH><h3>연락처</h3></TH>
+          <TD><INPUT id="pnmbr" title="연락처 입력" class="inputBox middle" style="WIDTH: 100px" name="pnmbr"> </TD>
+        </TR>
+        <TR>
+          <TH><h3>특이사항</h3></TH>
+          <TD><textarea class="input" style="height: 100px; width:400px; font-size:12px; font-family: malgun gothic">남들과 구분되는 신체적 특징이나 버릇 등 특이사항은 반드시 입력해주세요.</textarea></TD>
+        </TR>
+        
+      
+      </TBODY>
+      </TABLE>
+      
+		  <br><br>
+		  <button class="btn large focus" id="reg_button"> 등록</button>
 		  
-        </div>
-		
       </div>
-	  
+      </div>
     </div>
 
 

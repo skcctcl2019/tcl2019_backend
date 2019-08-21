@@ -33,8 +33,10 @@ app.use(bodyParser.json());
 
 app.use('/', express.static('public'));
 
+// root Route 
 app.get('/', (req, res) => {
-  res.sendFile('/index.html');
+  //res.sendFile('/index.html');
+  res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
 app.post('/addBaby', upload.single('imagePath'), (req, res) => {
