@@ -47,15 +47,23 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   console.log(req.body);
   console.log(req.file);
 
+  // multer를 이용하여 파일 처리를 수행하면 file의 경로를 기준으로 처리할 것.
+  // 처리 시 만약 오류가 발생하는 경우, 파일 핸들링에 대해서도 롤백처리하는 로직 필요함.
   let imagePath = req.body.imagePath;
+
+  if (imagePath == null) {
+    imagePath = req.file.path;
+  }
+
   let etcSpfeatr = req.body.etcSpfeatr;
   let phoneNumber = req.body.phoneNumber;
   let age = req.body.age;
 
-  // BKMH - 임시 주석처리
-  //truffle_connect.addBaby(imagePath, etcSpfeatr, phoneNumber, age, function(result) {
-  //  res.send(result);
-  //});
+  truffle_connect.addBaby(imagePath, etcSpfeatr, phoneNumber, age, function(result) {
+    console.log("======= truffle.addBaby complete ======");
+    console.log(result);
+    res.redirect('/');
+  });
 });
 
 app.get('/getBabiesCount', (req, res) => {

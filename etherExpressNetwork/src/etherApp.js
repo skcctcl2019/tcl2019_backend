@@ -11,7 +11,6 @@ module.exports = {
 
     var self = this;
     babyChain.setProvider(self.web3.currentProvider);
-
     var babyInstance;
     self.web3.eth.getAccounts(function(error, accounts) {
       if (error) {
@@ -73,6 +72,7 @@ module.exports = {
       console.log("**** etherApp.getBabyById end ****");
 
       var result = module.exports.makeObject(data);
+      
       callback(result);
     }).catch(function(e) {
       console.log(e);
@@ -95,6 +95,7 @@ module.exports = {
       console.log("**** etherApp.getBabyByImagePath end ****");
 
       var result = module.exports.makeObject(data);
+
       callback(result);
     }).catch(function(e) {
       console.log(e);

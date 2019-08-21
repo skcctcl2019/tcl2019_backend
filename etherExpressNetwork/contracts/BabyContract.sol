@@ -29,6 +29,7 @@ contract BabyContract {
     }
 
     function getBabyById(uint _id) public view returns (
+        // 만약 해당 ID 에 해당하는 data가 존재하지 않는 경우 오류 처리 필요
         string memory imagePath, string memory etcSpfeatr, string memory phoneNumber, uint age) {
         imagePath = babies[_id].imagePath;
         etcSpfeatr = babies[_id].etcSpfeatr;
