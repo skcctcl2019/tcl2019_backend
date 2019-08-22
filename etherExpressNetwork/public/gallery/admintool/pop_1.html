@@ -25,13 +25,13 @@
 
 	$(function() {
 		$("#reg_button").on("click", function(e) {
-		alert("버튼 클릭시 타기는 탄다?");
+		  //alert("버튼 클릭시 타기는 탄다?");
+      console.log('==== reg_button on Click =====');
 		});
 	});
 
 	function move(index){
 		alert(index);
-
 	}
 		
 		/*
@@ -311,7 +311,10 @@ window.addEventListener('message', function(e) {
             alert("첨부파일의 사이즈가 너무 큽니다.");
             return false;
         }
-        document.apndFileForm[index].submit();
+
+        // fileSIzeCheck 수행 후 바로 submit이 수행되므로
+        // 내용 확인하여 정리
+        //document.apndFileForm[index].submit();
     }
 
 </script>
