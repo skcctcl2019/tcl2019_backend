@@ -8,6 +8,7 @@
     + /public/gallery : Web Site Source<br>
     + /public/lib : Web Site 구성에서 필요한 node Library<br>
     + /src : server.js 에서 import 를 위해 구성되고 있는 Javascript<br>
+    + /src/pythonAI : AI이미지인식모델 구성을 위한 Python Library<br>
     + /test : truffle을 이용하여, Solidity Test시 사용되는 test Solidity<br>
     + /uploads : upload된 사진파일 저장소(임시)<br>
     + /server.js : EntryPoint로 사용되는 JavaScript - Route 및 Express Load를 모두 처리 중<br>
@@ -17,6 +18,7 @@
 * 실행방법
   - 선행설치내역<br>
     npm install을 통해 package.json 내의 dependencies의 설치 필요<br>
+    (추가)python 호출을 위한 python-shell 추가<br>
     ganache-cli 또는 ganache winapp 설치 필요<br>
     chrome 또는 firefox를 통해 구동되는 meta-mask 설치<br>
   - 수행방법<br>
@@ -31,4 +33,4 @@
 
 ***
 
-# MODIFIED BY BKMH 2019.08.19
+# LAST MODIFIED BY BKMH 2019.09.22

@@ -3,12 +3,29 @@ const app = express();
 const port = 3000 || process.env.PORT;
 const Web3 = require('web3');
 const truffle_connect = require('./src/etherApp.js');
+// 2019.09.22 BKMH 변경 - python 파일 호출을 위한 js import 추가
+const call_python = require('./src/callPython.js');
 
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+
+
+// For ENOENT Error Debugging
+// 해당 함수를 통해 실제 누락되는 부분에 대해 확인 가능함
+(function() {
+  var childProcess = require("child_process");
+  var oldSpawn = childProcess.spawn;
+  function mySpawn() {
+      console.log('spawn called');
+      console.log(arguments);
+      var result = oldSpawn.apply(this, arguments);
+      return result;
+  }
+  childProcess.spawn = mySpawn;
+})();
 
 // multer storage setup
 var _storage = multer.diskStorage({
@@ -35,6 +52,13 @@ app.use('/', express.static('public'));
 
 // root Route 
 app.get('/', (req, res) => {
+
+  // 2019.09.22 BKMH - python 호출 구조 테스트
+  // For Calling python in nodejs
+  // 현재는 테스트를 위해 해당 위치에 존재하며, 정상적인 테스트를 위해서는 html 상의 버튼이벤트를 통해
+  // 호출되어야 하므로 차후, 위치 변경 필요
+  call_python.callPython();
+
   //res.sendFile('/index.html');
   res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });

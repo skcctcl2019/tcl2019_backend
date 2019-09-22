@@ -2,3 +2,7 @@
 build/
 node_modules/
 uploads/
+.pyc
+__pycache__
+.eslintrc.js
+.vscode
