@@ -14,35 +14,39 @@ contract TestBabyContract {
     uint AGE = 10;
     uint COUNT = 1;
 
+    // Baby 등록 Test
     function testAddBaby() public {
         babyContract.addBaby(IMAGE_PATH, ETC_SPFEATR, PHONE_NUMBER, AGE);
     }
 
+    // babies length 출력 테스트
     function testGetBabiesCount() public {
         Assert.equal(babyContract.getBabiesCount(), COUNT, "count!");
     }
 
+    // babies Index 입력 ->  Baby 객체 내 전 항목 값 출력 테스트
     function testGetBabyById() public {
         string memory imagePath;
         string memory etcSpfeatr;
         string memory phoneNumber;
         uint age;
         (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBabyById(0);
-        Assert.equal(imagePath, IMAGE_PATH, "imagePath!");
-        Assert.equal(etcSpfeatr, ETC_SPFEATR, "etcSpfeatr!");
-        Assert.equal(phoneNumber, PHONE_NUMBER, "phoneNumber!");
+        Assert.equal(babyContract.compareStrings(imagePath, IMAGE_PATH), true, "imagePath!");
+        Assert.equal(babyContract.compareStrings(etcSpfeatr, ETC_SPFEATR), true, "etcSpfeatr!");
+        Assert.equal(babyContract.compareStrings(phoneNumber, PHONE_NUMBER), true, "phoneNumber!");
         Assert.equal(age, AGE, "age!");
     }
 
+    // 이미지경로 입력 ->  Baby 객체 내 전 항목 값 출력 테스트
     function testGetBabyByImagePath() public {
         string memory imagePath;
         string memory etcSpfeatr;
         string memory phoneNumber;
         uint age;
         (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBabyByImagePath(IMAGE_PATH);
-        Assert.equal(imagePath, IMAGE_PATH, "imagePath!");
-        Assert.equal(etcSpfeatr, ETC_SPFEATR, "etcSpfeatr!");
-        Assert.equal(phoneNumber, PHONE_NUMBER, "phoneNumber!");
+        Assert.equal(babyContract.compareStrings(imagePath, IMAGE_PATH), true, "imagePath!");
+        Assert.equal(babyContract.compareStrings(etcSpfeatr, ETC_SPFEATR), true, "etcSpfeatr!");
+        Assert.equal(babyContract.compareStrings(phoneNumber, PHONE_NUMBER), true, "phoneNumber!");
         Assert.equal(age, AGE, "age!");
     }
 }
