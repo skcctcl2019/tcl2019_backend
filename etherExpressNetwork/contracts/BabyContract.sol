@@ -10,6 +10,9 @@ contract BabyContract {
         string etcSpfeatr;
         string phoneNumber;
         uint8 age;
+
+        // 특장점 추출 결과를 저장하기 위한 추가 변수 또는 저장소 추가 필요
+        // AI 호출 수행결과가 특장점 LIST(또는 Array) 로 저장되므로, 해당 저장값을 데이터로 관리해야 함
     }
 
     // Baby 등록 배열
