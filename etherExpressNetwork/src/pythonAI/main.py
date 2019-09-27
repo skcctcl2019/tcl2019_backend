@@ -17,7 +17,8 @@ if __name__ == "__main__":
     mtcnn = MTCNN()
 
     temp_vector, temp_img = get_vector(resnet, mtcnn, img_path)
-    print(temp_vector[0])
+    temp = temp_vector.to("cpu")
+    print(temp.tolist()[0])
 
 
 
