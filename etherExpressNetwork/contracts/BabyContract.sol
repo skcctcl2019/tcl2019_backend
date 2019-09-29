@@ -20,7 +20,7 @@ contract BabyContract {
 
     // babies Index 입력 -> Baby 등록 Address 출력
     mapping (uint => address) public babyToOwner;
-    
+
     // 이미지경로 입력 -> babies Index 출력
     mapping (string => uint) public imageToBaby;
 

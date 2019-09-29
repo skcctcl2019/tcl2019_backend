@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000 || process.env.PORT;
 const Web3 = require('web3');
-const truffle_connect = require('./src/etherApp.js');
+const truffle_connect = require('./src/etherApp.js'); // BabyContract.sol 호출을 위한 js import
 // 2019.09.22 BKMH 변경 - python 파일 호출을 위한 js import 추가
 const call_python = require('./src/callPython.js');
 
