@@ -2,7 +2,6 @@ const pythonShell = require('python-shell')
 const path = require('path')
 
 let options = {
-
     // 사진을 입력값으로 사용하기 위해서는 text mode 이외의 JSON 또는 Binary mode를 사용해야 함.
     // -> 사진파일을 직접 전달하는 방식에 대해 확인필요
     // 현재 연계방식이 정의되지는 않았으나, 이미지파일전달 -> 특장점(LIST)를 OUTPUT으로 전달하고
@@ -14,8 +13,8 @@ let options = {
     // pytorch 의 경우 Anaconda 에 종속(또는 conda를 통한 설치가 진행되어야 할 수 있으므로)
     // 일단은 pip기준으로 수행하도록 로직 설정 필요 -> 하여 주석 처리
     // 아니면 venv 기준으로 수행가능한지 확인 -> venv 사용 방법 확인
-    //pythonPath: 'C:\\Python37\\python',
-    pythonPath: path.join(__dirname, 'pythonAI', 'myvenv', 'Scripts', 'Python'),
+    pythonPath: 'C:\\Users\\DragonBong\\Anaconda3\\python',
+    // pythonPath: path.join(__dirname, 'pythonAI', 'myvenv', 'Scripts', 'Python'),
     // 실제 python을 command 상에서 호출할 때 입력되는 option 동일하게 입력
     pythonOptions: ['-u'], // get print results in real-time
     // scriptPath 는 실행되기 위한 Python파일이 존재하는 위치
@@ -30,10 +29,13 @@ module.exports = {
 
     console.log('run callPython')
 
-    //pythonShell.PythonShell.run('./test.py', options, function (err, results) {
-      pythonShell.PythonShell.run('./main.py', options, function (err, results) {
+    // pythonShell.PythonShell.run('./test.py', options, function (err, results) {
+    pythonShell.PythonShell.run('./main.py', options, function (err, results) {
 
-      if (err) return err;
+      if (err) {
+        console.log(err)
+        return err
+      }
 
       // results is an array consisting of messages collected during execution
       // %j : JSON %O : Object
@@ -58,8 +60,6 @@ module.exports = {
 
       // 실제로 입력받은 tensor를 object 그대로 저장하고, 이 값을 기준으로 유사도를 비교하는 방식으로
       // 진행해야 하는지 확인 필요함.
-
-
     });
   }
 }

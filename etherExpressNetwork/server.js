@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 const port = 3000 || process.env.PORT;
 const Web3 = require('web3');
-const truffle_connect = require('./src/etherApp.js'); // BabyContract.sol 호출을 위한 js import
+
+// BabyContract.sol 호출을 위한 js import
+const truffle_connect = require('./src/etherApp.js');
+
 // 2019.09.22 BKMH 변경 - python 파일 호출을 위한 js import 추가
 const call_python = require('./src/callPython.js');
 
@@ -50,19 +53,23 @@ app.use(bodyParser.json());
 
 app.use('/', express.static('public'));
 
-// root Route 
+// ROOT Page 호출
 app.get('/', (req, res) => {
-
-  // 2019.09.22 BKMH - python 호출 구조 테스트
-  // For Calling python in nodejs
-  // 현재는 테스트를 위해 해당 위치에 존재하며, 정상적인 테스트를 위해서는 html 상의 버튼이벤트를 통해
-  // 호출되어야 하므로 차후, 위치 변경 필요
-  call_python.callPython();
-
-  //res.sendFile('/index.html');
   res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
+// Python을 통한 이미지 특징점 가져오기
+app.get('/getFeature', (req, res) => {
+  // TO-DO
+  // Params : ImagePath
+  // returns : Double Array[512]
+  call_python.callPython();
+
+  res.redirect('/');
+});
+
+// etherApp.js:addBaby로 etherBlock 저장
+// upload.single로 이미지파일을 서버에 저장
 app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   // 이미지는 경로값만 블록에 쌓아서 upload.single('imagePath')은 필요없어 보입니다.
   // 블록 쌓기 전 따로 이미지 저장하는 함수를 만들어서 호출하는 방향이 나을거 같습니다.
@@ -92,6 +99,7 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   });
 });
 
+// etherApp.js:getBabiesCount 호출
 app.get('/getBabiesCount', (req, res) => {
   console.log("**** GET /getBabiesCount ****");
 
@@ -100,16 +108,18 @@ app.get('/getBabiesCount', (req, res) => {
   })
 });
 
+// etherApp.js:getBabyById 호출(전체 ID 수만큼 호출(etherApp.js:getBabiesCount))
 app.get('/getAllBabies', (req, res) => {
   console.log("**** GET /getAllBabies ****");
 
   var arr = [];
   truffle_connect.getBabiesCount(function (length) {
+    // etherApp.js:getBabiesCount만큼 반복해서 전체 Babies 내용 가져오기
     for(var i=0; i<length; i++) {
       truffle_connect.getBabyById(i, function (data) {
-        arr.push(data);
+        arr.push(data); // i번째 data 저장
 
-        if(arr.length==length) {
+        if(arr.length==length) { // 갯수가 채워지면 결과 반환
           res.send(arr);
         }
       })
@@ -117,6 +127,7 @@ app.get('/getAllBabies', (req, res) => {
   })
 });
 
+// etherApp.js:getBabyById 호출
 app.post('/getBabyById', (req, res) => {
   console.log("**** POST /getBabyById ****");
   console.log(req.body);
@@ -127,6 +138,7 @@ app.post('/getBabyById', (req, res) => {
   })
 });
 
+// etherApp.js:getBabyByImagePath 호출
 app.post('/getBabyByImagePath', (req, res) => {
   console.log("**** POST /getBabyByImagePath ****");
   console.log(req.body);
@@ -137,8 +149,9 @@ app.post('/getBabyByImagePath', (req, res) => {
   })
 });
 
+// node.js 서버 생성(PORT:3000)
 app.listen(port, () => {
-  // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+  // Ganache 서버 연결(PORT:7545)
   truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
   console.log("Express Listening at http://localhost:" + port);
