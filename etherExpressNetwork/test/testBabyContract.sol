@@ -8,7 +8,7 @@ contract TestBabyContract {
     BabyContract babyContract = BabyContract(DeployedAddresses.BabyContract());
     address expectedLoginPerson = address(this);
 
-    string IMAGE_PATH = "./image.jpg";
+    string FILENAME = "imageFileName";
     string ETC_SPFEATR = "특이사항";
     string PHONE_NUMBER = "010-1111-2222";
     uint AGE = 10;
@@ -16,7 +16,7 @@ contract TestBabyContract {
 
     // Baby 등록 Test
     function testAddBaby() public {
-        babyContract.addBaby(IMAGE_PATH, ETC_SPFEATR, PHONE_NUMBER, AGE);
+        babyContract.addBaby(FILENAME, ETC_SPFEATR, PHONE_NUMBER, AGE);
     }
 
     // babies length 출력 테스트
@@ -26,25 +26,25 @@ contract TestBabyContract {
 
     // babies Index 입력 ->  Baby 객체 내 전 항목 값 출력 테스트
     function testGetBabyById() public {
-        string memory imagePath;
+        string memory filename;
         string memory etcSpfeatr;
         string memory phoneNumber;
         uint age;
-        (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBabyById(0);
-        Assert.equal(babyContract.compareStrings(imagePath, IMAGE_PATH), true, "imagePath!");
+        (filename, etcSpfeatr, phoneNumber, age) = babyContract.getBabyById(0);
+        Assert.equal(babyContract.compareStrings(filename, FILENAME), true, "filename!");
         Assert.equal(babyContract.compareStrings(etcSpfeatr, ETC_SPFEATR), true, "etcSpfeatr!");
         Assert.equal(babyContract.compareStrings(phoneNumber, PHONE_NUMBER), true, "phoneNumber!");
         Assert.equal(age, AGE, "age!");
     }
 
     // 이미지경로 입력 ->  Baby 객체 내 전 항목 값 출력 테스트
-    function testGetBabyByImagePath() public {
-        string memory imagePath;
+    function testGetBabyByFilename() public {
+        string memory filename;
         string memory etcSpfeatr;
         string memory phoneNumber;
         uint age;
-        (imagePath, etcSpfeatr, phoneNumber, age) = babyContract.getBabyByImagePath(IMAGE_PATH);
-        Assert.equal(babyContract.compareStrings(imagePath, IMAGE_PATH), true, "imagePath!");
+        (filename, etcSpfeatr, phoneNumber, age) = babyContract.getBabyByFilename(FILENAME);
+        Assert.equal(babyContract.compareStrings(filename, FILENAME), true, "filename!");
         Assert.equal(babyContract.compareStrings(etcSpfeatr, ETC_SPFEATR), true, "etcSpfeatr!");
         Assert.equal(babyContract.compareStrings(phoneNumber, PHONE_NUMBER), true, "phoneNumber!");
         Assert.equal(age, AGE, "age!");

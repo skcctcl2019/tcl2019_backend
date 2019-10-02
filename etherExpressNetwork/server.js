@@ -55,26 +55,15 @@ app.use('/', express.static('public'));
 
 // ROOT Page 호출
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
-});
-
-// Python을 통한 이미지 특징점 가져오기
-app.get('/getFeature', (req, res) => {
-  // TO-DO
-  // Params : ImagePath
-  // returns : Double Array[512]
-  call_python.callPython();
-
-  res.redirect('/');
+  res.sendFile(path.join(__dirname, '/public/indexTest.html'));
+  // res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
 // etherApp.js:addBaby로 etherBlock 저장
 // upload.single로 이미지파일을 서버에 저장
-app.post('/addBaby', upload.single('imagePath'), (req, res) => {
-  // 이미지는 경로값만 블록에 쌓아서 upload.single('imagePath')은 필요없어 보입니다.
-  // 블록 쌓기 전 따로 이미지 저장하는 함수를 만들어서 호출하는 방향이 나을거 같습니다.
+app.post('/addBaby', upload.single('filename'), (req, res) => {
   // BKMH - post 방식을 통해 호출할 때 multer middleware를 통해 자동으로 파일이 저장되는 구조로
-  // 변경했습니다 - 기존 upload.single('imagePath') 가 파일 저장을 자동으로 처리합니다.
+  // 변경했습니다 - 기존 upload.single('filename') 가 파일 저장을 자동으로 처리합니다.
 
   console.log("**** POST /addBaby ****");
   console.log(req.body);
@@ -82,22 +71,35 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
 
   // multer를 이용하여 파일 처리를 수행하면 file의 경로를 기준으로 처리할 것.
   // 처리 시 만약 오류가 발생하는 경우, 파일 핸들링에 대해서도 롤백처리하는 로직 필요함.
-  let imagePath = req.body.imagePath;
-
-  if (imagePath == null) {
-    imagePath = req.file.path;
+  if(req.file == null) {
+    return;
   }
 
+  // Python을 통한 이미지 특징점 가져오기
+  // call_python.callPython();
+
+  // addBaby 호출
+  let filename = req.file.filename.split('.')[0];
   let etcSpfeatr = req.body.etcSpfeatr;
   let phoneNumber = req.body.phoneNumber;
   let age = req.body.age;
 
-  truffle_connect.addBaby(imagePath, etcSpfeatr, phoneNumber, age, function(result) {
+  console.log(filename);
+  console.log(etcSpfeatr);
+  console.log(phoneNumber);
+  console.log(age);
+
+  // addBaby(filename, etcSpfeatr, phoneNumber, age);
+});
+
+function addBaby(filename, etcSpfeatr, phoneNumber, age) {
+  truffle_connect.addBaby(filename, etcSpfeatr, phoneNumber, age, function(result) {
     console.log("======= truffle.addBaby complete ======");
     console.log(result);
-    res.redirect('/');
+    
+    res.send('<script type="text/javascript">alert("등록되었습니다.");</script>');
   });
-});
+}
 
 // etherApp.js:getBabiesCount 호출
 app.get('/getBabiesCount', (req, res) => {
@@ -138,13 +140,13 @@ app.post('/getBabyById', (req, res) => {
   })
 });
 
-// etherApp.js:getBabyByImagePath 호출
-app.post('/getBabyByImagePath', (req, res) => {
-  console.log("**** POST /getBabyByImagePath ****");
+// etherApp.js:getBabyByFilename 호출
+app.post('/getBabyByFilename', (req, res) => {
+  console.log("**** POST /getBabyByFilename ****");
   console.log(req.body);
-  let imagePath = req.body.imagePath;
+  let filename = req.body.filename;
 
-  truffle_connect.getBabyByImagePath(imagePath, function (data) {
+  truffle_connect.getBabyByFilename(filename, function (data) {
     res.send(data);
   })
 });
