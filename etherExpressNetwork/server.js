@@ -39,7 +39,8 @@ var _storage = multer.diskStorage({
 
   // 사용자 전송한 파일의 파일명
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    // cb(null, file.originalname);
+    cb(null, new Date().valueOf() + '_' + file.originalname); // 타임스탬프_원본파일명
   }
 });
 
@@ -76,20 +77,23 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
   }
 
   // Python을 통한 이미지 특징점 가져오기
-  // call_python.callPython();
+  // call_python.callTest([req.file.path], function(result) {
+  call_python.callPython([req.file.path], function(result) {
+    console.log(result[0]);
 
-  // addBaby 호출
-  let filename = req.file.filename.split('.')[0];
-  let etcSpfeatr = req.body.etcSpfeatr;
-  let phoneNumber = req.body.phoneNumber;
-  let age = req.body.age;
+    // addBaby 호출
+    let filename = req.file.filename.split('.')[0];
+    let etcSpfeatr = req.body.etcSpfeatr;
+    let phoneNumber = req.body.phoneNumber;
+    let age = req.body.age;
 
-  console.log(filename);
-  console.log(etcSpfeatr);
-  console.log(phoneNumber);
-  console.log(age);
+    console.log(filename);
+    console.log(etcSpfeatr);
+    console.log(phoneNumber);
+    console.log(age);
 
-  // addBaby(filename, etcSpfeatr, phoneNumber, age);
+    // addBaby(filename, etcSpfeatr, phoneNumber, age);
+  });
 });
 
 function addBaby(filename, etcSpfeatr, phoneNumber, age) {
