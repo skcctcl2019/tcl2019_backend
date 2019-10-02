@@ -41,7 +41,7 @@ module.exports = {
       args: _args
     }
 
-    pythonShell.PythonShell.run('./main.py', options, function (err, results) {
+    pythonShell.PythonShell.run('./main.py', option, function (err, results) {
       if (err) {
         console.log(err)
         return err

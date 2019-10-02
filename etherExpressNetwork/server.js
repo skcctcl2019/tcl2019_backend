@@ -34,7 +34,9 @@ const fs = require('fs');
 var _storage = multer.diskStorage({
   // 사용자가 전송한 파일의 저장위치
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '/uploads/'));
+    let dir = path.join(__dirname, '/uploads/');
+    !fs.existsSync(dir) && fs.mkdirSync(dir); // 폴더가 없을 경우 생성
+    cb(null, dir);
   },
 
   // 사용자 전송한 파일의 파일명
@@ -79,9 +81,8 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
   // Python을 통한 이미지 특징점 가져오기
   // call_python.callTest([req.file.path], function(result) {
   call_python.callPython([req.file.path], function(result) {
-    console.log(result[0]);
-
-    // addBaby 호출
+    let data = result[0];
+    let featuresDir = path.join(__dirname, '/features/');
     let filename = req.file.filename.split('.')[0];
     let etcSpfeatr = req.body.etcSpfeatr;
     let phoneNumber = req.body.phoneNumber;
@@ -92,16 +93,23 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
     console.log(phoneNumber);
     console.log(age);
 
-    // addBaby(filename, etcSpfeatr, phoneNumber, age);
+    !fs.existsSync(featuresDir) && fs.mkdirSync(featuresDir); // 폴더가 없을 경우 생성
+    // fs.writeFile(featuresDir+filename, data, 'utf8', function(err) { // Async
+    //   console.log('Write File Completed');
+    // });
+    fs.writeFileSync(featuresDir+filename, data, 'utf8'); // Sync
+
+    // addBaby 호출
+    addBaby(res, filename, etcSpfeatr, phoneNumber, age);
   });
 });
 
-function addBaby(filename, etcSpfeatr, phoneNumber, age) {
+function addBaby(res, filename, etcSpfeatr, phoneNumber, age) {
   truffle_connect.addBaby(filename, etcSpfeatr, phoneNumber, age, function(result) {
     console.log("======= truffle.addBaby complete ======");
     console.log(result);
     
-    res.send('<script type="text/javascript">alert("등록되었습니다.");</script>');
+    res.status(200).send('<script type="text/javascript">alert("등록되었습니다.");location.href="/";</script>');
   });
 }
 
