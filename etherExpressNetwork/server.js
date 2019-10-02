@@ -11,9 +11,10 @@ const call_python = require('./src/callPython.js');
 
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const cors = require('cors');
+//const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const crpyto = require('crypto');
 
 
 // For ENOENT Error Debugging
@@ -40,9 +41,31 @@ var _storage = multer.diskStorage({
   },
 
   // 사용자 전송한 파일의 파일명
+  // filename 속성을 입력하지 않으면, multer에서 자동으로 파일명을 중복되지 않도록 생성해주나,
+  // 파일의 확장자가 없어지므로, 확장자를 함께 입력하면서, 중복되지 않은 파일명을 생성하도록 입력
   filename: function (req, file, cb) {
+
+    // crypto 함수를 통해 18byte의 random 문자열 생성
+    let customFileName = crpyto.randomBytes(18).toString('hex');
+    
+    console.log(file.mimetype);
+
+    if (file.mimetype.split('/')[0] != 'image') {
+      throw new Error('This file is not Image');
+    }
+    
+    let extension = file.mimetype.split('/')[1];
+
+    // mimetype 이 image/jpeg인 경우에도 .jpg 파일로 생성
+    if (extension == 'jpeg') {
+      extension = 'jpg';
+    }
+
+    cb(null, customFileName + "." + extension);
+
+
     // cb(null, file.originalname);
-    cb(null, new Date().valueOf() + '_' + file.originalname); // 타임스탬프_원본파일명
+    //cb(null, new Date().valueOf() + '_' + file.originalname); // 타임스탬프_원본파일명
   }
 });
 
@@ -81,6 +104,7 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
   // Python을 통한 이미지 특징점 가져오기
   // call_python.callTest([req.file.path], function(result) {
   call_python.callPython([req.file.path], function(result) {
+
     let data = result[0];
     let featuresDir = path.join(__dirname, '/features/');
     let filename = req.file.filename.split('.')[0];
@@ -97,7 +121,7 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
     // fs.writeFile(featuresDir+filename, data, 'utf8', function(err) { // Async
     //   console.log('Write File Completed');
     // });
-    fs.writeFileSync(featuresDir+filename, data, 'utf8'); // Sync
+    fs.writeFileSync(featuresDir + filename + '.dat', data, 'utf8'); // Sync
 
     // addBaby 호출
     addBaby(res, filename, etcSpfeatr, phoneNumber, age);

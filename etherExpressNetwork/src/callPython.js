@@ -2,9 +2,10 @@ const pythonShell = require('python-shell')
 const path = require('path')
 
 const MODE = 'text';
-const PYTHON_PATH = 'C:\\Users\\DragonBong\\Anaconda3\\python';
-const PYTOHN_OPTION = ['-u'];
-const SCRIPT_PATH = path.join(__dirname, 'pythonAI');
+//const PYTHON_PATH = 'C:\\Users\\DragonBong\\Anaconda3\\python';
+const PYTHON_PATH   = path.join(__dirname, 'pythonAI', 'myvenv', 'Scripts', 'Python');
+const PYTHON_OPTION = ['-u'];
+const SCRIPT_PATH    = path.join(__dirname, 'pythonAI');
 
 let options = {
     // 사진을 입력값으로 사용하기 위해서는 text mode 이외의 JSON 또는 Binary mode를 사용해야 함.
@@ -21,7 +22,7 @@ let options = {
     pythonPath: PYTHON_PATH,
     // pythonPath: path.join(__dirname, 'pythonAI', 'myvenv', 'Scripts', 'Python'),
     // 실제 python을 command 상에서 호출할 때 입력되는 option 동일하게 입력
-    pythonOptions: PYTOHN_OPTION, // get print results in real-time
+    pythonOptions: PYTHON_OPTION, // get print results in real-time
     // scriptPath 는 실행되기 위한 Python파일이 존재하는 위치
     // 현재는 /src/pythonAI로 폴더 지정
     scriptPath: SCRIPT_PATH,
@@ -30,15 +31,15 @@ let options = {
 }
 
 module.exports = {
-  callPython : function(_args, cb) {  // params : Arguments, Callback Function
+  callPython : function(_imagePath, cb) {  // params : Arguments, Callback Function
     console.log('run callPython')
 
     let option = {
       mode: MODE,
       pythonPath: PYTHON_PATH,
-      pythonOptions: PYTOHN_OPTION,
+      pythonOptions: PYTHON_OPTION,
       scriptPath: SCRIPT_PATH,
-      args: _args
+      args: _imagePath
     }
 
     pythonShell.PythonShell.run('./main.py', option, function (err, results) {
@@ -97,4 +98,5 @@ module.exports = {
       cb(results);
     });
   }
+
 }
