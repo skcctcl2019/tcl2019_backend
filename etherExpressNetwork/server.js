@@ -143,7 +143,7 @@ app.get('/getBabiesCount', (req, res) => {
 
   truffle_connect.getBabiesCount(function (length) {
     res.send(length);
-  })
+  });
 });
 
 // etherApp.js:getBabyById 호출(전체 ID 수만큼 호출(etherApp.js:getBabiesCount))
@@ -160,9 +160,9 @@ app.get('/getAllBabies', (req, res) => {
         if(arr.length==length) { // 갯수가 채워지면 결과 반환
           res.send(arr);
         }
-      })
+      });
     }
-  })
+  });
 });
 
 // etherApp.js:getBabyById 호출
@@ -173,7 +173,7 @@ app.post('/getBabyById', (req, res) => {
 
   truffle_connect.getBabyById(id, function (data) {
     res.send(data);
-  })
+  });
 });
 
 // etherApp.js:getBabyByFilename 호출
@@ -184,8 +184,102 @@ app.post('/getBabyByFilename', (req, res) => {
 
   truffle_connect.getBabyByFilename(filename, function (data) {
     res.send(data);
-  })
+  });
 });
+
+app.post('/getSimilarity', upload.single('filename'), (req, res) => {
+  console.log("**** POST /getSimilarity ****");
+  console.log(req.body);
+  console.log(req.file);
+
+  // multer를 이용하여 파일 처리를 수행하면 file의 경로를 기준으로 처리할 것.
+  // 처리 시 만약 오류가 발생하는 경우, 파일 핸들링에 대해서도 롤백처리하는 로직 필요함.
+  if(req.file == null) {
+    return;
+  }
+
+  // Python을 통한 이미지 특징점 가져오기
+  call_python.callPython([req.file.path], function(result) {
+
+    let data = result[0];
+    let featuresDir = path.join(__dirname, '/features/');
+    let filename = req.file.filename.split('.')[0];
+
+    !fs.existsSync(featuresDir) && fs.mkdirSync(featuresDir); // 폴더가 없을 경우 생성
+    // fs.writeFile(featuresDir+filename, data, 'utf8', function(err) { // Async
+    //   console.log('Write File Completed');
+    // });
+    fs.writeFileSync(featuresDir + filename + '.dat', data, 'utf8'); // Sync
+
+    let resultArray = [];
+    var array1;
+    var array2;
+
+    // 입력된 image 특징점 배열화
+    var featureData1 = data.replace(/\s/gi, "");
+    if('[' == featureData1.charAt(0)) {
+      featureData1 = featureData1.substring(1);
+    }
+    if(']' == featureData1.charAt(featureData1.length-1)) {
+      featureData1 = featureData1.slice(0,-1);
+    }
+    array1 = featureData1.split(',');
+
+    truffle_connect.getBabiesCount(function (length) {
+      // etherApp.js:getBabiesCount만큼 반복해서 전체 Babies 내용 가져오기
+      for(var i=0; i<length; i++) {
+        truffle_connect.getBabyById(i, function (data) {
+
+          // 저장된 image 특징점 배열화
+          var featureData2 = fs.readFileSync(featuresDir + data.filename + ".dat", 'utf8');
+          featureData2 = featureData2.replace(/\s/gi, "");
+          if('[' == featureData2.charAt(0)) {
+            featureData2 = featureData2.substring(1);
+          }
+          if(']' == featureData2.charAt(featureData2.length-1)) {
+            featureData2 = featureData2.slice(0,-1);
+          }
+          array2 = featureData2.split(',');
+
+          var p = cosinesim(array1,array2); // 특징점 비교
+          console.log(i + '\'s p:' + p);
+
+          resultArray.push([data.filename,p]); // i번째 data 저장
+  
+          if(resultArray.length==length) { // 갯수가 채워지면 결과 반환
+            // TO-DO 결과 출력용 페이지가 필요
+            var val = '';
+            for(var j=0; j<resultArray.length; j++) {
+              val += resultArray[j][0] + " : [ " + resultArray[j][1] + ' ]\\n';
+            }
+            
+            res.status(200).send(
+              '<script type="text/javascript">'
+              +'alert(\''+val+'\');'
+              +'location.href="/";'
+              +'</script>'
+            );
+          }
+        });
+      }
+    });
+  });
+});
+
+function cosinesim(A,B){
+  var dotproduct=0;
+  var mA=0;
+  var mB=0;
+  for(i = 0; i < A.length; i++){ // here you missed the i++
+      dotproduct += (A[i] * B[i]);
+      mA += (A[i]*A[i]);
+      mB += (B[i]*B[i]);
+  }
+  mA = Math.sqrt(mA);
+  mB = Math.sqrt(mB);
+  var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
+  return similarity;
+}
 
 // node.js 서버 생성(PORT:3000)
 app.listen(port, () => {

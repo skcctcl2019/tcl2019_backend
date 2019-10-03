@@ -2,7 +2,7 @@ const pythonShell = require('python-shell')
 const path = require('path')
 
 const MODE = 'text';
-//const PYTHON_PATH = 'C:\\Users\\DragonBong\\Anaconda3\\python';
+// const PYTHON_PATH = 'C:\\Users\\DragonBong\\Anaconda3\\python';
 const PYTHON_PATH   = path.join(__dirname, 'pythonAI', 'myvenv', 'Scripts', 'Python');
 const PYTHON_OPTION = ['-u'];
 const SCRIPT_PATH    = path.join(__dirname, 'pythonAI');
@@ -82,7 +82,7 @@ module.exports = {
     let option = {
       mode: MODE,
       pythonPath: PYTHON_PATH,
-      pythonOptions: PYTOHN_OPTION,
+      pythonOptions: PYTHON_OPTION,
       scriptPath: SCRIPT_PATH,
       args: _args
     }
