@@ -281,6 +281,12 @@ function cosinesim(A,B){
   return similarity;
 }
 
+// Market 연계 Sample 처리를 위한 router 분리
+app.post('/purchaseMerchandise', (req, res) => {
+  console.log("**** POST /purchaseMerchandise ****");
+  console.log(req.body);
+});
+
 // node.js 서버 생성(PORT:3000)
 app.listen(port, () => {
   // Ganache 서버 연결(PORT:7545)

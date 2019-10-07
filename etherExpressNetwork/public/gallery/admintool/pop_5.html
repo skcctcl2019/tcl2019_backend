@@ -20,8 +20,9 @@
 <script>
 $(function() {
 		$("#btn_prchs").on("click", function(e) {
-		  alert("구매가 완료되었습니다!");
 
+      $.POST('/purchaseMerchandise');
+		  
 		});
 	});
 </script>
@@ -92,7 +93,7 @@ $(function() {
 	  
   <div class="panel">
     <div class="body">
-      <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">마켓ㅋ</h2>
+      <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">BabyCoin Market</h2>
     </div>
   </div>
 
@@ -106,7 +107,6 @@ $(function() {
       
     </div>
     <button class="btn focus" id="btn_prchs">구매</button>
-  
   
   </section>
     
