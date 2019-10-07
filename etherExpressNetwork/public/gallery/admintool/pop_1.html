@@ -16,77 +16,12 @@
 <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
 <link href="../../gallery/admintool/index.css" rel="stylesheet" type="text/css" />
 <link id="index_theme" href="../../gallery/admintool/index-jennifer.css" rel="stylesheet" type="text/css" />
-
-
-
-
-<script>
-	var _ = jui.include("util.base");
-
-	$(function() {
-		$("#reg_button").on("click", function(e) {
-		  //alert("버튼 클릭시 타기는 탄다?");
-      console.log('==== reg_button on Click =====');
-		});
-	});
-
-	function move(index){
-		alert(index);
-	}
-		
-		/*
-			var $box = $(this),
-				$boxPop = $("#popupcontent"),
-				index = $box.data("index");
-
-			if($(e.target).hasClass("btn")) {
-				$boxPop.css({
-					width: $box.width(),
-					height: $box.height(),
-					left: $box.offset().left,
-					top: $box.offset().top
-				}).addClass("transition");
-
-				var $iframe = $boxPop.find("iframe"),
-					//url = "../gallery/admintool/pop_" + (index + 1) + ".html",
-					url = "../gallery/admintool/edit_sample.html",
-		
-					isLoading = true;
-
-				$iframe.attr("src", url);
-				$iframe.on("load", function(e) {
-					if(!isLoading) return;
-
-					$boxPop.fadeIn(1000);
-					$iframe.css("border-radius", "5px");
-
-					setTimeout(function() {
-						$boxPop.css({
-							width: "100%",
-							height: "100%",
-							left: "0px",
-							top: "0px"
-						});
-
-						setTimeout(function() {
-							$boxPop.removeClass("transition");
-							$iframe.css("border-radius", "0px");
-							isLoading = false;
-
-							if(_.browser.mozilla) {
-								$iframe.attr("src", url);
-							}
-						}, 1000);
-					}, 1000);
-				});
-			}
-		});
-		
-		*/
-
-</script>
-
-
+<style>
+  h3 {
+    text-align:left;
+    margin-left:20px;
+  }
+</style>
 </head>
 <body class="jui">
 
@@ -102,35 +37,22 @@
         <option value="dark">Dark</option>
       </select>
     </span>
-    <span style="float:right" onclick="test()">
+    <span style="float:right" onclick="closePop()">
       Close <i class="icon-check"></i>
     </span>
   </div>
 </div>
-<script>
-function test()
-{
-	parent.$('#popupcontent').hide();
-}
-</script>
-<script>
-window.onload = function() {
-  window.parent.postMessage({ hello: 'parent' }, '*');
-};
-window.addEventListener('message', function(e) {
-  console.log(e.data); // zerocho
-});
-</script>
 <div class="container">
   <div class="menu">
     <div class="vmenu ">
-      <a href="./pop_1.html"  class="active"><i class="icon-monitoring"></i> Dashboard</a>
-      <a href="./pop_2.html" ><i class="icon-realtime"></i> Realtime</a>
-      <a href="./pop_3.html" ><i class="icon-profile"></i> Analysis</a>
-      <a><i class="icon-chart"></i> Statistics</a>
-      <a><i class="icon-document"></i> Document</a>
-      <a><i class="icon-gear"></i> Management</a>
-      <a><i class="icon-user"></i> User</a>
+      <a href="./pop_1.html"  class="active"><i class="icon-more"></i>정보 사전<br>등록</a>
+      <a href="./pop_2.html" ><i class="icon-bell"></i> 긴급 실종<br>신고</a>
+      <a href="./pop_3.html" ><i class="icon-profile"></i>경찰청 DB<br>조회</a>
+      <a><i class="icon-search"></i> 보호 아동<br>조회</a>
+      <a><i class="icon-unhappy"></i>실종 아동<br>조회</a>
+      <a><i class="icon-add-dir"></i>등록</a>
+      <a><i class="icon-user"></i> My Page</a>
+      <a><i class="icon-gear"></i> Admin </a>
     </div>
   </div>
   <div class="content">
@@ -144,13 +66,13 @@ window.addEventListener('message', function(e) {
         </div>
         <div class="col col-3">
           <div class="card">
-            <div class="title">Time of operation of call</div>
+            <div class="title">Total children under protection registration</div>
             <div class="value">2,364,806</div>
           </div>
         </div>
         <div class="col col-3">
           <div class="card">
-            <div class="title">Time of operation Number of EVENT</div>
+            <div class="title">Total missing registration</div>
             <div class="value">15,610</div>
           </div>
         </div>
@@ -174,31 +96,30 @@ window.addEventListener('message', function(e) {
       <form name="addBabyForm" method="post" action="/addBaby" ; target="bIfrm" enctype="multipart/form-data">
         <TABLE class="table_search2 margin_t8 float_l" style="WIDTH: 613px" summary="사전등록 정보" sizcache="5" sizset="98">
           <COLGROUP>
-            <COL width="14%">
+            <COL width="10%">
             <COL width="36%">
             <COL width="14%">
             <COL width="36%">
           </COLGROUP>
           <TBODY sizcache="5" sizset="98">
-          <tr>
-            <td><button onclick="testButton()">TEST BUTTON</button></td>
-          </tr>
-          <Script>
-          function testButton(){
-            alert('hidden');
-          }
-          </SCript>
           <TR>
-            <TH><h3>이미지 선택</h3></TH>
+            <TH>
+              <h3>이름</h3>
+            </TH>
+            <TD>
+              <INPUT id="mName" name="mName" title="이름 입력" class="inputBox middle" style="WIDTH: 100px" name="pnmbr"> 
+            </TD>
+          </TR>
+          <TR>
+            <TH ><h3>이미지 선택</h3></TH>
             <TD class=ls1 colSpan=3>
-                <input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px" /><br><br>
-                <img src="@sample.gif" width="230px" id="img" name="img" />
-            </td>
-          
+                <br><input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px" /><br><br>
+                <img src="@sample.gif" width="200px" id="img" name="img" />
+            </td>          
           </TR>
           <TR>
             <TH><h3>나이</h3></TH>
-            <TD><INPUT id="age" name="age" title="나이 입력" value="10" class="inputBox middle" style="WIDTH: 50px" name="age"> 세</TD>
+            <TD><INPUT id="age" name="age" title="나이 입력" value="10" class="inputBox middle" style="WIDTH: 100px" name="age"> 세</TD>
           </TR>
           <TR>
             <TH><h3>연락처</h3></TH>
@@ -208,24 +129,33 @@ window.addEventListener('message', function(e) {
             <TH><h3>특이사항</h3></TH>
             <TD><textarea class="input" id="etcSpfeatr" name="etcSpfeatr" placeholder="남들과 구분되는 신체적 특징이나 버릇 등 특이사항은 반드시 입력해주세요." style="height: 100px; width:400px; font-size:12px; font-family: malgun gothic"></textarea></TD>
           </TR>
-          
-        
+          <TR>
+            <TD></TD>
+            <TD align="right"><Br><button class="btn large focus" id="reg_button" type='sumbit' style="margin-right:50px"> 등록</button></TD>
+          </TR>        
         </TBODY>
         </TABLE>
-        
-        <br><br>
-        <button class="btn large focus" id="reg_button" type='sumbit'> 등록</button>
 		  </form>
-
-      </div>
       </div>
     </div>
-
-
-
+  </div>
 </div>
 <iframe width="0%" height="0%" name="bIfrm" id="bIfrm" src="" hidden="true"></iframe>
 <script>
+  //등록 함수
+  $(function() {
+    $("#reg_button").on("click", function(e) {
+      alert("등록.");
+      console.log('==== reg_button on Click =====');
+    });
+  });
+  
+  //창 닫기 (메인화면으로)
+  function closePop()  {
+    parent.$('#popupcontent').hide();
+  }
+
+  //상단 테마 바꾸기
   function changeTheme(theme) {
     $("#ui_theme").attr("href", "../../lib/jui/css/ui-" + theme + ".min.css");
     $("#grid_theme").attr("href", "../../lib/jui/css/grid-" + theme + ".min.css");
@@ -241,89 +171,88 @@ window.addEventListener('message', function(e) {
     }
   }
 
-    $(document).ready(function () {
+  //이미지 미리보기 set
+  $(document).ready(function () {
+      var opt = {
+          img: $('#img')
+      };
+      $('#imagePath').setPreview(opt, 0);
+  });
 
-        var opt = {
-            img: $('#img')
-        };
+  //이미지 미리보기 set
+  $.fn.setPreview = function (opt, index) {
+      var defaultOpt = {
+          inputFile: $(this),
+          img: null
+      };
 
-        $('#imagePath').setPreview(opt, 0);
-        //$('#ATT2').setPreview(opt, 1);
-        //$('#ATT3').setPreview(opt, 2);
-    });
+      $.extend(defaultOpt, opt);
 
-    $.fn.setPreview = function (opt, index) {
-        var defaultOpt = {
-            inputFile: $(this),
-            img: null
-        };
+      var previewImage = function () {
+          if (!defaultOpt.inputFile || !defaultOpt.img) return;
+          var inputFile = defaultOpt.inputFile.get(0);
+          var img = defaultOpt.img.get(0);
 
-        $.extend(defaultOpt, opt);
+          // FileReader
+          if (window.FileReader) {
+              // image 
+              if (!inputFile.files[0].type.match(/image\//)) return;
 
-        var previewImage = function () {
-            if (!defaultOpt.inputFile || !defaultOpt.img) return;
-            var inputFile = defaultOpt.inputFile.get(0);
-            var img = defaultOpt.img.get(0);
+              // preview
+              try {
+                  var reader = new FileReader();
+                  reader.onload = function (e) {
+                      img.src = e.target.result;
+                      img.style.width = defaultOpt.w + 'px';
+                      img.style.height = defaultOpt.h + 'px';
+                      img.style.display = '';
+                  }
+                  reader.readAsDataURL(inputFile.files[0]);
+              } catch (e) {
+                  // exception...
+              }
+              // img.filters (MSIE)
+          } else if (img.filters) {
+              inputFile.select();
+              inputFile.blur();
+              var imgSrc = document.selection.createRange().text;
+              img.src = imgSrc;
+              img.style.display = '';
+              // no support
+          } else {
+              // Safari5, ...
+          }
+      };
 
-            // FileReader
-            if (window.FileReader) {
-                // image 
-                if (!inputFile.files[0].type.match(/image\//)) return;
+      // onchange
+      $(this).change(function () {
+          previewImage();
+          fileSizeCheck(this, index);
+      });
+  };
 
-                // preview
-                try {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        img.src = e.target.result;
-                        img.style.width = defaultOpt.w + 'px';
-                        img.style.height = defaultOpt.h + 'px';
-                        img.style.display = '';
-                    }
-                    reader.readAsDataURL(inputFile.files[0]);
-                } catch (e) {
-                    // exception...
-                }
-                // img.filters (MSIE)
-            } else if (img.filters) {
-                inputFile.select();
-                inputFile.blur();
-                var imgSrc = document.selection.createRange().text;
-                img.src = imgSrc;
-                img.style.display = '';
-                // no support
-            } else {
-                // Safari5, ...
-            }
-        };
+  //첨부파일 확장자 및 용량 체크
+  function fileSizeCheck(obj, index) {
+      var path = obj.value;
+      var maxSize = 10 * 1024 * 1024;	
+      var path = path.toLowerCase();
 
-        // onchange
-        $(this).change(function () {
-            previewImage();
-            fileSizeCheck(this, index);
-        });
-    };
+      if (!(/(\.jpg|\.jpeg|\.gif|\.png|\.bmp|\.png)$/i.test(path))) {
+          alert("지원하지 않는 확장자 입니다.");
+          return false;
+      }
 
-    function fileSizeCheck(obj, index) {
-        var path = obj.value;
-        var maxSize = 10 * 1024 * 1024;	
-        var path = path.toLowerCase();
+      var img = new Image();
+      var filesize = img.fileSize;
+      if (maxSize < filesize) {
+          alert("첨부파일의 사이즈가 너무 큽니다.");
+          return false;
+      }
 
-        if (!(/(\.jpg|\.jpeg|\.gif|\.png|\.bmp|\.png)$/i.test(path))) {
-            alert("지원하지 않는 확장자 입니다.");
-            return false;
-        }
-
-        var img = new Image();
-        var filesize = img.fileSize;
-        if (maxSize < filesize) {
-            alert("첨부파일의 사이즈가 너무 큽니다.");
-            return false;
-        }
-
-        // fileSIzeCheck 수행 후 바로 submit이 수행되므로
-        // 내용 확인하여 정리
-        //document.apndFileForm[index].submit();
-    }
+      // fileSIzeCheck 수행 후 바로 submit이 수행되므로
+      // 내용 확인하여 정리 (서버에 파일 정리하는 로직이 뒤에 돌아가야함.))
+      //document.apndFileForm[index].submit();
+  }
 
 </script>
 </body>
