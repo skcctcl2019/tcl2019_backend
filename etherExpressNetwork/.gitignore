@@ -2,6 +2,7 @@
 build/
 node_modules/
 uploads/
+features/
 .pyc
 __pycache__
 src/pythonAI/myvenv/

@@ -9,7 +9,7 @@ var babyChain = contract(babyChain_artifact);
 
 module.exports = {
   // Baby 등록 호출
-  addBaby : function(imagePath, etcSpfeatr, phoneNumber, age, callback) {
+  addBaby : function(filename, etcSpfeatr, phoneNumber, age, callback) {
     console.log("**** etherApp.addBaby start ****");
 
     var self = this;
@@ -27,7 +27,7 @@ module.exports = {
         babyInstance = instance;
         
         // BabyContract.sol:addBaby 호출
-        return babyInstance.addBaby(imagePath, etcSpfeatr, phoneNumber, age, {from: account});
+        return babyInstance.addBaby(filename, etcSpfeatr, phoneNumber, age, {from: account});
       }).then(function(result) {
         console.log("RESULT:"+result);
         console.log("**** etherApp.addBaby end ****");
@@ -90,9 +90,9 @@ module.exports = {
     });
   },
 
-  // 이미지경로 입력 ->  Baby 객체 내 전 항목 값 출력
-  getBabyByImagePath : function(imagePath, callback) {
-    console.log("**** etherApp.getBabyByImagePath start ****");
+  // 파일명 입력 ->  Baby 객체 내 전 항목 값 출력
+  getBabyByFilename : function(filename, callback) {
+    console.log("**** etherApp.getBabyByFilename start ****");
 
     var self = this;
     babyChain.setProvider(self.web3.currentProvider);
@@ -101,11 +101,11 @@ module.exports = {
     babyChain.deployed().then(function(instance) {
         babyInstance = instance;
 
-        // BabyContract.sol:getBabyByImagePath 호출
-        return babyInstance.getBabyByImagePath(imagePath);
+        // BabyContract.sol:getBabyByFilename 호출
+        return babyInstance.getBabyByFilename(filename);
     }).then(function(data) {
       console.log("DATA:"+JSON.stringify(data));
-      console.log("**** etherApp.getBabyByImagePath end ****");
+      console.log("**** etherApp.getBabyByFilename end ****");
 
       var result = module.exports.makeObject(data);
 
@@ -119,7 +119,7 @@ module.exports = {
   // Baby 구조체 내용 출력
   makeObject : function(data) {
     var result = {
-      'imagePath' : data.imagePath,
+      'filename' : data.filename,
       'etcSpfeatr' : data.etcSpfeatr,
       'phoneNumber' : data.phoneNumber,
       'age' : data.age.toNumber()

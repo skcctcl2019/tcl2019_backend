@@ -1,103 +1,96 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>BabyChain front-end</title>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type="text/javascript">
-            //<![CDATA[
-$(document).ready(function () {
+    <title>BabyChain Front-end Test Page</title>
 
-    $('#getBabiesCount').click(function () {
-        $.get('/getBabiesCount', function (response) {
-            console.log(response);
-        });
-    });
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function () {
 
-    /* BKMH - 기존 jquery 방식의 EventHandler 구조를 정확히 몰라 일단 form에서 button을 submit으로 변경하는 방식으로 처리
-    $('#addBaby').click(function () {
+            // 1.
+            $('#getBabiesCount').click(function () {
+                $.get('/getBabiesCount', function (response) {
+                    console.log(response);
+                });
+            });
 
-        
+            // 2.
+            $('#getBabyById').click(function () {
+                var id = $('#id').val();
+                $.post('/getBabyById', {
+                    "id": id
+                }, function (response) {
+                    console.log(response);
+                });
+            });
 
+            // 3.
+            $('#getBabyByFilename').click(function () {
+                var filename = $('#filename2').val();
+                $.post('/getBabyByFilename', {
+                    "filename": filename
+                }, function (response) {
+                    console.log(response);
+                });
+            });
 
-        // 실제로 전달되는 값에서 file 을 multer로 처리하기 위한 방식 확인 필요
-        // jquey - multer or form 처리방식 확인
-        //console.log(req.body.imagePath);
+            // 4.
+            $('#getAllBabies').click(function () {
+                $.get('/getAllBabies', function (response) {
+                    console.log(response);
+                });
+            });
+        })
+        //]]>
+    </script>
+</head>
 
-        var imagePath = $('#imagePath').val();
-        var etcSpfeatr = $('#etcSpfeatr').val();
-        var phoneNumber = $('#phoneNumber').val();
-        var age = $('#age').val();
+<body>
+    1. <button type="button" id="getBabiesCount">getBabiesCount</button>
+    <hr />
 
-        // addBaby 호출을 위한 Form submit 처리
-        // route를 통해 addBaby Post를 호출해야 함.
-        $('addBabyForm').submit();
+    <form id="addBabyForm" action="/addBaby" method="post" enctype="multipart/form-data">
+        <p>
+            filename : <input type="file" name="filename" id="filename" accept="image/jpeg, image/png" />
+        </p>
+        <p>
+            etcSpfeatr : <input type="text" name="etcSpfeatr" id="etcSpfeatr" value="특이사항" />
+        </p>
+        <p>
+            phoneNumber : <input type="text" name="phoneNumber" id="phoneNumber" value="010-1111-2222" />
+        </p>
+        <p>
+            age : <input type="text" name="age" id="age" value="10" />
+        </p>
+        <button type="submit" id="addBaby">addBaby</button>
+    </form>
+    <hr />
 
-        
-        $.post('/addBaby', {"imagePath" : imagePath, "etcSpfeatr" : etcSpfeatr, "phoneNumber" : phoneNumber, "age" : age}, function (err, res) {
+    2. id : <input type="text" name="id" id="id" value="0" /><br />
+    <button type="button" id="getBabyById">getBabyById</button>
+    <hr />
 
-            console.log(res);
-        });
-        
-    });
+    3. filename : <input type="text" name="filename2" id="filename2" value="filename" /><br />
+    <button type="button" id="getBabyByFilename">getBabyByFilename</button>
+    <hr />
 
-    */
+    4. <button type="button" id="getAllBabies">getAllBabies</button>
+    <hr />
 
-    $('#getBabyById').click(function () {
-        var id = $('#id').val();
-        $.post('/getBabyById', {"id" : id}, function (response) {
-            console.log(response);
-        });
-    });
+    <form id="getSimilarityForm" action="/getSimilarity" method="post" enctype="multipart/form-data">
+        <p>
+            image : <input type="file" name="filename" id="filename" accept="image/jpeg, image/png" />
+        </p>
+        <button type="submit" id="getSimilarity">getSimilarity</button>
+    </form>
+    <hr />
 
-    $('#getBabyByImagePath').click(function () {
-        var imagePath = $('#imagePath2').val();
-        $.post('/getBabyByImagePath', {"imagePath" : imagePath}, function (response) {
-            console.log(response);
-        });
-    });
+</body>
 
-    $('#getAllBabies').click(function () {
-        $.get('/getAllBabies', function (response) {
-            console.log(response);
-        });
-    });
-})
-            //]]>
-        </script>
-    </head>
-    <body>
-        <hr/>
-        <button type="button" id="getBabiesCount">getBabiesCount</button>
-        <hr/>
-        <form id="addBabyForm" action = "/addBaby" method="post" enctype="multipart/form-data" >
-
-            <!--imagePath : <input type="text" name="imagePath" id="imagePath" value="//" /><br />-->
-            <p>
-                imagePath : <input type="file" name="imagePath" id="imagePath" value "//" />
-            <p>
-                etcSpfeatr : <input type="text" name="etcSpfeatr" id="etcSpfeatr" value="특이사항" />
-            <p>
-                phoneNumber : <input type="text" name="phoneNumber" id="phoneNumber" value="010-1111-2222" />
-            <p>
-                age : <input type="text" name="age" id="age" value="10" /><br />
-            <button type="submit" id="addBaby">addBaby</button>
-        </form>
-
-        <hr />
-        id : <input type="text" name="id" id="id" value="0" /><br />
-        <button type="button" id="getBabyById">getBabyById</button>
-        <hr />
-
-        imagePath : <input type="text" name="imagePath2" id="imagePath2" value="//" /><br />
-        <button type="button" id="getBabyByImagePath">getBabyByImagePath</button>
-        <hr />
-
-        <button type="button" id="getAllBabies">getAllBabies</button>
-
-    </body>
 </html>
