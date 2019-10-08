@@ -5,6 +5,7 @@
 const contract = require('truffle-contract');
 
 const babyChain_artifact = require('../build/contracts/BabyContract.json');
+
 var babyChain = contract(babyChain_artifact);
 
 module.exports = {

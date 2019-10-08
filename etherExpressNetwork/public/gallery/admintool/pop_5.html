@@ -21,8 +21,10 @@
 $(function() {
 		$("#btn_prchs").on("click", function(e) {
 
-      $.POST('/purchaseMerchandise');
-		  
+      $.post("/purchaseMerchandise", {
+        merchandiseId : 0
+      });
+
 		});
 	});
 </script>

@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-contract Market {
+contract MarketContract {
     // 물건 구매 처리를 위한 owners address 정보 입력
     address[16] public owners;
 
@@ -12,6 +12,7 @@ contract Market {
         owners[merchandiseId] = msg.sender;
 
         return merchandiseId;
+
     }
 
     // Retrieving the Owners

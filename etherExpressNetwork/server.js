@@ -9,6 +9,9 @@ const truffle_connect = require('./src/etherApp.js');
 // 2019.09.22 BKMH 변경 - python 파일 호출을 위한 js import 추가
 const call_python = require('./src/callPython.js');
 
+// 2019.10.08 BKMH 변경 - MarketContract.sol 호출을 위한 js import
+const market_connect = require('./src/marketEtherApp.js');
+
 const bodyParser = require('body-parser');
 const multer = require('multer');
 //const cors = require('cors');
@@ -81,8 +84,8 @@ app.use('/', express.static('public'));
 
 // ROOT Page 호출
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/indexTest.html'));
-  // res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
+  //res.sendFile(path.join(__dirname, '/public/indexTest.html'));
+  res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
 // etherApp.js:addBaby로 etherBlock 저장
@@ -187,6 +190,20 @@ app.post('/getBabyByFilename', (req, res) => {
   });
 });
 
+// Market 연계 Sample 처리를 위한 router 분리
+app.post('/purchaseMerchandise', (req, res) => {
+  console.log("**** POST /purchaseMerchandise ****");
+  console.log(req.body.merchandiseId);
+
+  let merchandiseId = req.body.merchandiseId;
+
+  market_connect.purchaseMerchandise(merchandiseId, function (data) {
+    res.send(data);
+  });
+
+
+});
+
 app.post('/getSimilarity', upload.single('filename'), (req, res) => {
   console.log("**** POST /getSimilarity ****");
   console.log(req.body);
@@ -280,12 +297,6 @@ function cosinesim(A,B){
   var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
   return similarity;
 }
-
-// Market 연계 Sample 처리를 위한 router 분리
-app.post('/purchaseMerchandise', (req, res) => {
-  console.log("**** POST /purchaseMerchandise ****");
-  console.log(req.body);
-});
 
 // node.js 서버 생성(PORT:3000)
 app.listen(port, () => {
