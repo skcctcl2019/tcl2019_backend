@@ -19,6 +19,7 @@ const path = require('path');
 const fs = require('fs');
 const crpyto = require('crypto');
 
+const IS_SAVING_COMPAIRE_IMAGE_DATA = 'N';
 
 // For ENOENT Error Debugging
 // 해당 함수를 통해 실제 누락되는 부분에 대해 확인 가능함
@@ -84,7 +85,7 @@ app.use('/', express.static('public'));
 
 // ROOT Page 호출
 app.get('/', (req, res) => {
-  //res.sendFile(path.join(__dirname, '/public/indexTest.html'));
+  // res.sendFile(path.join(__dirname, '/public/indexTest.html'));
   res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
@@ -104,21 +105,24 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
     return;
   }
 
+  let filename = req.file.filename.split('.')[0];
+  let name = (req.body.name == undefined) ? '' : req.body.name;
+  let phoneNumber = (req.body.phoneNumber == undefined) ? '' : req.body.phoneNumber;
+  let etcSpfeatr = (req.body.etcSpfeatr == undefined) ? '' : req.body.etcSpfeatr;
+  let age = isNaN(parseInt(req.body.age)) ? 0 : parseInt(req.body.age);
+
+  console.log(filename);
+  console.log(name);
+  console.log(phoneNumber);
+  console.log(etcSpfeatr);
+  console.log(age);
+
   // Python을 통한 이미지 특징점 가져오기
   // call_python.callTest([req.file.path], function(result) {
   call_python.callPython([req.file.path], function(result) {
 
     let data = result[0];
     let featuresDir = path.join(__dirname, '/features/');
-    let filename = req.file.filename.split('.')[0];
-    let etcSpfeatr = req.body.etcSpfeatr;
-    let phoneNumber = req.body.phoneNumber;
-    let age = req.body.age;
-
-    console.log(filename);
-    console.log(etcSpfeatr);
-    console.log(phoneNumber);
-    console.log(age);
 
     !fs.existsSync(featuresDir) && fs.mkdirSync(featuresDir); // 폴더가 없을 경우 생성
     // fs.writeFile(featuresDir+filename, data, 'utf8', function(err) { // Async
@@ -127,12 +131,12 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
     fs.writeFileSync(featuresDir + filename + '.dat', data, 'utf8'); // Sync
 
     // addBaby 호출
-    addBaby(res, filename, etcSpfeatr, phoneNumber, age);
+    addBaby(res, filename, name, phoneNumber, etcSpfeatr, age);
   });
 });
 
-function addBaby(res, filename, etcSpfeatr, phoneNumber, age) {
-  truffle_connect.addBaby(filename, etcSpfeatr, phoneNumber, age, function(result) {
+function addBaby(res, filename, name, phoneNumber, etcSpfeatr, age) {
+  truffle_connect.addBaby(filename, name, phoneNumber, etcSpfeatr, age, function(result) {
     console.log("======= truffle.addBaby complete ======");
     console.log(result);
     
@@ -222,11 +226,18 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
     let featuresDir = path.join(__dirname, '/features/');
     let filename = req.file.filename.split('.')[0];
 
-    !fs.existsSync(featuresDir) && fs.mkdirSync(featuresDir); // 폴더가 없을 경우 생성
-    // fs.writeFile(featuresDir+filename, data, 'utf8', function(err) { // Async
-    //   console.log('Write File Completed');
-    // });
-    fs.writeFileSync(featuresDir + filename + '.dat', data, 'utf8'); // Sync
+    // 비교 이미지 특징점 저장 여부에 따라 수행
+    if('Y' == IS_SAVING_COMPAIRE_IMAGE_DATA) {
+      // 특징점 데이터 저장
+      !fs.existsSync(featuresDir) && fs.mkdirSync(featuresDir); // 폴더가 없을 경우 생성
+      // fs.writeFile(featuresDir+filename, data, 'utf8', function(err) { // Async
+      //   console.log('Write File Completed');
+      // });
+      fs.writeFileSync(featuresDir + filename + '.dat', data, 'utf8'); // Sync
+    } else {
+      // 비교한 이미지 삭제
+      fs.unlinkSync(req.file.path);
+    }
 
     let resultArray = [];
     var array1;
