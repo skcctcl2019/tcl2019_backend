@@ -85,13 +85,14 @@ app.use('/', express.static('public'));
 
 // ROOT Page 호출
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/indexTest.html'));
-  // res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
+  //res.sendFile(path.join(__dirname, '/public/indexTest.html'));
+  res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
 // etherApp.js:addBaby로 etherBlock 저장
 // upload.single로 이미지파일을 서버에 저장
-app.post('/addBaby', upload.single('filename'), (req, res) => {
+//app.post('/addBaby', upload.single('filename'), (req, res) => {
+  app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   // BKMH - post 방식을 통해 호출할 때 multer middleware를 통해 자동으로 파일이 저장되는 구조로
   // 변경했습니다 - 기존 upload.single('filename') 가 파일 저장을 자동으로 처리합니다.
 
@@ -106,7 +107,8 @@ app.post('/addBaby', upload.single('filename'), (req, res) => {
   }
 
   let filename = req.file.filename.split('.')[0];
-  let name = (req.body.name == undefined) ? '' : req.body.name;
+  //let name = (req.body.name == undefined) ? '' : req.body.name;
+  let name = (req.body.babyName == undefined) ? '' : req.body.babyName;
   let phoneNumber = (req.body.phoneNumber == undefined) ? '' : req.body.phoneNumber;
   let etcSpfeatr = (req.body.etcSpfeatr == undefined) ? '' : req.body.etcSpfeatr;
   let age = isNaN(parseInt(req.body.age)) ? 0 : parseInt(req.body.age);
