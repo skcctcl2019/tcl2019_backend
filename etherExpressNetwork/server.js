@@ -85,8 +85,8 @@ app.use('/', express.static('public'));
 
 // ROOT Page 호출
 app.get('/', (req, res) => {
-  // res.sendFile(path.join(__dirname, '/public/indexTest.html'));
-  res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
+  res.sendFile(path.join(__dirname, '/public/indexTest.html'));
+  // res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
 // etherApp.js:addBaby로 etherBlock 저장
@@ -140,7 +140,8 @@ function addBaby(res, filename, name, phoneNumber, etcSpfeatr, age) {
     console.log("======= truffle.addBaby complete ======");
     console.log(result);
     
-    res.status(200).send('<script type="text/javascript">alert("등록되었습니다.");location.href="/";</script>');
+    // res.status(200).send('<script type="text/javascript">alert("등록되었습니다.");location.href="/";</script>');
+    res.send(result);
   });
 }
 
@@ -239,9 +240,10 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
       fs.unlinkSync(req.file.path);
     }
 
-    let resultArray = [];
+    let resultArray = {};
     var array1;
     var array2;
+    var cnt = 0;
 
     // 입력된 image 특징점 배열화
     var featureData1 = data.replace(/\s/gi, "");
@@ -270,23 +272,13 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
           array2 = featureData2.split(',');
 
           var p = cosinesim(array1,array2); // 특징점 비교
-          console.log(i + '\'s p:' + p);
+          console.log(data.filename + '\'s p:' + p);
 
-          resultArray.push([data.filename,p]); // i번째 data 저장
+          resultArray[data.filename] = p; // 특징점 비교 결과 저장
+          cnt++;
   
-          if(resultArray.length==length) { // 갯수가 채워지면 결과 반환
-            // TO-DO 결과 출력용 페이지가 필요
-            var val = '';
-            for(var j=0; j<resultArray.length; j++) {
-              val += resultArray[j][0] + " : [ " + resultArray[j][1] + ' ]\\n';
-            }
-            
-            res.status(200).send(
-              '<script type="text/javascript">'
-              +'alert(\''+val+'\');'
-              +'location.href="/";'
-              +'</script>'
-            );
+          if(cnt==length) { // 갯수가 채워지면 결과 반환
+            res.send(resultArray);
           }
         });
       }
