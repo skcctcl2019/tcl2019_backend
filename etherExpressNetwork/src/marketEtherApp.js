@@ -33,7 +33,7 @@ module.exports = {
             marketInstance = instance;
             
             // BabyContract.sol:addBaby 호출
-            return marketInstance.purchaseMerchandise(merchandiseId, {from: account});
+            return marketInstance.purchase(merchandiseId, {from: account});
 
           }).then(function(result) {
 

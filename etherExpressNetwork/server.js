@@ -308,5 +308,8 @@ app.listen(port, () => {
   // Ganache 서버 연결(PORT:7545)
   truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
+  market_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+
+
   console.log("Express Listening at http://localhost:" + port);
 });
