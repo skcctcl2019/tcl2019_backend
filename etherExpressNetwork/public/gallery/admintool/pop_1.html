@@ -1,259 +1,317 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
-<link rel="stylesheet" href="../../lib/jui/css/ui.min.css"/>
-<link id="ui_theme" rel="stylesheet" href="../../lib/jui/css/ui-jennifer.min.css"/>
-<link rel="stylesheet" href="../../lib/jui/css/grid.min.css"/>
-<link id="grid_theme" rel="stylesheet" href="../../lib/jui/css/grid-jennifer.min.css"/>
-<script src="../../lib/jquery-1.8.0.min.js"></script>
-<script src="../../lib/jui/js/core.min.js"></script>
-<script src="../../lib/jui/js/ui.min.js"></script>
-<script src="../../lib/jui/js/grid.min.js"></script>
-<script src="../../lib/jui/js/chart.min.js"></script>
-<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
-<link href="../../gallery/admintool/index.css" rel="stylesheet" type="text/css" />
-<link id="index_theme" href="../../gallery/admintool/index-jennifer.css" rel="stylesheet" type="text/css" />
-<style>
-  h3 {
-    text-align:left;
-    margin-left:20px;
-  }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+  <link rel="stylesheet" href="../../lib/jui/css/ui.min.css" />
+  <link id="ui_theme" rel="stylesheet" href="../../lib/jui/css/ui-jennifer.min.css" />
+  <link rel="stylesheet" href="../../lib/jui/css/grid.min.css" />
+  <link id="grid_theme" rel="stylesheet" href="../../lib/jui/css/grid-jennifer.min.css" />
+  <script src="../../lib/jquery-1.8.0.min.js"></script>
+  <script src="../../lib/jui/js/core.min.js"></script>
+  <script src="../../lib/jui/js/ui.min.js"></script>
+  <script src="../../lib/jui/js/grid.min.js"></script>
+  <script src="../../lib/jui/js/chart.min.js"></script>
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <link href="../../gallery/admintool/index.css" rel="stylesheet" type="text/css" />
+  <link id="index_theme" href="../../gallery/admintool/index-jennifer.css" rel="stylesheet" type="text/css" />
+  <style>
+    h3 {
+      text-align: left;
+      margin-left: 20px;
+    }
+
+    tr.border_bottom td{
+      border-bottom:0.1pt solid rgba(184, 184, 184, 0.849);
+    }
+
+    tr.border_bottom th{
+      border-bottom:0.1pt solid rgba(184, 184, 184, 0.849);
+    }
+  </style>
 </head>
+
 <body class="jui">
 
-<div class="header">
-  <div class="logo">
-    <i class="icon-menu"></i>
-  </div>
-  <div class="toolbar">
-    <span>Theme</span>
-    <span>
-      <select onchange="changeTheme(this.value)">
-        <option value="jennifer">Jennifer</option>
-        <option value="dark">Dark</option>
-      </select>
-    </span>
-    <span style="float:right" onclick="closePop()">
-      Close <i class="icon-check"></i>
-    </span>
-  </div>
-</div>
-<div class="container">
-  <div class="menu">
-    <div class="vmenu ">
-      <a href="./pop_1.html"  class="active"><i class="icon-more"></i>정보 사전<br>등록</a>
-      <a href="./pop_2.html" ><i class="icon-bell"></i> 긴급 실종<br>신고</a>
-      <a href="./pop_3.html" ><i class="icon-profile"></i>경찰청 DB<br>조회</a>
-      <a><i class="icon-search"></i> 보호 아동<br>조회</a>
-      <a><i class="icon-unhappy"></i>실종 아동<br>조회</a>
-      <a><i class="icon-add-dir"></i>등록</a>
-      <a><i class="icon-user"></i> My Page</a>
-      <a><i class="icon-gear"></i> Admin </a>
+  <div class="header">
+    <div class="logo">
+      <i class="icon-menu"></i>
     </div>
-  </div>
-  <div class="content">
-    <div class="content-list">
-      <div class="dashboard-first">
-        <div class="col col-3">
-          <div class="card">
-            <div class="title">Today's visitors</div>
-            <div class="value">3,352</div>
-          </div>
-        </div>
-        <div class="col col-3">
-          <div class="card">
-            <div class="title">Total children under protection registration</div>
-            <div class="value">2,364,806</div>
-          </div>
-        </div>
-        <div class="col col-3">
-          <div class="card">
-            <div class="title">Total missing registration</div>
-            <div class="value">15,610</div>
-          </div>
-        </div>
-        <div class="col col-3">
-          <div class="card">
-            <div class="title">Peak Time</div>
-            <div class="value">10:00 ~ 11:00</div>
-          </div>
-        </div>
-      </div>
-      
-	  <div class="panel">
-        <div class="body">
-          <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">정보 사전등록</h2>
-        </div>
-      </div>
-     
-	 <div class="panel dashed">
-      <div class="body">
-   
-      <form name="addBabyForm" method="post" action="/addBaby" ; target="bIfrm" enctype="multipart/form-data">
-        <TABLE class="table_search2 margin_t8 float_l" style="WIDTH: 613px" summary="사전등록 정보" sizcache="5" sizset="98">
-          <COLGROUP>
-            <COL width="10%">
-            <COL width="36%">
-            <COL width="14%">
-            <COL width="36%">
-          </COLGROUP>
-          <TBODY sizcache="5" sizset="98">
-          <TR>
-            <TH>
-              <h3>이름</h3>
-            </TH>
-            <TD>
-              <INPUT id="babyName" name="babyName" title="이름 입력" class="inputBox middle" style="WIDTH: 100px"> 
-            </TD>
-          </TR>
-          <TR>
-            <TH ><h3>이미지 선택</h3></TH>
-            <TD class=ls1 colSpan=3>
-                <br><input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px" /><br><br>
-                <img src="@sample.gif" width="200px" id="img" name="img" />
-            </td>          
-          </TR>
-          <TR>
-            <TH><h3>나이</h3></TH>
-            <TD><INPUT id="age" name="age" title="나이 입력" value="10" class="inputBox middle" style="WIDTH: 100px" name="age"> 세</TD>
-          </TR>
-          <TR>
-            <TH><h3>연락처</h3></TH>
-            <TD><INPUT id="phoneNumber" name="phoneNumber" title="연락처 입력" value="010-1111-2222" class="inputBox middle" style="WIDTH: 100px" name="pnmbr"> </TD>
-          </TR>
-          <TR>
-            <TH><h3>특이사항</h3></TH>
-            <TD><textarea class="input" id="etcSpfeatr" name="etcSpfeatr" placeholder="남들과 구분되는 신체적 특징이나 버릇 등 특이사항은 반드시 입력해주세요." style="height: 100px; width:400px; font-size:12px; font-family: malgun gothic"></textarea></TD>
-          </TR>
-          <TR>
-            <TD></TD>
-            <TD align="right"><Br><button class="btn large focus" id="reg_button" type='sumbit' style="margin-right:50px"> 등록</button></TD>
-          </TR>        
-        </TBODY>
-        </TABLE>
-		  </form>
+    <div class="toolbar">
+      <span>Theme</span>
+      <span>
+        <select onchange="changeTheme(this.value)">
+          <option value="jennifer">Jennifer</option>
+          <option value="dark">Dark</option>
+        </select>
+      </span>
+      <div style="float:right;cursor:hand;" onclick="closePop()" >
+        Close<i class="icon-check"></i>
       </div>
     </div>
   </div>
-</div>
-<iframe width="0%" height="0%" name="bIfrm" id="bIfrm" src="" hidden="true"></iframe>
-<script>
-  //등록 함수
-  $(function() {
-    $("#reg_button").on("click", function(e) {
-      alert("등록.");
-      console.log('==== reg_button on Click =====');
-    });
-  });
-  
-  //창 닫기 (메인화면으로)
-  function closePop()  {
-    parent.$('#popupcontent').hide();
-  }
+  <div class="container">
+    <div class="menu">
+      <div class="vmenu ">
+        <a href="./pop_1.html" class="active">
+          <i class="icon-more"></i>사전 정보<BR>등록</a>
+        <a href="./pop_2.html">
+          <i class="icon-bell"></i> 긴급 실종<br>신고</a>
+        <a href="./pop_3.html">
+          <i class="icon-profile"></i>경찰청 DB<br>조회</a>
+        <a href="./pop_4.html">
+          <i class="icon-search"></i> 실종/보호<br>아동조회</a>
+        <a href="./pop_5.html">
+          <i class="icon-add-dir"></i>실종/보호<br>아동등록</a>
+        <a href="./pop_6.html">
+          <i class="icon-jennifer-server"></i>Market</a>
+        <a href="./pop_7.html">
+          <i class="icon-user"></i> My Page</a>
+        <a href="./pop_8.html">
+          <i class="icon-gear"></i> Admin </a>
+      </div>
+    </div>
+    <div class="content">
+      <div class="content-list">
+        <div class="dashboard-first">
+          <div class="col col-3">
+            <div class="card">
+              <div class="title" style="color:#808080;">Today's visitors</div>
+              <div class="value">3,352</div>
+            </div>
+          </div>
+          <div class="col col-3">
+            <div class="card">
+              <div class="title" style="color:#808080;">Total registration</div>
+              <div class="value">364,806</div>
+            </div>
+          </div>
+          <div class="col col-3">
+            <div class="card">
+              <div class="title" style="color:#808080;">Current Issued Token</div>
+              <div class="value">15,610</div>
+            </div>
+          </div>
+          <div class="col col-3">
+            <div class="card">
+              <div class="title" style="color:#808080;">Your Token</div>
+              <div class="value">1,250</div>
+            </div>
+          </div>
+        </div>
 
-  //상단 테마 바꾸기
-  function changeTheme(theme) {
-    $("#ui_theme").attr("href", "../../lib/jui/css/ui-" + theme + ".min.css");
-    $("#grid_theme").attr("href", "../../lib/jui/css/grid-" + theme + ".min.css");
-    $("#index_theme").attr("href", "../../gallery/admintool/index-" + theme + ".css");
+        <div class="panel">
+          <div class="body">
+            <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px;margin-top:25px;"><img src="./icons/write.png" style="height:35px"> 사전정보 등록</h2>
+          </div>
+        </div>
 
-    for(var i = 0, len = chart_list.length; i < len; i++) {
+        <div class="panel dashed">
+          <div class="body" align="center">
+            <form id="addBabyForm">
+            <!--<form name="addBabyForm" method="post" action="/addBaby" ; target="bIfrm" enctype="multipart/form-data">-->
+              <TABLE class="table_search2 margin_t8 float_l" style="WIDTH: 613px; border-collapse:collapse;" summary="사전등록 정보" sizcache="5" sizset="98">
+                <COLGROUP>
+                  <COL width="17%">
+                  <COL width="83%">
+                </COLGROUP>
+                <TBODY sizcache="5" sizset="98">
+                  <TR style="border-bottom:5px" class="border_bottom">
+                    <TH>
+                      <h3><B style="color:red">*</B>이름</h3>
+                    </TH>
+                    <TD>
+                      <INPUT id="babyName" name="babyName" title="이름 입력" class="inputBox middle" style="WIDTH: 100px">
+                    </TD>
+                  </TR>
+                  <TR class="border_bottom">
+                    <TH>
+                      <h3><B style="color:red">*</B>나이</h3>
+                    </TH>
+                    <TD>
+                      <INPUT id="age" name="age" title="나이 입력" value="10" class="inputBox middle" style="WIDTH: 100px" name="age"> 세</TD>
+                  </TR>
+                  <TR class="border_bottom">
+                    <TH>
+                      <h3><B style="color:red">*</B>연락처</h3>
+                    </TH>
+                    <TD>
+                      <INPUT id="phoneNumber" name="phoneNumber" title="연락처 입력" value="010-1111-2222" class="inputBox middle" style="WIDTH: 100px"
+                        name="pnmbr"> </TD>
+                  </TR>
 
-      if (chart_list[i].setTheme) {
-        chart_list[i].setTheme(theme);
-      } else {
-        chart_list[i].chart.setTheme(theme);
+                  <TR class="border_bottom">
+                      <TH>
+                        <h3><B style="color:red">*</B>사진</h3>
+                      </TH>
+                      <TD class=ls1>
+                        <br>
+                        <img src="@sample.gif" width="200px" id="img" name="img" />
+                        <br>
+                        <input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px" accept="image/jpeg, image/png" />
+                        <br>&nbsp;
+                      </td>
+                    </TR>
+                  <TR>
+                    <TH>
+                      <h3>특이사항</h3>
+                    </TH>
+                    <TD>
+                      <br>
+                      <textarea class="input" id="etcSpfeatr" name="etcSpfeatr" placeholder="남들과 구분되는 신체적 특징이나 버릇 등 특이사항은 반드시 입력해주세요." 
+                      style="height: 100px; width:470px; font-size:12px; font-family: malgun gothic"></textarea>
+                    </TD>
+                  </TR>
+                  <TR>
+                    <TD></TD>
+                    <TD align="right">
+                      <Br>
+                      <!--<button class="btn large focus" id="reg_button" type='sumbit' style="margin-right:50px"> 등록</button>-->
+                      <button type="button" class="btn large focus" id="reg_button" style="margin-right:20px">등록</button>
+                    </TD>
+                  </TR>
+                </TBODY>
+              </TABLE>
+            </form>
+            <!-- 아래 흰색 영역 만들기 -->
+            <Br><Br><Br><Br><Br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <iframe width="0%" height="0%" name="bIfrm" id="bIfrm" src="" hidden="true"></iframe>
+    <script>
+      //등록 함수
+      $(function () {
+        $("#reg_button").on("click", function (e) {
+          alert("등록.");
+          console.log('==== reg_button on Click =====');
+
+          var form = $('#addBabyForm')[0];
+          var formData = new FormData(form);
+
+          $.ajax({
+            url: '/addBaby',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false
+          }).done(function (data) {
+            console.log(data);
+          });
+
+        });
+      });
+
+      //창 닫기 (메인화면으로)
+      function closePop() {        
+        //parent.$('#popupcontent').hide();
+        //location.href = "../index.html";
+        parent.location.href = "../index.html"
       }
-    }
-  }
 
-  //이미지 미리보기 set
-  $(document).ready(function () {
-      var opt = {
+      //상단 테마 바꾸기
+      function changeTheme(theme) {
+        $("#ui_theme").attr("href", "../../lib/jui/css/ui-" + theme + ".min.css");
+        $("#grid_theme").attr("href", "../../lib/jui/css/grid-" + theme + ".min.css");
+        $("#index_theme").attr("href", "../../gallery/admintool/index-" + theme + ".css");
+
+        for (var i = 0, len = chart_list.length; i < len; i++) {
+
+          if (chart_list[i].setTheme) {
+            chart_list[i].setTheme(theme);
+          } else {
+            chart_list[i].chart.setTheme(theme);
+          }
+        }
+      }
+
+      //이미지 미리보기 set
+      $(document).ready(function () {
+        var opt = {
           img: $('#img')
-      };
-      $('#imagePath').setPreview(opt, 0);
-  });
+        };
+        $('#imagePath').setPreview(opt, 0);
+      });
 
-  //이미지 미리보기 set
-  $.fn.setPreview = function (opt, index) {
-      var defaultOpt = {
+      //이미지 미리보기 set
+      $.fn.setPreview = function (opt, index) {
+        var defaultOpt = {
           inputFile: $(this),
           img: null
-      };
+        };
 
-      $.extend(defaultOpt, opt);
+        $.extend(defaultOpt, opt);
 
-      var previewImage = function () {
+        var previewImage = function () {
           if (!defaultOpt.inputFile || !defaultOpt.img) return;
           var inputFile = defaultOpt.inputFile.get(0);
           var img = defaultOpt.img.get(0);
 
           // FileReader
           if (window.FileReader) {
-              // image 
-              if (!inputFile.files[0].type.match(/image\//)) return;
+            // image 
+            if (!inputFile.files[0].type.match(/image\//)) return;
 
-              // preview
-              try {
-                  var reader = new FileReader();
-                  reader.onload = function (e) {
-                      img.src = e.target.result;
-                      img.style.width = defaultOpt.w + 'px';
-                      img.style.height = defaultOpt.h + 'px';
-                      img.style.display = '';
-                  }
-                  reader.readAsDataURL(inputFile.files[0]);
-              } catch (e) {
-                  // exception...
+            // preview
+            try {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                img.src = e.target.result;
+                img.style.width = defaultOpt.w + 'px';
+                img.style.height = defaultOpt.h + 'px';
+                img.style.display = '';
               }
-              // img.filters (MSIE)
+              reader.readAsDataURL(inputFile.files[0]);
+            } catch (e) {
+              // exception...
+            }
+            // img.filters (MSIE)
           } else if (img.filters) {
-              inputFile.select();
-              inputFile.blur();
-              var imgSrc = document.selection.createRange().text;
-              img.src = imgSrc;
-              img.style.display = '';
-              // no support
+            inputFile.select();
+            inputFile.blur();
+            var imgSrc = document.selection.createRange().text;
+            img.src = imgSrc;
+            img.style.display = '';
+            // no support
           } else {
-              // Safari5, ...
+            // Safari5, ...
           }
-      };
+        };
 
-      // onchange
-      $(this).change(function () {
+        // onchange
+        $(this).change(function () {
           previewImage();
           fileSizeCheck(this, index);
-      });
-  };
+        });
+      };
 
-  //첨부파일 확장자 및 용량 체크
-  function fileSizeCheck(obj, index) {
-      var path = obj.value;
-      var maxSize = 10 * 1024 * 1024;	
-      var path = path.toLowerCase();
+      //첨부파일 확장자 및 용량 체크
+      function fileSizeCheck(obj, index) {
+        var path = obj.value;
+        var maxSize = 10 * 1024 * 1024;
+        var path = path.toLowerCase();
 
-      if (!(/(\.jpg|\.jpeg|\.gif|\.png|\.bmp|\.png)$/i.test(path))) {
+        if (!(/(\.jpg|\.jpeg|\.gif|\.png|\.bmp|\.png)$/i.test(path))) {
           alert("지원하지 않는 확장자 입니다.");
           return false;
-      }
+        }
 
-      var img = new Image();
-      var filesize = img.fileSize;
-      if (maxSize < filesize) {
+        var img = new Image();
+        var filesize = img.fileSize;
+        if (maxSize < filesize) {
           alert("첨부파일의 사이즈가 너무 큽니다.");
           return false;
+        }
+
+        // fileSIzeCheck 수행 후 바로 submit이 수행되므로
+        // 내용 확인하여 정리 (서버에 파일 정리하는 로직이 뒤에 돌아가야함.))
+        //document.apndFileForm[index].submit();
       }
 
-      // fileSIzeCheck 수행 후 바로 submit이 수행되므로
-      // 내용 확인하여 정리 (서버에 파일 정리하는 로직이 뒤에 돌아가야함.))
-      //document.apndFileForm[index].submit();
-  }
-
-</script>
+    </script>
 </body>
 </html>

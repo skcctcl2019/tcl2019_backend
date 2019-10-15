@@ -17,6 +17,14 @@
 <link href="../../gallery/admintool/index.css" rel="stylesheet" type="text/css" />
 <link id="index_theme" href="../../gallery/admintool/index-jennifer.css" rel="stylesheet" type="text/css" />
 
+<script>
+$(function() {
+		$("#btn_inq").on("click", function(e) {
+		  alert("검색 고");
+		});
+	});
+</script>
+
 </head>
 <body class="jui">
 
@@ -40,10 +48,10 @@
 
 <div class="container">
   <div class="menu">
-    <div class="vmenu ">
-      <a class="active"><i class="icon-monitoring"></i> Dashboard</a>
-      <a><i class="icon-realtime"></i> Realtime</a>
-      <a><i class="icon-profile"></i> Analysis</a>
+    <div class="vmenu ">     
+      <a href="./pop_1.html"><i class="icon-monitoring"></i> Dashboard</a>
+      <a href="./pop_2.html" class="active"><i class="icon-realtime"></i> Realtime</a>
+      <a href="./pop_3.html" ><i class="icon-profile"></i> Analysis</a>
       <a><i class="icon-chart"></i> Statistics</a>
       <a><i class="icon-document"></i> Document</a>
       <a><i class="icon-gear"></i> Management</a>
@@ -52,7 +60,7 @@
   </div>
   <div class="content">
     <div class="content-list">
-      <div class="dashboard-first">
+      <!--<div class="dashboard-first">
         <div class="col col-3">
           <div class="card">
             <div class="title">Today's visitors</div>
@@ -78,223 +86,91 @@
           </div>
         </div>
       </div>
-      
+      -->
+	  
+	  
 	  <div class="panel">
         <div class="body">
-          <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">BABY CHAIN</h2>
+          <h2 class="title" align='center' style="margin-left:0px; font-size:35px;margin-bottom:0px; color:#814fd5">조회</h2>
         </div>
-      </div>
+     </div>
      
-      <div class="panel dashed">
-        <div class="body">
-          <h2 class="title">Details</h2>
+	 panel dashed
+	 <section>
+	<p>
+		찾고있는중인 실종아동 등을 검색, 조회 하실 수 있습니다.<br><br>
+  </p>
+    
+<TABLE class="table_search2 margin_t8 float_l" style="WIDTH: 613px" summary="대상,성별,이름,발생일,당시나이,신체특징,발생장소 검색" sizcache="5" sizset="98"><CAPTION>검색 조건</CAPTION>
+  <COLGROUP>
+  <COL width="14%">
+  <COL width="36%">
+  <COL width="14%">
+  <COL width="36%"></COLGROUP>
+  <TBODY sizcache="5" sizset="98">
+  <TR>
+  <TH>이미지 선택</TH>
+  <TD class=ls1 colSpan=3><input type="file" style="font-size:15px"/> </TD></TR>
+  <TR>
+  <TR>
+  <TH>대상</TH>
+  <TD class=ls1 colSpan=3><INPUT id=targetAll class=targetAll type=checkbox value=000 name=writngTrgetDscdAll><LABEL for=targetAll>전체</LABEL> <INPUT onclick=fn_targetLcm(); id=targetChild class=target type=checkbox value=010 name=writngTrgetDscdArray><LABEL for=targetChild>정상아동(18세미만)</LABEL> <INPUT onclick=fn_targetLcm(); id=targetIntelli class=target type=checkbox value=060 name=writngTrgetDscdArray><LABEL for=targetIntelli>지적장애인</LABEL> <INPUT onclick=fn_targetLcm(); id=targetDotard class=target type=checkbox value=070 name=writngTrgetDscdArray><LABEL for=targetDotard>치매질환자</LABEL> <INPUT onclick=fn_targetLcm(); id=targetRun class=target type=checkbox value=020 name=writngTrgetDscdArray><LABEL for=targetRun>가출인</LABEL> <INPUT onclick=fn_targetLcm(); id=targetEtc class=target type=checkbox value=080 name=writngTrgetDscdArray><LABEL for=targetEtc>기타</LABEL> </TD></TR>
+  <TR>
+  <TH>성별</TH>
+  <TD><INPUT id=genderAll type=radio value=3 name=sexdstnDscd><LABEL for=genderAll>전체</LABEL> <INPUT id=genderMale type=radio value=1 name=sexdstnDscd><LABEL for=genderMale>남자</LABEL> <INPUT id=genderFemale type=radio value=2 name=sexdstnDscd><LABEL for=genderFemale>여자</LABEL> </TD>
+  <TH><LABEL for=nm>이름</LABEL></TH>
+  <TD><INPUT id=nm title="이름 입력" class="inputBox middle" style="WIDTH: 84px" name=nm> </TD></TR>
+  <TR sizcache="5" sizset="98">
+  <TH><LABEL for=detailDate1>발생일 </LABEL></TH>
+  <TD sizcache="5" sizset="98"><INPUT  id=detailDate1 title="발생 시작일" class="inputBox middle" style="WIDTH: 68px" maxLength=10 name=detailDate1> <A title=달력보기(새창) href="javascript:fn_egov_NormalCalendar(document.lcmMssVO, document.lcmMssVO.detailDate1);"><IMG class=middle alt=달력보기 src="http://www.safe182.go.kr/static/home/images/common/icon/ic_calendar.gif"></A> ~ <INPUT onkeypress=fn_enterSearch(event); title="발생 종료일" class="inputBox middle" style="WIDTH: 68px" maxLength=10 name=detailDate2> <A title=달력보기(새창) href="javascript:fn_egov_NormalCalendar(document.lcmMssVO, document.lcmMssVO.detailDate2);"><IMG class=middle alt=달력보기 src="http://www.safe182.go.kr/static/home/images/common/icon/ic_calendar.gif"></A> </TD>
+  <TH><LABEL for=age1>당시나이</LABEL></TH>
+  <TD><INPUT id=age1 title="당시나이 시작" class="inputBox middle" style="WIDTH: 17px" maxLength=3 name=age1> 세~ <INPUT title="당시나이 끝" class="inputBox middle" style="WIDTH: 17px" maxLength=3 name=age2> 세 </TD></TR>
+  <TR>
+  <TH><LABEL for=etcSpfeatr>특이사항</LABEL></TH>
+  <TD><INPUT id=etcSpfeatr title="신체특징 입력" class="inputBox middle" style="WIDTH: 188px" name=etcSpfeatr> </TD>
+  <TH><LABEL for=occrAdres>발생장소 </LABEL></TH>
+  <TD><INPUT id=occrAdres title="발생장소 입력" class="inputBox middle" style="WIDTH: 188px" name=occrAdres> </TD></TR>
+  <TR>
+  <TD class="colorBlue4 padNone" colSpan=2>
+  <P class=padding_l23>ex) "점이 있다", "허리가 굽었다" 등의 자연어로 검색 가능합니다.</P></TD>
+  <TD class="colorBlue4 padNone" colSpan=2>
+  <P class=padding_l23>ex) 서울시 용산구 갈월동 놀이터앞 등 상세주소로 검색해주세요.</P></TD>
+</TR>
+</TBODY>
+</TABLE>
 
-          <div class="view">
+  <button class="btn focus" id="btn_inq">조회</button><br><br>
+  
 
-            <div class="panel">
-              <div class="head">
-                Recent Order List
-              </div>
-              <table class="table simple hover">
-                <thead>
-                <tr>
-                  <th>From</th>
-                  <th>Contact</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th><a class="btn btn-base">All Orders</a></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:red;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#fff860;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#fb32ff;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#68ff41;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#5d9cff;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:red;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#fff860;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#fb32ff;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#68ff41;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                <tr>
-                  <td>
-                    <i class="icon-stop" style="font-size:8.5px;color:#5d9cff;"></i>
-                    Lion KC
-                  </td>
-                  <td>Robin Van Persie</td>
-                  <td>$245.00</td>
-                  <td><span>Paid</span></td>
-                  <td><i class="icon-search"></i> View</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+		<table class="table classic hover">
+			<thead>
+				<tr>
+					<th>발생일</th><th>사진</th><th>연락처</th><th>특이사항</th><th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2019.07.16</td><td><img src="dog.jpg" alt="절미 얼굴 사진"></td><td>010-7777-9999</td><td>왼쪽 눈 아래 점이 있어용</td><td><button class="btn small focus" onclick="alert('details')">상세</button></td>
+				</tr>
+				<tr>
+					<td>A</td><td>B</td><td>C</td><td>D</td><td>E</td>
+				</tr>
+				<tr>
+					<td>A</td><td>B</td><td>C</td><td>D</td><td>E</td>
+				</tr>
+			</tbody>
+		</table>
+	
+</section>
+	 
+	 
+	 
+	 
+    
     </div>
 
 
 
-<br><br><br><br><br><br><br><br><br><br>
-
-<div class="dashboard-first">
-      
-      <div class="panel">
-	    BOTTOM IS SAMPLE
-
-        <div class="body">
-          <h2 class="title">User Traffic</h2>
-          <div class="view">
-            <div id="traffic_chart" style="height:400px;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="panel dashed">
-        <div class="body">
-          <h2 class="title">Visitor Status</h2>
-
-          <div class="row view" style="height:150px;">
-            <div class="col col-7">
-              <div id="visit_chart" style="height:100%;"></div>
-            </div>
-            <div class="col col-5">
-              <div id="gauge_chart" style="height:100%;"></div>
-            </div>
-          </div>
-
-          <div class="row view info">
-            <div class="col col-7">
-              <div class="title">
-                <strong>1,452,587</strong> people visited this site
-              </div>
-              <div class="box">
-                <div class="row visit_total">
-                  <div class="col col-4">
-                    <div class="title">Visits</div>
-                    <div class="number"><strong>3,352</strong></div>
-                    <div class="chart" id="line_sample_chart_1"></div>
-                  </div>
-                  <div class="col col-4">
-                    <div class="title">Unique Visitors</div>
-                    <div class="number"><strong>1,672</strong></div>
-                    <div class="chart" id="line_sample_chart_2"></div>
-                  </div>
-                  <div class="col col-4">
-                    <div class="title">Previews</div>
-                    <div class="number"><strong>6,048</strong></div>
-                    <div class="chart" id="line_sample_chart_3"></div>
-                  </div>
-                </div>
-                <div class="row visit_total">
-                  <div class="col col-4">
-                    Pages per visit : <strong>1.78</strong>
-                  </div>
-                  <div class="col col-8">
-                    Average Visit Duration : <strong>00:01:12</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col col-5">
-              <div class="row bargauge">
-                <div class="col col-6">
-                  <div class="title">Visits by Browser</div>
-                  <div class="chart" id="bar_gauge_sample_chart_1"></div>
-                </div>
-                <div class="col col-6">
-                  <div class="title">Mobile Overview</div>
-                  <div class="chart" id="bar_gauge_sample_chart_2"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-
-  </div>
 </div>
 <script>
 var chart = jui.include("chart.builder");
