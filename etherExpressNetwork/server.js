@@ -89,10 +89,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/gallery/index.html'));
 });
 
+app.get('/test', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/indexTest.html'));
+});
+
 // etherApp.js:addBaby로 etherBlock 저장
 // upload.single로 이미지파일을 서버에 저장
 //app.post('/addBaby', upload.single('filename'), (req, res) => {
-  app.post('/addBaby', upload.single('imagePath'), (req, res) => {
+app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   // BKMH - post 방식을 통해 호출할 때 multer middleware를 통해 자동으로 파일이 저장되는 구조로
   // 변경했습니다 - 기존 upload.single('filename') 가 파일 저장을 자동으로 처리합니다.
 
@@ -106,6 +110,7 @@ app.get('/', (req, res) => {
     return;
   }
 
+  let types = (req.body.types == undefined) ? 'B' : req.body.types; // 실종 아동:M, 보호 아동:P, 사전 정보 등록:B
   let filename = req.file.filename.split('.')[0];
   //let name = (req.body.name == undefined) ? '' : req.body.name;
   let name = (req.body.babyName == undefined) ? '' : req.body.babyName;
@@ -113,6 +118,7 @@ app.get('/', (req, res) => {
   let etcSpfeatr = (req.body.etcSpfeatr == undefined) ? '' : req.body.etcSpfeatr;
   let age = isNaN(parseInt(req.body.age)) ? 0 : parseInt(req.body.age);
 
+  console.log(types);
   console.log(filename);
   console.log(name);
   console.log(phoneNumber);
@@ -133,12 +139,12 @@ app.get('/', (req, res) => {
     fs.writeFileSync(featuresDir + filename + '.dat', data, 'utf8'); // Sync
 
     // addBaby 호출
-    addBaby(res, filename, name, phoneNumber, etcSpfeatr, age);
+    addBaby(res, types, filename, name, phoneNumber, etcSpfeatr, age);
   });
 });
 
-function addBaby(res, filename, name, phoneNumber, etcSpfeatr, age) {
-  truffle_connect.addBaby(filename, name, phoneNumber, etcSpfeatr, age, function(result) {
+function addBaby(res, types, filename, name, phoneNumber, etcSpfeatr, age) {
+  truffle_connect.addBaby(types, filename, name, phoneNumber, etcSpfeatr, age, function(result) {
     console.log("======= truffle.addBaby complete ======");
     console.log(result);
     

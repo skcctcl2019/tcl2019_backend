@@ -10,7 +10,7 @@ var babyChain = contract(babyChain_artifact);
 
 module.exports = {
   // Baby 등록 호출
-  addBaby : function(filename, name, phoneNumber, etcSpfeatr, age, callback) {
+  addBaby : function(types, filename, name, phoneNumber, etcSpfeatr, age, callback) {
     console.log("**** etherApp.addBaby start ****");
 
     var self = this;
@@ -28,7 +28,7 @@ module.exports = {
         babyInstance = instance;
         
         // BabyContract.sol:addBaby 호출
-        return babyInstance.addBaby(filename, name, phoneNumber, etcSpfeatr, age, {from: account});
+        return babyInstance.addBaby(types, filename, name, phoneNumber, etcSpfeatr, age, {from: account});
       }).then(function(result) {
         console.log("RESULT:"+result);
         console.log("**** etherApp.addBaby end ****");
@@ -120,6 +120,7 @@ module.exports = {
   // Baby 구조체 내용 출력
   makeObject : function(data) {
     var result = {
+      'types' : data.types,
       'filename' : data.filename,
       'name' : data.name,
       'phoneNumber' : data.phoneNumber,

@@ -8,6 +8,7 @@ contract TestBabyContract {
     BabyContract babyContract = BabyContract(DeployedAddresses.BabyContract());
     address expectedLoginPerson = address(this);
 
+    string TYPES = "B";
     string FILENAME = "imageFileName";
     string NAME = "김똘똘";
     string PHONE_NUMBER = "010-1111-2222";
@@ -17,7 +18,7 @@ contract TestBabyContract {
 
     // Baby 등록 Test
     function testAddBaby() public {
-        babyContract.addBaby(FILENAME, NAME, PHONE_NUMBER, ETC_SPFEATR, AGE);
+        babyContract.addBaby(TYPES, FILENAME, NAME, PHONE_NUMBER, ETC_SPFEATR, AGE);
     }
 
     // babies length 출력 테스트
@@ -27,12 +28,14 @@ contract TestBabyContract {
 
     // babies Index 입력 ->  Baby 객체 내 전 항목 값 출력 테스트
     function testGetBabyById() public {
+        string memory types;
         string memory filename;
         string memory name;
         string memory phoneNumber;
         string memory etcSpfeatr;
         uint age;
-        (filename, name, phoneNumber, etcSpfeatr, age) = babyContract.getBabyById(0);
+        (types, filename, name, phoneNumber, etcSpfeatr, age) = babyContract.getBabyById(0);
+        Assert.equal(babyContract.compareStrings(types, TYPES), true, "types!");
         Assert.equal(babyContract.compareStrings(filename, FILENAME), true, "filename!");
         Assert.equal(babyContract.compareStrings(name, NAME), true, "name!");
         Assert.equal(babyContract.compareStrings(phoneNumber, PHONE_NUMBER), true, "phoneNumber!");
@@ -42,12 +45,14 @@ contract TestBabyContract {
 
     // 이미지경로 입력 ->  Baby 객체 내 전 항목 값 출력 테스트
     function testGetBabyByFilename() public {
+        string memory types;
         string memory filename;
         string memory name;
         string memory etcSpfeatr;
         string memory phoneNumber;
         uint age;
-        (filename, name, phoneNumber, etcSpfeatr, age) = babyContract.getBabyByFilename(FILENAME);
+        (types, filename, name, phoneNumber, etcSpfeatr, age) = babyContract.getBabyByFilename(FILENAME);
+        Assert.equal(babyContract.compareStrings(types, TYPES), true, "types!");
         Assert.equal(babyContract.compareStrings(filename, FILENAME), true, "filename!");
         Assert.equal(babyContract.compareStrings(name, NAME), true, "name!");
         Assert.equal(babyContract.compareStrings(phoneNumber, PHONE_NUMBER), true, "phoneNumber!");

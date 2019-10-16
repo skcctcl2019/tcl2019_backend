@@ -3,9 +3,10 @@ pragma solidity ^0.5.0;
 contract BabyContract {
 
     // Baby 등록 이벤트
-    event NewBaby(uint babyId, string filename, string name, string phoneNumber, string etcSpfeatr, uint age);
+    event NewBaby(uint babyId, string types, string filename, string name, string phoneNumber, string etcSpfeatr, uint age);
 
-    struct Baby {   // 파일명(이미지, 특징점), 이름, 연락처, 특이사항, 나이
+    struct Baby {   // 분류, 파일명(이미지, 특징점), 이름, 연락처, 특이사항, 나이
+        string types; // 실종 아동:M, 보호 아동:P, 사전 정보 등록:B
         string filename;
         string name;
         string phoneNumber;
@@ -27,12 +28,12 @@ contract BabyContract {
     mapping (string => uint) public filenameToBaby;
 
     // Baby 등록
-    function addBaby(string memory _filename, string memory _name, string memory _phoneNumber, string memory _etcSpfeatr, uint _age) public {
-        uint8 _age8 = uint8(_age % (2**8-1));   // 오버플로우 방지
-        uint id = babies.push(Baby(_filename, _name, _phoneNumber, _etcSpfeatr, _age8)) - 1;
+    function addBaby(string memory _t, string memory _f, string memory _n, string memory _p, string memory _e, uint _a) public {
+        uint8 _age8 = uint8(_a % (2**8-1));   // 오버플로우 방지
+        uint id = babies.push(Baby(_t, _f, _n, _p, _e, _age8)) - 1;
         babyToOwner[id] = msg.sender;   // babyToOwner 매핑
-        filenameToBaby[_filename] = id;   // imageToBaby 매핑
-        emit NewBaby(id, _filename, _name, _phoneNumber, _etcSpfeatr, _age);  // 이벤트 발생
+        filenameToBaby[_f] = id;   // imageToBaby 매핑
+        emit NewBaby(id, _t, _f, _n, _p, _e, _a);  // 이벤트 발생
     }
 
     // babies length 출력
@@ -42,10 +43,11 @@ contract BabyContract {
 
     // babies Index 입력 ->  Baby 객체 내 전 항목 값 출력
     function getBabyById(uint _id) public view returns (
-        string memory filename, string memory name, string memory phoneNumber, string memory etcSpfeatr, uint age) {
+        string memory types, string memory filename, string memory name, string memory phoneNumber, string memory etcSpfeatr, uint age) {
         // babies Indes는 babies length 보다 작아야함
         require(_id < babies.length, "Wrong ID value.");
         // 항목 출력
+        types = babies[_id].types;
         filename = babies[_id].filename;
         name = babies[_id].name;
         phoneNumber = babies[_id].phoneNumber;
@@ -55,11 +57,12 @@ contract BabyContract {
 
     // 파일명 입력 ->  Baby 객체 내 전 항목 값 출력
     function getBabyByFilename(string memory _filename) public view returns (
-        string memory filename, string memory name, string memory phoneNumber, string memory etcSpfeatr, uint age) {
+        string memory types, string memory filename, string memory name, string memory phoneNumber, string memory etcSpfeatr, uint age) {
         // 입력된 파일명과 찾은 파일명이 맞는지 확인
         uint _id = filenameToBaby[_filename];
         require(compareStrings(_filename, babies[_id].filename), "The filename entered does not exist.");
         // 항목 출력
+        types = babies[_id].types;
         filename = babies[_id].filename;
         name = babies[_id].name;
         phoneNumber = babies[_id].phoneNumber;
