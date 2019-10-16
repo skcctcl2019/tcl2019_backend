@@ -131,15 +131,15 @@
                       <h3><B style="color:red">*</B>나이</h3>
                     </TH>
                     <TD>
-                      <INPUT id="age" name="age" title="나이 입력" value="10" class="inputBox middle" style="WIDTH: 100px" name="age"> 세</TD>
+                      <INPUT id="age" name="age" title="나이 입력" class="inputBox middle" style="WIDTH: 100px" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> 세</TD>
+
                   </TR>
                   <TR class="border_bottom">
                     <TH>
                       <h3><B style="color:red">*</B>연락처</h3>
                     </TH>
                     <TD>
-                      <INPUT id="phoneNumber" name="phoneNumber" title="연락처 입력" value="010-1111-2222" class="inputBox middle" style="WIDTH: 100px"
-                        name="pnmbr"> </TD>
+                      <INPUT id="phoneNumber" name="phoneNumber" title="연락처 입력" class="inputBox middle" style="WIDTH: 100px" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" > ('-'없이 입력하세요.)</TD>
                   </TR>
 
                   <TR class="border_bottom">
@@ -187,9 +187,6 @@
       //등록 함수
       $(function () {
         $("#reg_button").on("click", function (e) {
-          alert("등록.");
-          console.log('==== reg_button on Click =====');
-
           var form = $('#addBabyForm')[0];
           var formData = new FormData(form);
 
@@ -200,7 +197,7 @@
             contentType: false,
             processData: false
           }).done(function (data) {
-            console.log(data);
+            alert("등록이 완료되었습니다.");
           });
 
         });
