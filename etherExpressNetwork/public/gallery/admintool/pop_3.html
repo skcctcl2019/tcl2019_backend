@@ -307,7 +307,9 @@
       content += '      <th style="text-align:center">착의사항</th>';
       content += '      <th style="text-align:center">현재나이</th>';
       content += '      <th style="text-align:center">당시나이</th>';
+      content += '      <th style="text-align:center">대상구분</th>';
       content += '      <th style="text-align:center">성별</th>';
+      content += '      <th style="text-align:center">특이사항</th>';
       content += '      <th style="text-align:center">발생장소</th>';
       content += '      <th style="text-align:center">성명</th>';
       content += '      <th style="text-align:center">사진</th>';
@@ -319,12 +321,42 @@
         content += '<tr><td style="text-align:center" colspan=8>조회 결과가 없습니다.</td></tr>';
       } else {
         for (var i = 0; i < _list.length; i++) {
+          var writngTrgetDscd = '';
+          switch (_list[i].writngTrgetDscd) {
+            case "010":
+              writngTrgetDscd = "정상아동(18세미만)";
+              break;
+            case "020":
+              writngTrgetDscd = "가출인";
+              break;
+            case "040":
+              writngTrgetDscd = "시설보호무연고자";
+              break;
+            case "060":
+              writngTrgetDscd = "지적장애인";
+              break;
+            case "061":
+              writngTrgetDscd = "지적장애인(18세미만";
+              break;
+            case "062":
+              writngTrgetDscd = "지적장애인(18세이상)";
+              break;
+            case "070":
+              writngTrgetDscd = "치매질환자";
+              break;
+            case "080":
+              writngTrgetDscd = "불상(기타)";
+              break;
+          }
+
           content += '<tr>';
           content += '<td style="text-align:center">' + _list[i].occrde + '</td>'
-          content += '<td style="text-align:center">' + (null==_list[i].alldressingDscd ? '' : _list[i].alldressingDscd) + '</td>'
+          content += '<td style="text-align:center">' + (null == _list[i].alldressingDscd ? '' : _list[i].alldressingDscd) + '</td>'
           content += '<td style="text-align:center">' + _list[i].ageNow + '</td>'
           content += '<td style="text-align:center">' + _list[i].age + '</td>'
+          content += '<td style="text-align:center">' + writngTrgetDscd + '</td>'
           content += '<td style="text-align:center">' + _list[i].sexdstnDscd + '</td>'
+          content += '<td style="text-align:center" title="' + _list[i].etcSpfeatr.replace(/(<br>|<br\/>|<br \/>)/g, ' ').replace('</td>', '') + '">' + _list[i].etcSpfeatr.substring(0,20) +'</td>'
           content += '<td style="text-align:center">' + _list[i].occrAdres + '</td>'
           content += '<td style="text-align:center">' + _list[i].nm + '</td>'
 
