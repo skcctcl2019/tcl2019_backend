@@ -19,6 +19,7 @@ const path = require('path');
 const fs = require('fs');
 const crpyto = require('crypto');
 const request = require('request');
+const utf8 = require('utf8');
 
 const IS_SAVING_COMPAIRE_IMAGE_DATA = 'N';
 const THRESHOLD = 0;
@@ -372,17 +373,72 @@ function cosinesim(A,B){
 // 경찰청 DB 조회
 app.get('/getSafe182', (req, res) => {
   console.log("**** GET /getSafe182 ****");
-  console.log(req.body);
+  console.log(req.query);
+
+  var esntlId = '10000278'; // 고유아이디
+  var authKey = 'a8385e01c218421c'; //인증키
+  var rowSize = '100';  // 게시물 수(숫자만 100개 까지)
+  // var page = '1'; // 페이징처리 필요(숫자만)
 
   var url = 'http://www.safe182.go.kr/api/lcm/findChildList.do';
-  var params = {esntlId:'10000278'
-    ,authKey:'a8385e01c218421c'
-    ,rowSize:'100'
-  };
+  url += '?esntlId='
+  url += esntlId;
+  url += '&authKey='
+  url += authKey;
+  url += '&rowSize='
+  url += rowSize;
+  // url += '&page='
+  // url += page;
+
+  if(undefined != req.query.writngTrgetDscds) { // 대상구분
+    if(Array.isArray(req.query.writngTrgetDscds)) {
+      for(var i=0; i<req.query.writngTrgetDscds.length; i++) {
+        url += '&writngTrgetDscds=';
+        url += req.query.writngTrgetDscds[i];
+      }
+    } else {
+      url += '&writngTrgetDscds=';
+        url += req.query.writngTrgetDscds;
+    }
+  }
+  if(undefined != req.query.sexdstnDscd) {  // 성별(남자:1, 여자:2)
+    url += '&sexdstnDscd=';
+    url += req.query.sexdstnDscd;
+  }
+  if(undefined != req.query.nm) {  // 성명
+    url += '&nm=';
+    url += req.query.nm;
+  }
+  if(undefined != req.query.detailDate1) {  // 발생일(2012-08-17)
+    url += '&detailDate1=';
+    url += req.query.detailDate1;
+  }
+  if(undefined != req.query.detailDate2) {  // 발생일(2012-08-18)
+    url += '&detailDate2=';
+    url += req.query.detailDate2;
+  }
+  if(undefined != req.query.age1) {  // 나이(숫자만)
+    url += '&age1=';
+    url += req.query.age1;
+  }
+  if(undefined != req.query.age2) {  // 나이(숫자만)
+    url += '&age2=';
+    url += req.query.age2;
+  }
+  if(undefined != req.query.etcSpfeatr) {  // 특이사항
+    url += '&etcSpfeatr=';
+    url += req.query.etcSpfeatr;
+  }
+  if(undefined != req.query.occrAdres) {  // 발생장소
+    url += '&occrAdres=';
+    url += req.query.occrAdres;
+  }
+  
+  console.log("url:"+url);
+  console.log("url:"+utf8.encode(url));
   
   request.get({
-    url: url,
-    qs: params
+    url: utf8.encode(url)
   }, function(error, response, body) {
     res.json(body);
   });
