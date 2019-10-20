@@ -20,6 +20,7 @@ const fs = require('fs');
 const crpyto = require('crypto');
 
 const IS_SAVING_COMPAIRE_IMAGE_DATA = 'N';
+const THRESHOLD = 0;
 
 // For ENOENT Error Debugging
 // 해당 함수를 통해 실제 누락되는 부분에 대해 확인 가능함
@@ -93,6 +94,34 @@ app.get('/test', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/indexTest.html'));
 });
 
+app.get('/imgs', (req, res) => {
+  console.log("**** GET /imgs ****");
+
+  var extension = req.query.filename.split('.').pop();
+  var isImage, contentType;
+
+  switch(extension){
+    case "jpg":
+        contentType = 'image/jpg';
+        isImage = true;
+        break;
+    case "png":
+        contentType = 'image/png';
+        isImage = true;
+        break;
+    default:
+        isImage = false;
+        break;
+  }
+
+  if(isImage) {
+    fs.readFile(path.join(__dirname, '/uploads/')+req.query.filename, function(error, data) {
+      res.writeHead(200, {'Content-Type': contentType});
+      res.end(data, 'binary');
+    });
+  }
+});
+
 // etherApp.js:addBaby로 etherBlock 저장
 // upload.single로 이미지파일을 서버에 저장
 //app.post('/addBaby', upload.single('filename'), (req, res) => {
@@ -111,7 +140,7 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   }
 
   let types = (req.body.types == undefined) ? 'B' : req.body.types; // 실종 아동:M, 보호 아동:P, 사전 정보 등록:B
-  let filename = req.file.filename.split('.')[0];
+  let filename = req.file.filename;// .split('.')[0]; // 이미지 불러올 때 확장자도 필요해서 넘깁니다.
   //let name = (req.body.name == undefined) ? '' : req.body.name;
   let name = (req.body.babyName == undefined) ? '' : req.body.babyName;
   let phoneNumber = (req.body.phoneNumber == undefined) ? '' : req.body.phoneNumber;
@@ -166,17 +195,21 @@ app.get('/getBabiesCount', (req, res) => {
 app.get('/getAllBabies', (req, res) => {
   console.log("**** GET /getAllBabies ****");
 
-  var arr = [];
+  var resultArray = [];
   truffle_connect.getBabiesCount(function (length) {
     // etherApp.js:getBabiesCount만큼 반복해서 전체 Babies 내용 가져오기
-    for(var i=0; i<length; i++) {
-      truffle_connect.getBabyById(i, function (data) {
-        arr.push(data); // i번째 data 저장
-
-        if(arr.length==length) { // 갯수가 채워지면 결과 반환
-          res.send(arr);
-        }
-      });
+    if(length < 1) {
+      res.send(resultArray);
+    } else {
+      for(var i=0; i<length; i++) {
+        truffle_connect.getBabyById(i, function (data) {
+          resultArray.push(data); // i번째 data 저장
+  
+          if(resultArray.length==length) { // 갯수가 채워지면 결과 반환
+            res.send(resultArray);
+          }
+        });
+      }
     }
   });
 });
@@ -186,8 +219,13 @@ app.post('/getBabyById', (req, res) => {
   console.log("**** POST /getBabyById ****");
   console.log(req.body);
   let id = req.body.id;
+  let sim = (req.body.sim == undefined) ? '' : req.body.sim;
 
   truffle_connect.getBabyById(id, function (data) {
+    if(sim != '') {
+      data['sim'] = sim;
+    }
+    
     res.send(data);
   });
 });
@@ -197,8 +235,13 @@ app.post('/getBabyByFilename', (req, res) => {
   console.log("**** POST /getBabyByFilename ****");
   console.log(req.body);
   let filename = req.body.filename;
+  let sim = (req.body.sim == undefined) ? '' : req.body.sim;
 
   truffle_connect.getBabyByFilename(filename, function (data) {
+    if(sim != '') {
+      data['sim'] = sim;
+    }
+    
     res.send(data);
   });
 });
@@ -217,7 +260,7 @@ app.post('/purchaseMerchandise', (req, res) => {
 
 });
 
-app.post('/getSimilarity', upload.single('filename'), (req, res) => {
+app.post('/getSimilarity', upload.single('imagePath'), (req, res) => {
   console.log("**** POST /getSimilarity ****");
   console.log(req.body);
   console.log(req.file);
@@ -248,7 +291,7 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
       fs.unlinkSync(req.file.path);
     }
 
-    let resultArray = {};
+    let resultArray = [];
     var array1;
     var array2;
     var cnt = 0;
@@ -265,30 +308,46 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
 
     truffle_connect.getBabiesCount(function (length) {
       // etherApp.js:getBabiesCount만큼 반복해서 전체 Babies 내용 가져오기
-      for(var i=0; i<length; i++) {
-        truffle_connect.getBabyById(i, function (data) {
-
-          // 저장된 image 특징점 배열화
-          var featureData2 = fs.readFileSync(featuresDir + data.filename + ".dat", 'utf8');
-          featureData2 = featureData2.replace(/\s/gi, "");
-          if('[' == featureData2.charAt(0)) {
-            featureData2 = featureData2.substring(1);
-          }
-          if(']' == featureData2.charAt(featureData2.length-1)) {
-            featureData2 = featureData2.slice(0,-1);
-          }
-          array2 = featureData2.split(',');
-
-          var p = cosinesim(array1,array2); // 특징점 비교
-          console.log(data.filename + '\'s p:' + p);
-
-          resultArray[data.filename] = p; // 특징점 비교 결과 저장
-          cnt++;
+      if(length < 1) {
+        res.send(resultArray);
+      } else {
+        for(var i=0; i<length; i++) {
+          truffle_connect.getBabyById(i, function (data) {
   
-          if(cnt==length) { // 갯수가 채워지면 결과 반환
-            res.send(resultArray);
-          }
-        });
+            // 저장된 image 특징점 배열화
+            var featureData2 = fs.readFileSync(featuresDir + data.filename + ".dat", 'utf8');
+            featureData2 = featureData2.replace(/\s/gi, "");
+            if('[' == featureData2.charAt(0)) {
+              featureData2 = featureData2.substring(1);
+            }
+            if(']' == featureData2.charAt(featureData2.length-1)) {
+              featureData2 = featureData2.slice(0,-1);
+            }
+            array2 = featureData2.split(',');
+  
+            var p = cosinesim(array1,array2); // 특징점 비교
+            console.log(data.filename + '\'s p:' + p);
+  
+            resultArray.push([data.filename, p]); // 특징점 비교 결과 저장
+            cnt++;
+    
+            if(cnt==length) { // 갯수가 채워지면 결과 반환
+              if(length>1) {
+                resultArray.sort(function(a, b) {
+                  return b[1] - a[1]; // 내림차순 정렬
+                });
+              }
+              for(var j=0; j<length; j++) { // 기준점 이하 삭제
+                if(resultArray[j][1] < THRESHOLD) {
+                  resultArray.splice(j, Number.MAX_VALUE);
+                  break;
+                }
+              }
+  
+              res.send(resultArray);
+            }
+          });
+        }
       }
     });
   });
