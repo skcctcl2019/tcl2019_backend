@@ -150,9 +150,11 @@
                       이름:
                       <INPUT id="babyName" title="이름 입력" class="inputBox middle" style="WIDTH: 74px; margin-right:20px">
                       나이:
-                      <INPUT id="age" title="나이 입력" class="inputBox middle" style="WIDTH: 42px; margin-right:20px" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                      <INPUT id="age" title="나이 입력" class="inputBox middle" style="WIDTH: 42px; margin-right:20px"
+                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                       연락처:
-                      <INPUT id="phoneNumber" title="연락처 입력" class="inputBox middle" style="WIDTH: 94px" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                      <INPUT id="phoneNumber" title="연락처 입력" class="inputBox middle" style="WIDTH: 94px"
+                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                       <br>
                       <div style="margin-top:5px">특이사항:
                         <INPUT id="etcSpfeatr" title="특이사항 입력" class="inputBox middle" style="WIDTH: 327px">
@@ -192,23 +194,9 @@
                 <button class="btn small focus" onclick="alert('details')">상세</button>
               </td>
             </tr>
-            <tr>
-              <td>A</td>
-              <td>B</td>
-              <td>C</td>
-              <td>D</td>
-              <td>E</td>
-            </tr>
-            <tr>
-              <td>A</td>
-              <td>B</td>
-              <td>C</td>
-              <td>D</td>
-              <td>E</td>
-            </tr>
           </tbody>
         </table> -->
-        <div id="list_table" class="table classic hover"></div>
+        <div id="list_table"></div>
       </div>
     </div>
   </div>
@@ -230,8 +218,6 @@
             contentType: false,
             processData: false
           }).done(function (data) {
-            console.log(data);
-
             var resultArray = [];
             for (var i = 0; i < data.length; i++) {
               $.ajax({
@@ -303,8 +289,6 @@
 
     // 조회 결과 출력
     function getList(type, data) {
-      console.log(data);
-
       $('#list_table').empty();
 
       var content = '';
@@ -351,8 +335,7 @@
         for (var i = 0; i < data.length; i++) {
           content += '<tr>';
           content += '<td style="text-align:center">' + data[i].name + '</td>'
-          content += '<td style="text-align:center"><div style="width:100%"><img src="/imgs?filename=' + data[i]
-            .filename + '" width="100%"></div></td>'
+          content += '<td style="text-align:center"><div style="width:100%"><img src="/imgs?filename=' + data[i].filename + '" width="100%"></div></td>'
           content += '<td style="text-align:center">' + data[i].age + '</td>'
           content += '<td style="text-align:center">' + data[i].phoneNumber + '</td>'
           content += '<td>' + data[i].etcSpfeatr + '</td>'

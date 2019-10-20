@@ -80,6 +80,13 @@
                     console.log(data);
                 });
             });
+
+            // 7.
+            $('#getSafe182').click(function () {
+                $.get('/getSafe182', function (response) {
+                    console.log(response);
+                });
+            });
         })
         //]]>
     </script>
@@ -129,6 +136,9 @@
     </form>
     <hr />
 
+    7.
+    <button type="button" id="getSafe182">getSafe182</button>
+    <hr />
 </body>
 
 </html>

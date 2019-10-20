@@ -18,6 +18,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const crpyto = require('crypto');
+const request = require('request');
 
 const IS_SAVING_COMPAIRE_IMAGE_DATA = 'N';
 const THRESHOLD = 0;
@@ -367,6 +368,25 @@ function cosinesim(A,B){
   var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
   return similarity;
 }
+
+// 경찰청 DB 조회
+app.get('/getSafe182', (req, res) => {
+  console.log("**** GET /getSafe182 ****");
+  console.log(req.body);
+
+  var url = 'http://www.safe182.go.kr/api/lcm/findChildList.do';
+  var params = {esntlId:'10000278'
+    ,authKey:'a8385e01c218421c'
+    ,rowSize:'100'
+  };
+  
+  request.get({
+    url: url,
+    qs: params
+  }, function(error, response, body) {
+    res.json(body);
+  });
+});
 
 // node.js 서버 생성(PORT:3000)
 app.listen(port, () => {
