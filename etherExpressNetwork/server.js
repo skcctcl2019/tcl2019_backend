@@ -18,8 +18,11 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const crpyto = require('crypto');
+const request = require('request');
+const utf8 = require('utf8');
 
 const IS_SAVING_COMPAIRE_IMAGE_DATA = 'N';
+const THRESHOLD = 0;
 
 // For ENOENT Error Debugging
 // 해당 함수를 통해 실제 누락되는 부분에 대해 확인 가능함
@@ -93,6 +96,34 @@ app.get('/test', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/indexTest.html'));
 });
 
+app.get('/imgs', (req, res) => {
+  console.log("**** GET /imgs ****");
+
+  var extension = req.query.filename.split('.').pop();
+  var isImage, contentType;
+
+  switch(extension){
+    case "jpg":
+        contentType = 'image/jpg';
+        isImage = true;
+        break;
+    case "png":
+        contentType = 'image/png';
+        isImage = true;
+        break;
+    default:
+        isImage = false;
+        break;
+  }
+
+  if(isImage) {
+    fs.readFile(path.join(__dirname, '/uploads/')+req.query.filename, function(error, data) {
+      res.writeHead(200, {'Content-Type': contentType});
+      res.end(data, 'binary');
+    });
+  }
+});
+
 // etherApp.js:addBaby로 etherBlock 저장
 // upload.single로 이미지파일을 서버에 저장
 //app.post('/addBaby', upload.single('filename'), (req, res) => {
@@ -111,7 +142,7 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
   }
 
   let types = (req.body.types == undefined) ? 'B' : req.body.types; // 실종 아동:M, 보호 아동:P, 사전 정보 등록:B
-  let filename = req.file.filename.split('.')[0];
+  let filename = req.file.filename;// .split('.')[0]; // 이미지 불러올 때 확장자도 필요해서 넘깁니다.
   //let name = (req.body.name == undefined) ? '' : req.body.name;
   let name = (req.body.babyName == undefined) ? '' : req.body.babyName;
   let phoneNumber = (req.body.phoneNumber == undefined) ? '' : req.body.phoneNumber;
@@ -166,17 +197,21 @@ app.get('/getBabiesCount', (req, res) => {
 app.get('/getAllBabies', (req, res) => {
   console.log("**** GET /getAllBabies ****");
 
-  var arr = [];
+  var resultArray = [];
   truffle_connect.getBabiesCount(function (length) {
     // etherApp.js:getBabiesCount만큼 반복해서 전체 Babies 내용 가져오기
-    for(var i=0; i<length; i++) {
-      truffle_connect.getBabyById(i, function (data) {
-        arr.push(data); // i번째 data 저장
-
-        if(arr.length==length) { // 갯수가 채워지면 결과 반환
-          res.send(arr);
-        }
-      });
+    if(length < 1) {
+      res.send(resultArray);
+    } else {
+      for(var i=0; i<length; i++) {
+        truffle_connect.getBabyById(i, function (data) {
+          resultArray.push(data); // i번째 data 저장
+  
+          if(resultArray.length==length) { // 갯수가 채워지면 결과 반환
+            res.send(resultArray);
+          }
+        });
+      }
     }
   });
 });
@@ -186,8 +221,13 @@ app.post('/getBabyById', (req, res) => {
   console.log("**** POST /getBabyById ****");
   console.log(req.body);
   let id = req.body.id;
+  let sim = (req.body.sim == undefined) ? '' : req.body.sim;
 
   truffle_connect.getBabyById(id, function (data) {
+    if(sim != '') {
+      data['sim'] = sim;
+    }
+    
     res.send(data);
   });
 });
@@ -197,8 +237,13 @@ app.post('/getBabyByFilename', (req, res) => {
   console.log("**** POST /getBabyByFilename ****");
   console.log(req.body);
   let filename = req.body.filename;
+  let sim = (req.body.sim == undefined) ? '' : req.body.sim;
 
   truffle_connect.getBabyByFilename(filename, function (data) {
+    if(sim != '') {
+      data['sim'] = sim;
+    }
+    
     res.send(data);
   });
 });
@@ -217,7 +262,7 @@ app.post('/purchaseMerchandise', (req, res) => {
 
 });
 
-app.post('/getSimilarity', upload.single('filename'), (req, res) => {
+app.post('/getSimilarity', upload.single('imagePath'), (req, res) => {
   console.log("**** POST /getSimilarity ****");
   console.log(req.body);
   console.log(req.file);
@@ -248,7 +293,7 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
       fs.unlinkSync(req.file.path);
     }
 
-    let resultArray = {};
+    let resultArray = [];
     var array1;
     var array2;
     var cnt = 0;
@@ -265,30 +310,46 @@ app.post('/getSimilarity', upload.single('filename'), (req, res) => {
 
     truffle_connect.getBabiesCount(function (length) {
       // etherApp.js:getBabiesCount만큼 반복해서 전체 Babies 내용 가져오기
-      for(var i=0; i<length; i++) {
-        truffle_connect.getBabyById(i, function (data) {
-
-          // 저장된 image 특징점 배열화
-          var featureData2 = fs.readFileSync(featuresDir + data.filename + ".dat", 'utf8');
-          featureData2 = featureData2.replace(/\s/gi, "");
-          if('[' == featureData2.charAt(0)) {
-            featureData2 = featureData2.substring(1);
-          }
-          if(']' == featureData2.charAt(featureData2.length-1)) {
-            featureData2 = featureData2.slice(0,-1);
-          }
-          array2 = featureData2.split(',');
-
-          var p = cosinesim(array1,array2); // 특징점 비교
-          console.log(data.filename + '\'s p:' + p);
-
-          resultArray[data.filename] = p; // 특징점 비교 결과 저장
-          cnt++;
+      if(length < 1) {
+        res.send(resultArray);
+      } else {
+        for(var i=0; i<length; i++) {
+          truffle_connect.getBabyById(i, function (data) {
   
-          if(cnt==length) { // 갯수가 채워지면 결과 반환
-            res.send(resultArray);
-          }
-        });
+            // 저장된 image 특징점 배열화
+            var featureData2 = fs.readFileSync(featuresDir + data.filename + ".dat", 'utf8');
+            featureData2 = featureData2.replace(/\s/gi, "");
+            if('[' == featureData2.charAt(0)) {
+              featureData2 = featureData2.substring(1);
+            }
+            if(']' == featureData2.charAt(featureData2.length-1)) {
+              featureData2 = featureData2.slice(0,-1);
+            }
+            array2 = featureData2.split(',');
+  
+            var p = cosinesim(array1,array2); // 특징점 비교
+            console.log(data.filename + '\'s p:' + p);
+  
+            resultArray.push([data.filename, p]); // 특징점 비교 결과 저장
+            cnt++;
+    
+            if(cnt==length) { // 갯수가 채워지면 결과 반환
+              if(length>1) {
+                resultArray.sort(function(a, b) {
+                  return b[1] - a[1]; // 내림차순 정렬
+                });
+              }
+              for(var j=0; j<length; j++) { // 기준점 이하 삭제
+                if(resultArray[j][1] < THRESHOLD) {
+                  resultArray.splice(j, Number.MAX_VALUE);
+                  break;
+                }
+              }
+  
+              res.send(resultArray);
+            }
+          });
+        }
       }
     });
   });
@@ -308,6 +369,115 @@ function cosinesim(A,B){
   var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
   return similarity;
 }
+
+// 경찰청 DB 조회
+app.get('/getSafe182', (req, res) => {
+  console.log("**** GET /getSafe182 ****");
+  console.log(req.query);
+
+  var esntlId = '10000278'; // 고유아이디
+  var authKey = 'a8385e01c218421c'; //인증키
+  var rowSize = '100';  // 게시물 수(숫자만 100개 까지)
+  // var page = '1'; // 페이징처리 필요(숫자만)
+
+  var url = 'http://www.safe182.go.kr/api/lcm/findChildList.do';
+  url += '?esntlId='
+  url += esntlId;
+  url += '&authKey='
+  url += authKey;
+  url += '&rowSize='
+  url += rowSize;
+  // url += '&page='
+  // url += page;
+
+  if(undefined != req.query.writngTrgetDscds) { // 대상구분
+    if(Array.isArray(req.query.writngTrgetDscds)) {
+      for(var i=0; i<req.query.writngTrgetDscds.length; i++) {
+        url += '&writngTrgetDscds=';
+        url += req.query.writngTrgetDscds[i];
+      }
+    } else {
+      url += '&writngTrgetDscds=';
+        url += req.query.writngTrgetDscds;
+    }
+  }
+  if(undefined != req.query.sexdstnDscd) {  // 성별(남자:1, 여자:2)
+    url += '&sexdstnDscd=';
+    url += req.query.sexdstnDscd;
+  }
+  if(undefined != req.query.nm) {  // 성명
+    url += '&nm=';
+    url += req.query.nm;
+  }
+  if(undefined != req.query.detailDate1) {  // 발생일(2012-08-17)
+    url += '&detailDate1=';
+    url += req.query.detailDate1;
+  }
+  if(undefined != req.query.detailDate2) {  // 발생일(2012-08-18)
+    url += '&detailDate2=';
+    url += req.query.detailDate2;
+  }
+  if(undefined != req.query.age1) {  // 나이(숫자만)
+    url += '&age1=';
+    url += req.query.age1;
+  }
+  if(undefined != req.query.age2) {  // 나이(숫자만)
+    url += '&age2=';
+    url += req.query.age2;
+  }
+  if(undefined != req.query.etcSpfeatr) {  // 특이사항
+    url += '&etcSpfeatr=';
+    url += req.query.etcSpfeatr;
+  }
+  if(undefined != req.query.occrAdres) {  // 발생장소
+    url += '&occrAdres=';
+    url += req.query.occrAdres;
+  }
+  
+  console.log("url:"+url);
+  console.log("url:"+utf8.encode(url));
+  
+  request.get({
+    url: utf8.encode(url)
+  }, function(error, response, body) {
+    res.json(body);
+  });
+  
+});
+
+// Token 연계 테스트를 위한 Router 분리
+// token 을 실제로 metamask를 이용하여 연결하려면, 테스트넷에 연계하고, 해당 정보를 기준으로
+// web3를 따로 연결할 필요가 있음.
+app.post('/tokenTransfer', (req, res) => {
+  console.log("**** POST /tokenTransfer ****");
+  console.log(req.body.amount);
+
+  let transferAmount = req.body.amount;
+
+  babyToken_connect.tokenTransfer(transferAmount, function (data) {
+
+    res.send(data);
+  });
+
+});
+
+app.get('/getBalance', (req, res) => {
+  console.log("**** GET /getBalance ****");
+
+  babyToken_connect.getBalanceOf(function (data) {
+    res.send(data);
+  });
+  
+});
+
+app.get('/getTotalSupply', (req, res) => {
+  console.log("**** GET /getTotalSupply ****");
+
+  babyToken_connect.getTotalSupply(function (data) {
+    res.send(data);
+  });
+});
+
 
 // node.js 서버 생성(PORT:3000)
 app.listen(port, () => {
