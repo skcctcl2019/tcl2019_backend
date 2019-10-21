@@ -12,6 +12,9 @@ const call_python = require('./src/callPython.js');
 // 2019.10.08 BKMH 변경 - MarketContract.sol 호출을 위한 js import
 const market_connect = require('./src/marketEtherApp.js');
 
+// 2019.10.21 BKMH 변경 - BabyToken.sol 호출을 위한 js import
+const babyToken_connect = require('./src/babyTokenApp.js')
+
 const bodyParser = require('body-parser');
 const multer = require('multer');
 //const cors = require('cors');
@@ -486,6 +489,7 @@ app.listen(port, () => {
 
   market_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
+  babyToken_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
   console.log("Express Listening at http://localhost:" + port);
 });
