@@ -282,33 +282,8 @@
         // onchange
         $(this).change(function () {
           previewImage();
-          fileSizeCheck(this, index);
         });
       };
-
-      //첨부파일 확장자 및 용량 체크
-      function fileSizeCheck(obj, index) {
-        var path = obj.value;
-        var maxSize = 10 * 1024 * 1024;
-        var path = path.toLowerCase();
-
-        if (!(/(\.jpg|\.jpeg|\.gif|\.png|\.bmp|\.png)$/i.test(path))) {
-          alert("지원하지 않는 확장자 입니다.");
-          return false;
-        }
-
-        var img = new Image();
-        var filesize = img.fileSize;
-        if (maxSize < filesize) {
-          alert("첨부파일의 사이즈가 너무 큽니다.");
-          return false;
-        }
-
-        // fileSIzeCheck 수행 후 바로 submit이 수행되므로
-        // 내용 확인하여 정리 (서버에 파일 정리하는 로직이 뒤에 돌아가야함.))
-        //document.apndFileForm[index].submit();
-      }
-
     </script>
 </body>
 </html>
