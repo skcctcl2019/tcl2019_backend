@@ -116,6 +116,7 @@
               <label>어린이 보험</label><br>
               <img src="1955373.png" alt="어린이 보험"><br>
               <input type="hidden" id="MerchantPrice" name="MerchantPrice" value="100" />
+              <input type="hidden" id="MerchantId" name="MerchantId" value="0" />
               100 P<br><br>                    
             </div>
             <button class="btn focus" id="purchase_button" name="purchase_button">구매</button>                
@@ -137,21 +138,25 @@
         }).done(function (data) {
 
           $("#totToken").text(data);
+
         });
 
         $.ajax({
           url: '/getBalance',
           type: 'GET'
         }).done(function (data) {
+
+          //
           $("#yourToken").text(data);
+
+          // 현재 보유포인트 라인에 대한 값 입력
+          $("#balance").text(data + "P");
         });
 
         $("#purchase_button").on("click", function (e) {
 
           var merchantPrice = $('#MerchantPrice').val();
-          var merchantId = "1"; // 임시 ID
-
-          alert(merchantPrice);
+          var merchantId = $('#MerchantId').val(); // 임시 ID
 
           $.ajax({
             url: '/purchaseMerchandise',
@@ -162,8 +167,7 @@
             }
           }).done(function (data) {
             alert("구매가 완료되었습니다.");
-            var balance = "10,000"
-            $('#balance').text(balance + "P");
+
           });
 
         });

@@ -271,14 +271,18 @@ app.post('/purchaseMerchandise', (req, res) => {
   let merchandiseId = req.body.merchandiseId;
   let merchandisePrice = req.body.merchandisePrice;
 
-  market_connect.purchaseMerchandise(merchandiseId, function (data) {
-    res.send(data);
+  market_connect.purchaseMerchandise(merchandiseId, function (response) {
+    // 연속으로 처리하기 위한 함수 선언
+    console.log(response);
+
+    // 마켓을 통해 구매를 수행하는 경우에도, transfer를 통해 금액 전달
+    babyToken_connect.tokenTransfer(merchandisePrice, function (data) {
+      res.send(data);
+    });
+
   });
 
-  // 마켓을 통해 구매를 수행하는 경우에도, transfer를 통해 금액 전달
-  babyToken_connect.tokenTransfer(merchandisePrice, function (data) {
-    res.send(data);
-  });
+  
 
 
 });
