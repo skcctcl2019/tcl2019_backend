@@ -92,13 +92,13 @@
           <div class="col col-3">
             <div class="card">
               <div class="title" style="color:#808080;">Current Issued Token</div>
-              <div class="value">15,610</div>
+              <div class="value" id="totToken" name="totToken">15,610</div>
             </div>
           </div>
           <div class="col col-3">
             <div class="card">
               <div class="title" style="color:#808080;">Your Token</div>
-              <div class="value">1,250</div>
+              <div class="value" id="yourToken" name="yourToken">1,250</div>
             </div>
           </div>
         </div>
@@ -112,12 +112,13 @@
         <div class="panel dashed">
           <div class="body" align="center">
             <div>
-              <p>보유하신 포인트로 상품을 구매하실 수 있습니다.<br><br> 보유 포인트 : <label style="color:#814fd5">1,250 </label>P<br><br></p>
+              <p>보유하신 포인트로 상품을 구매하실 수 있습니다.<br><br> 보유 포인트 : <label style="color:#814fd5"><div id="balance" name="balance">1,250 P</div></label><br><br></p>
               <label>어린이 보험</label><br>
               <img src="1955373.png" alt="어린이 보험"><br>
-              <label>1,000 P</label><br><br>                    
+              <input type="hidden" id="MerchantPrice" name="MerchantPrice" value="100" />
+              100 P<br><br>                    
             </div>
-            <button class="btn focus" id="btn_prchs">구매</button>                
+            <button class="btn focus" id="purchase_button" name="purchase_button">구매</button>                
             <!-- 아래 흰색 영역 만들기 -->
             <Br><Br><Br><Br><Br><Br><Br><Br><Br><Br><Br>
           </div>
@@ -127,6 +128,47 @@
   </div>
     <iframe width="0%" height="0%" name="bIfrm" id="bIfrm" src="" hidden="true"></iframe>
     <script>
+      $(function () {
+
+        // getTotalSupply router를 호출하고, 해당 결과를 화면에 갱신
+        $.ajax({
+          url: '/getTotalSupply',
+          type: 'GET'
+        }).done(function (data) {
+
+          $("#totToken").text(data);
+        });
+
+        $.ajax({
+          url: '/getBalance',
+          type: 'GET'
+        }).done(function (data) {
+          $("#yourToken").text(data);
+        });
+
+        $("#purchase_button").on("click", function (e) {
+
+          var merchantPrice = $('#MerchantPrice').val();
+          var merchantId = "1"; // 임시 ID
+
+          alert(merchantPrice);
+
+          $.ajax({
+            url: '/purchaseMerchandise',
+            type: 'POST',
+            data: {
+              "merchandisePrice": merchantPrice, 
+              "merchandiseId" : merchantId 
+            }
+          }).done(function (data) {
+            alert("구매가 완료되었습니다.");
+            var balance = "10,000"
+            $('#balance').text(balance + "P");
+          });
+
+        });
+      });
+
       //창 닫기 (메인화면으로)
       function closePop() {
         //parent.$('#popupcontent').hide();

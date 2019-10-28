@@ -91,13 +91,13 @@
           <div class="col col-3">
             <div class="card">
               <div class="title" style="color:#808080;">Current Issued Token</div>
-              <div class="value">15,610</div>
+              <div class="value" id="totToken" name="totToken">15,610</div>
             </div>
           </div>
           <div class="col col-3">
             <div class="card">
               <div class="title" style="color:#808080;">Your Token</div>
-              <div class="value">1,250</div>
+              <div class="value" id="yourToken" name="yourToken">1,250</div>
             </div>
           </div>
         </div>
@@ -195,6 +195,23 @@
     <script>
       //등록 함수
       $(function () {
+
+        // getTotalSupply router를 호출하고, 해당 결과를 화면에 갱신
+        $.ajax({
+          url: '/getTotalSupply',
+          type: 'GET'
+        }).done(function (data) {
+          
+          $("#totToken").text(data);
+        });
+
+        $.ajax({
+          url: '/getBalance',
+          type: 'GET'
+        }).done(function (data) {
+          $("#yourToken").text(data);
+        });
+
         $("#reg_button").on("click", function (e) {
           var form = $('#addBabyForm')[0];
           var formData = new FormData(form);

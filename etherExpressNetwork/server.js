@@ -174,7 +174,17 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
 
     // addBaby 호출
     addBaby(res, types, filename, name, phoneNumber, etcSpfeatr, age);
+
   });
+
+   // addBaby를 통해 정상적으로 수행된 후, transfer를 통해 token 전송
+   // 전송 token 100
+  babyToken_connect.tokenTransfer(100, function (data) {
+    console.log("****** babyToken_connect.tokenTransfer END *****");
+    console.log(data);
+  });
+
+
 });
 
 function addBaby(res, types, filename, name, phoneNumber, etcSpfeatr, age) {
@@ -254,11 +264,19 @@ app.post('/getBabyByFilename', (req, res) => {
 // Market 연계 Sample 처리를 위한 router 분리
 app.post('/purchaseMerchandise', (req, res) => {
   console.log("**** POST /purchaseMerchandise ****");
+  console.log(req.body);
   console.log(req.body.merchandiseId);
+  console.log(req.body.merchandisePrice);
 
   let merchandiseId = req.body.merchandiseId;
+  let merchandisePrice = req.body.merchandisePrice;
 
   market_connect.purchaseMerchandise(merchandiseId, function (data) {
+    res.send(data);
+  });
+
+  // 마켓을 통해 구매를 수행하는 경우에도, transfer를 통해 금액 전달
+  babyToken_connect.tokenTransfer(merchandisePrice, function (data) {
     res.send(data);
   });
 
@@ -468,7 +486,10 @@ app.get('/getBalance', (req, res) => {
   console.log("**** GET /getBalance ****");
 
   babyToken_connect.getBalanceOf(function (data) {
-    res.send(data);
+    
+    let convertAmt = showNumComma(data.toString());
+
+    res.send(convertAmt);
   });
   
 });
@@ -477,10 +498,30 @@ app.get('/getTotalSupply', (req, res) => {
   console.log("**** GET /getTotalSupply ****");
 
   babyToken_connect.getTotalSupply(function (data) {
-    res.send(data);
+    console.log(data);
+
+    // on decimal Points is 18
+    //let convertAmt = Web3.fromWei(data.toNumber(), "ether") / 1E18;
+    let convertAmt = showNumComma(data.toString());
+
+    res.send(convertAmt);
   });
 });
 
+
+// 금액 표시 2 (ex) 10000 -> 10,000) 
+function showNumComma(data) {
+  var pattern = /(-?[0-9]+)([0-9]{3})/;
+  var value = String(data).replace(/[^0-9\,]/g, "");
+
+  value = value.replace(/,/g, '');
+
+  while(pattern.test(value)) {
+    value = value.replace(pattern,"$1,$2"); 
+  }
+  
+  return value; 
+}
 
 // node.js 서버 생성(PORT:3000)
 app.listen(port, () => {

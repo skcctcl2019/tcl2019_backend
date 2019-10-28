@@ -120,9 +120,11 @@ module.exports = {
           }).then(function(result) {
 
             console.log("RESULT:" + result);
+            //console.log(typeof(result));
             console.log("**** babyTokenApp.getTotalSupply end ****");
-    
+
             callback(result);
+            //callback(convertAmt);
 
           }).catch(function(e) {
             // ERROR

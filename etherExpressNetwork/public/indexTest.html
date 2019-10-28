@@ -111,7 +111,10 @@
             $('#getTotalSupply').on('click', function () {
 
                   $.get('/getTotalSupply', function (response) {
-                    console.log(response);
+                    console.log("***** getTotalSupply End *****");
+                    console.log("getTotalSupply :" + response);
+                    alert("getTotalSupply :" + response);
+
                 });
             });                         
 
