@@ -1,5 +1,5 @@
 html, body {
-    background-color: #a5a5a5;
+    background-color: #ffffff;
     background-repeat: repeat;
     background-position: top left;
     background-attachment: scroll;
@@ -76,6 +76,7 @@ html, body {
 }
 
 .dashboard-first {
+    height:87px;
     overflow: auto;
 }
 
