@@ -144,6 +144,7 @@
                         <input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px"
                           accept="image/jpeg, image/png" />
                       </form>
+                      <img src="@sample.gif" width="80px" id="img" name="img" style="margin-left:95px;margin-top:10px"/>  
                     </div>
 
                     <div id="infSrch" hidden="true">
@@ -367,6 +368,65 @@
 
       $('#list_table').append(content);
     }
+
+    //이미지 미리보기 set
+    $(document).ready(function () {
+        var opt = {
+          img: $('#img')
+        };
+        $('#imagePath').setPreview(opt, 0);
+      });
+
+      //이미지 미리보기 set
+      $.fn.setPreview = function (opt, index) {
+        var defaultOpt = {
+          inputFile: $(this),
+          img: null
+        };
+
+        $.extend(defaultOpt, opt);
+
+        var previewImage = function () {
+          if (!defaultOpt.inputFile || !defaultOpt.img) return;
+          var inputFile = defaultOpt.inputFile.get(0);
+          var img = defaultOpt.img.get(0);
+
+          // FileReader
+          if (window.FileReader) {
+            // image 
+            if (!inputFile.files[0].type.match(/image\//)) return;
+
+            // preview
+            try {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                img.src = e.target.result;
+                img.style.width = defaultOpt.w + 'px';
+                img.style.height = defaultOpt.h + 'px';
+                img.style.display = '';
+              }
+              reader.readAsDataURL(inputFile.files[0]);
+            } catch (e) {
+              // exception...
+            }
+            // img.filters (MSIE)
+          } else if (img.filters) {
+            inputFile.select();
+            inputFile.blur();
+            var imgSrc = document.selection.createRange().text;
+            img.src = imgSrc;
+            img.style.display = '';
+            // no support
+          } else {
+            // Safari5, ...
+          }
+        };
+
+        // onchange
+        $(this).change(function () {
+          previewImage();
+        });
+      };
   </script>
 </body>
 
