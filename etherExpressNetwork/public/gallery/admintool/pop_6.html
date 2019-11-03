@@ -86,7 +86,7 @@
           <div class="col col-3">
             <div class="card">
               <div class="title" style="color:#808080;">Total registration</div>
-              <div class="value">364,806</div>
+              <div class="value" id="totRegChain" name="totRegChain">364,806</div>
             </div>
           </div>
           <div class="col col-3">
@@ -129,7 +129,7 @@
                   <TR style="border-bottom:5px" class="border_bottom" align="center">
                   <TD>
                       <div>
-                            <label>XX화재 어린이보험</label><br>
+                            <label><B>XX화재 어린이보험</B></label><br>
                             <img src="./imgInsurance1.jpg" alt="어린이 보험1" width=165 height=128><br>
                             <input type="hidden" id="MerchantPrice1" name="MerchantPrice1" value="100" />
                             <input type="hidden" id="MerchantId1" name="MerchantId1" value="1" />
@@ -151,7 +151,7 @@
                   </TD>
                   <TD>
                       <div>
-                            <label>△△생명 어린이 보험</label><br>
+                            <label><B>△△생명 어린이 보험</B></label><br>
                             <img src="./imgInsurance3.jpg" alt="어린이 보험3" width=165 height=128><br>
                             <input type="hidden" id="MerchantPrice3" name="MerchantPrice3" value="120" />
                             <input type="hidden" id="MerchantId3" name="MerchantId3" value="3" />
@@ -163,7 +163,7 @@
                   <TR style="border-bottom:5px" class="border_bottom" align="center">                  
                   <TD>
                       <div>
-                            <label>□□생명 어린이 보험</label><br>
+                            <label><B>□□생명 어린이 보험</B></label><br>
                             <img src="./imgInsurance4.jpg" alt="어린이 보험4" width=165 height=128><br>
                             <input type="hidden" id="MerchantPrice4" name="MerchantPrice4" value="130" />
                             <input type="hidden" id="MerchantId4" name="MerchantId4" value="4" />
@@ -174,7 +174,7 @@
                   </TD>
                   <TD>
                       <div>
-                            <label>☆☆화재 어린이 보험</label><br>
+                            <label><B>☆☆화재 어린이 (암)보험</B></label><br>
                             <img src="./imgInsurance5.jpg" alt="어린이 보험5" width=165 height=128><br>
                             <input type="hidden" id="MerchantPrice5" name="MerchantPrice5" value="140" />
                             <input type="hidden" id="MerchantId5" name="MerchantId5" value="5" />
@@ -185,7 +185,7 @@
                   </TD>
                   <TD>
                       <div>
-                            <label>♡♡해상 어린이 보험</label><br>
+                            <label><B>♡♡해상 어린이 보험</B></label><br>
                             <img src="./imgInsurance6.jpg" alt="어린이 보험6" width=165 height=128><br>
                             <input type="hidden" id="MerchantPrice6" name="MerchantPrice6" value="150" />
                             <input type="hidden" id="MerchantId6" name="MerchantId6" value="6" />
@@ -204,6 +204,15 @@
     <iframe width="0%" height="0%" name="bIfrm" id="bIfrm" src="" hidden="true"></iframe>
     <script>
       $(function () {
+
+        // getBabiesCount 를 호출하고, 해당 결과를 화면에 갱신
+        $.ajax({
+          url: '/getBabiesCount',
+          type: 'GET'
+        }).done(function (data) {
+
+          $("#totRegChain").text(data);
+        });
 
         // getTotalSupply router를 호출하고, 해당 결과를 화면에 갱신
         $.ajax({

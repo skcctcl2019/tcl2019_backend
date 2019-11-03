@@ -85,7 +85,7 @@
           <div class="col col-3">
             <div class="card">
               <div class="title" style="color:#808080;">Total registration</div>
-              <div class="value">364,806</div>
+              <div class="value" id="totRegChain" name="totRegChain">364,806</div>
             </div>
           </div>
           <div class="col col-3">
@@ -195,6 +195,15 @@
     <script>
       //등록 함수
       $(function () {
+
+        // getBabiesCount 를 호출하고, 해당 결과를 화면에 갱신
+        $.ajax({
+          url: '/getBabiesCount',
+          type: 'GET'
+        }).done(function (data) {
+
+          $("#totRegChain").text(data);
+        });
 
         // getTotalSupply router를 호출하고, 해당 결과를 화면에 갱신
         $.ajax({

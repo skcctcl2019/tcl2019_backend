@@ -202,7 +202,12 @@ app.get('/getBabiesCount', (req, res) => {
   console.log("**** GET /getBabiesCount ****");
 
   truffle_connect.getBabiesCount(function (length) {
-    res.send(length);
+
+    // 출력양식을 맞추기 위해 숫자형식으로 출력
+
+    let convertLength = showNumComma(length.toString());
+
+    res.send(convertLength);
   });
 });
 
