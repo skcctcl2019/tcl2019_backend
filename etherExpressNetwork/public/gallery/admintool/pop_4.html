@@ -124,7 +124,8 @@
               <CAPTION></CAPTION>
               <COLGROUP>
                 <COL width="25%">
-                <COL width="75%">
+                <COL width="55%">
+                <COL width="*">
               </COLGROUP>
               <TBODY sizcache="5" sizset="98">
                 <TR height="30px">
@@ -133,18 +134,22 @@
                     <input id="srchType_img" name="srchType" value="img" type="radio" onclick="selType('img')"
                       checked="true"> <label for="srchType_img">이미지 검색</label>
                     <input id="srchType_inf" name="srchType" value="inf" type="radio" onclick="selType('inf')"
-                      style="margin-left:50px"> <label for="srchType_inf">정보 검색</label>
+                      style="margin-left:30px"> <label for="srchType_inf">정보 검색</label>
+                  </TD>
+                  <TD rowspan="2">
+                    <div id="imgDiv">
+                      <img src="@sample.gif" width="70px" id="img" name="img"/>  
+                    </div>
                   </TD>
                 </TR>
                 <TR>
-                  <TH align="left" colspan="2">
+                  <TH align="left" colspan="3">
                     <div id="imgSrch">
                       <form id="getImageForm">
-                        &nbsp;이미지 선택 &nbsp;&nbsp;&nbsp;
+                          &nbsp;이미지 선택 &nbsp;&nbsp;&nbsp;
                         <input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px"
                           accept="image/jpeg, image/png" />
                       </form>
-                      <img src="@sample.gif" width="80px" id="img" name="img" style="margin-left:95px;margin-top:10px"/>  
                     </div>
 
                     <div id="infSrch" hidden="true">
@@ -164,7 +169,7 @@
                   </TH>
                 </TR>
                 <TR>
-                  <TD align="right" colspan="2">
+                  <TD align="center" colspan="3">
                     <button class="btn focus" id="btn_inq">조회</button>
                   </TD>
                 </TR>
@@ -307,10 +312,13 @@
     function selType(type) {
       if (type == "img") {
         $('#imgSrch').show();
-        $('#infSrch').hide();
+        $('#imgDiv').show();
+        $('#infSrch').hide();        
       } else {
         $('#imgSrch').hide();
+        $('#imgDiv').hide();
         $('#infSrch').show();
+        
       }
     }
 
