@@ -179,7 +179,8 @@ app.post('/addBaby', upload.single('imagePath'), (req, res) => {
 
    // addBaby를 통해 정상적으로 수행된 후, transfer를 통해 token 전송
    // 전송 token 100
-  babyToken_connect.tokenTransfer(100, function (data) {
+   // 0 account : _mint, 1 account : 받는 account
+  babyToken_connect.tokenTransfer("0", "1", 100, function (data) {
     console.log("****** babyToken_connect.tokenTransfer END *****");
     console.log(data);
   });
@@ -281,7 +282,9 @@ app.post('/purchaseMerchandise', (req, res) => {
     console.log(response);
 
     // 마켓을 통해 구매를 수행하는 경우에도, transfer를 통해 금액 전달
-    babyToken_connect.tokenTransfer(merchandisePrice, function (data) {
+    // address[1] : 사전등록을 통해 잔고변경
+    // address[2] : 물건 판매에 따른 수익증가로 인한 잔액 변경
+    babyToken_connect.tokenTransfer("1", "2", merchandisePrice, function (data) {
       res.send(data);
     });
 
@@ -482,9 +485,11 @@ app.post('/tokenTransfer', (req, res) => {
   console.log("**** POST /tokenTransfer ****");
   console.log(req.body.amount);
 
+  let fromAccountIdx = req.body.fromAccountIdx;
+  let toAccountIdx   = req.body.toAccountIdx;
   let transferAmount = req.body.amount;
 
-  babyToken_connect.tokenTransfer(transferAmount, function (data) {
+  babyToken_connect.tokenTransfer(fromAccountIdx, toAccountIdx, transferAmount, function (data) {
 
     res.send(data);
   });
@@ -492,11 +497,18 @@ app.post('/tokenTransfer', (req, res) => {
 });
 
 app.get('/getBalance', (req, res) => {
+
   console.log("**** GET /getBalance ****");
 
-  babyToken_connect.getBalanceOf(function (data) {
+  console.log(req.query.tgtAccountIdx);
+
+  let tgtAccountIdx = req.query.tgtAccountIdx;
+
+  console.log("tgtAccountIdx : " + tgtAccountIdx);
+
+  babyToken_connect.getBalanceOf(tgtAccountIdx, function (data) {
     
-    let convertAmt = showNumComma(data.toString());
+    let convertAmt = showNumComma(data.toString() / 1E18);
 
     res.send(convertAmt);
   });
@@ -511,7 +523,7 @@ app.get('/getTotalSupply', (req, res) => {
 
     // on decimal Points is 18
     //let convertAmt = Web3.fromWei(data.toNumber(), "ether") / 1E18;
-    let convertAmt = showNumComma(data.toString());
+    let convertAmt = showNumComma(data.toString() / 1E18);
 
     res.send(convertAmt);
   });

@@ -131,31 +131,31 @@
                       <div>
                             <label><B>XX화재 어린이보험</B></label><br>
                             <img src="./imgInsurance1.jpg" alt="어린이 보험1" width=165 height=128><br>
-                            <input type="hidden" id="MerchantPrice1" name="MerchantPrice1" value="100" />
+                            <input type="hidden" id="MerchantPrice1" name="MerchantPrice1" value="250" />
                             <input type="hidden" id="MerchantId1" name="MerchantId1" value="1" />
-                            100 P<br>                    
+                            250 P<br>                    
                       </div>
                       <button class="btn focus" id="purchase_button1" name="purchase_button1">구매</button>
                       <br>&nbsp;
                   </TD>
                   <TD>
                       <div>
-                            <label><B>○○화재 태아보험</B></label><br>
-                            <img src="./imgInsurance2.jpg" alt="어린이 보험2" width=165 height=128><br>
-                            <input type="hidden" id="MerchantPrice2" name="MerchantPrice2" value="110" />
+                            <label><B>○○○ 기저귀(남, 대형) - 72p</B></label><br>
+                            <img src="./imgDiaper1.jpg" alt="기저귀1" width=165 height=128><br>
+                            <input type="hidden" id="MerchantPrice2" name="MerchantPrice2" value="140" />
                             <input type="hidden" id="MerchantId2" name="MerchantId2" value="2" />
-                            110 P<br>                    
+                            140 P<br>                    
                       </div>
                       <button class="btn focus" id="purchase_button2" name="purchase_button2">구매</button>
                       <br>&nbsp;
                   </TD>
                   <TD>
                       <div>
-                            <label><B>△△생명 어린이 보험</B></label><br>
-                            <img src="./imgInsurance3.jpg" alt="어린이 보험3" width=165 height=128><br>
-                            <input type="hidden" id="MerchantPrice3" name="MerchantPrice3" value="120" />
+                            <label><B>△△ 분유(5단계)</B></label><br>
+                            <img src="./imgInfantFomula1.jpg" alt="분유1" width=165 height=128><br>
+                            <input type="hidden" id="MerchantPrice3" name="MerchantPrice3" value="50" />
                             <input type="hidden" id="MerchantId3" name="MerchantId3" value="3" />
-                            120 P<br>                    
+                            50 P<br>                    
                       </div>
                       <button class="btn focus" id="purchase_button3" name="purchase_button3">구매</button>
                       <br>&nbsp;
@@ -163,8 +163,8 @@
                   <TR style="border-bottom:5px" class="border_bottom" align="center">                  
                   <TD>
                       <div>
-                            <label><B>□□생명 어린이 보험</B></label><br>
-                            <img src="./imgInsurance4.jpg" alt="어린이 보험4" width=165 height=128><br>
+                            <label><B>□□□□ 기저귀(남, 중형) - 80p</B></label><br>
+                            <img src="./imgDiaper2.jpg" alt="기저귀2" width=165 height=128><br>
                             <input type="hidden" id="MerchantPrice4" name="MerchantPrice4" value="130" />
                             <input type="hidden" id="MerchantId4" name="MerchantId4" value="4" />
                             130 P<br>                   
@@ -185,11 +185,11 @@
                   </TD>
                   <TD>
                       <div>
-                            <label><B>♡♡해상 어린이 보험</B></label><br>
-                            <img src="./imgInsurance6.jpg" alt="어린이 보험6" width=165 height=128><br>
-                            <input type="hidden" id="MerchantPrice6" name="MerchantPrice6" value="150" />
+                            <label><B>♡♡ 젖병(3단계)</B></label><br>
+                            <img src="./imgFeedingBottle1.jpg" alt="젖병1" width=165 height=128><br>
+                            <input type="hidden" id="MerchantPrice6" name="MerchantPrice6" value="15" />
                             <input type="hidden" id="MerchantId6" name="MerchantId6" value="6" />
-                            150 P<br>                  
+                            15 P<br>                  
                       </div>
                       <button class="btn focus" id="purchase_button6" name="purchase_button6">구매</button>
                       <br>&nbsp;
@@ -226,6 +226,9 @@
 
         $.ajax({
           url: '/getBalance',
+          data: {
+            tgtAccountIdx: "1"
+          },
           type: 'GET'
         }).done(function (data) {
 
@@ -242,7 +245,7 @@
           var merchantPrice = $('#MerchantPrice1').val();
           var merchantId = $('#MerchantId1').val(); // 임시 ID
 
-          buyMerchandise(merchantId, merchantId);
+          buyMerchandise(merchantId, merchantPrice);
 
         });
 
@@ -251,7 +254,7 @@
           var merchantPrice = $('#MerchantPrice2').val();
           var merchantId = $('#MerchantId2').val(); // 임시 ID
 
-          buyMerchandise(merchantId, merchantId);
+          buyMerchandise(merchantId, merchantPrice);
 
         });
 
@@ -260,7 +263,7 @@
           var merchantPrice = $('#MerchantPrice3').val();
           var merchantId = $('#MerchantId3').val(); // 임시 ID
 
-          buyMerchandise(merchantId, merchantId);
+          buyMerchandise(merchantId, merchantPrice);
 
         }); 
 
@@ -269,7 +272,7 @@
           var merchantPrice = $('#MerchantPrice4').val();
           var merchantId = $('#MerchantId4').val(); // 임시 ID
 
-          buyMerchandise(merchantId, merchantId);
+          buyMerchandise(merchantId, merchantPrice);
 
         });  
 
@@ -278,7 +281,7 @@
           var merchantPrice = $('#MerchantPrice5').val();
           var merchantId = $('#MerchantId5').val(); // 임시 ID
 
-          buyMerchandise(merchantId, merchantId);
+          buyMerchandise(merchantId, merchantPrice);
 
         }); 
 
@@ -287,7 +290,7 @@
           var merchantPrice = $('#MerchantPrice6').val();
           var merchantId = $('#MerchantId6').val(); // 임시 ID
 
-          buyMerchandise(merchantId, merchantId);
+          buyMerchandise(merchantId, merchantPrice);
 
         });                              
 
@@ -299,8 +302,8 @@
             url: '/purchaseMerchandise',
             type: 'POST',
             data: {
-              "merchandisePrice": merchantPrice, 
-              "merchandiseId" : merchantId 
+              "merchandisePrice": price, 
+              "merchandiseId" : id 
             }
           }).done(function (data) {
             alert("구매가 완료되었습니다.");

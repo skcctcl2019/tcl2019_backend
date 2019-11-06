@@ -2,7 +2,8 @@ var BabyToken = artifacts.require("BabyToken");
 const _name = "BabyToken";
 const _symbol = "BBT";
 const _decimals = 18;
-const _total_supply = 10000000000;
+//const _total_supply = 10000000000; // 최초 발행되는 전체 Token 수량
+const _total_supply = 10000; // 최초 발행되는 전체 Token 수량
 
 module.exports = function(deployer, network) {
 

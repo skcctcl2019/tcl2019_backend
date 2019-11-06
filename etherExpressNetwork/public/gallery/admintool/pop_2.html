@@ -208,6 +208,9 @@
 
         $.ajax({
           url: '/getBalance',
+          data: {
+            tgtAccountIdx: "1"
+          }, // HTTP 요청과 함께 서버로 보낼 데이터
           type: 'GET'
         }).done(function (data) {
           $("#yourToken").text(data);

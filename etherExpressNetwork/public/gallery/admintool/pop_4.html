@@ -142,12 +142,13 @@
                     </div>
                   </TD>
                 </TR>
+                <TR></TR>
                 <TR>
                   <TH align="left" colspan="3">
                     <div id="imgSrch">
                       <form id="getImageForm">
                           &nbsp;이미지 선택 &nbsp;&nbsp;&nbsp;
-                        <input name="imagePath" type="file" id="imagePath" size="30" style="font-size:12px"
+                        <input name="imagePath" type="file" id="imagePath" size="10" style="font-size:10px"
                           accept="image/jpeg, image/png" />
                       </form>
                     </div>
@@ -228,12 +229,15 @@
         $("#totToken").text(data);
       });
 
-      $.ajax({
-        url: '/getBalance',
-        type: 'GET'
-      }).done(function (data) {
-        $("#yourToken").text(data);
-      });
+        $.ajax({
+          url: '/getBalance',
+          data: {
+            tgtAccountIdx: "1"
+          }, // HTTP 요청과 함께 서버로 보낼 데이터
+          type: 'GET'
+        }).done(function (data) {
+          $("#yourToken").text(data);
+        });
 
       $("#btn_inq").on("click", function (e) {
         var sel = $(':radio[name="srchType"]:checked').val();
